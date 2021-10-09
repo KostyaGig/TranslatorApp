@@ -9,7 +9,7 @@ import com.zinoview.translatorapp.data.cloud.WordService
 import com.zinoview.translatorapp.domain.DomainLanguageMapper
 import com.zinoview.translatorapp.domain.DomainWordMapper
 import com.zinoview.translatorapp.domain.WordInteractor
-import com.zinoview.translatorapp.ui.*
+import com.zinoview.translatorapp.ui.feature.ta01_translate_word.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class TAApplication : Application() {
 
-    lateinit var translatedWordViewModel: TranslatedWordViewModel
+    lateinit var translatedWordViewModel: TranslateWordViewModel
 
     private companion object {
         const val BASE_URL = "http://effeegre.pythonanywhere.com"
@@ -55,7 +55,7 @@ class TAApplication : Application() {
             )
         )
 
-        translatedWordViewModel = TranslatedWordViewModel.Base(
+        translatedWordViewModel = TranslateWordViewModel.Base(
             wordInteractor,
             UiWordMapper.Base(
                 UiLanguageMapper.Base()

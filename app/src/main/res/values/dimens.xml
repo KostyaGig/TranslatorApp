@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="margin_10dp">10dp</dimen>
+    <dimen name="margin_30dp">30dp</dimen>
     <dimen name="tszie_17sp">17sp</dimen>
+    <dimen name="tszie_14sp">14sp</dimen>
 </resources>

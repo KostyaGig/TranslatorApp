@@ -1,4 +1,4 @@
-package com.zinoview.translatorapp.ui
+package com.zinoview.translatorapp.ui.feature.ta01_translate_word
 
 import com.zinoview.translatorapp.core.Language
 

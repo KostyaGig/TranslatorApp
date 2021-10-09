@@ -5,4 +5,5 @@
     <string name="no_connection_error">No connection</string>
     <string name="not_correctly_entered_word_error">Not correctly entered word</string>
     <string name="timeout_error">Long connection with server</string>
+    <string name="back_text">Back</string>
 </resources>

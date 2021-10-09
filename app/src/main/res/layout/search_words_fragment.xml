@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <com.zinoview.translatorapp.ui.view.SearchEditTextImpl
+    <com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.SearchEditTextImpl
         android:id="@+id/word_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:text="@string/search_text"/>
 
-    <com.zinoview.translatorapp.ui.view.WordTextViewImpl
+    <com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordTextViewImpl
         android:id="@+id/word_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,9 +29,18 @@
         android:textSize="@dimen/tszie_17sp"
         />
 
-    <com.zinoview.translatorapp.ui.view.WordProgressBarImpl
+    <com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordProgressBarImpl
         android:id="@+id/word_pb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/back_text"
+        />
+
 </LinearLayout>

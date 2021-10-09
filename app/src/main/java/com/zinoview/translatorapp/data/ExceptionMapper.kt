@@ -3,7 +3,7 @@ package com.zinoview.translatorapp.data
 import com.zinoview.translatorapp.R
 import com.zinoview.translatorapp.core.Abstract
 import com.zinoview.translatorapp.core.ResourceProvider
-import com.zinoview.translatorapp.info
+import com.zinoview.translatorapp.ui.core.info
 import retrofit2.HttpException
 import java.lang.Exception
 import java.lang.IllegalArgumentException

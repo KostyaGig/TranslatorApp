@@ -1,13 +1,10 @@
-package com.zinoview.translatorapp.ui.view
+package com.zinoview.translatorapp.ui.feature.ta01_translate_word.view
 
 import android.content.Context
-import android.text.Editable
 import android.util.AttributeSet
 import android.view.View
-import android.widget.EditText
 import android.widget.ProgressBar
-import android.widget.TextView
-import com.zinoview.translatorapp.ui.Show
+import com.zinoview.translatorapp.ui.feature.ta01_translate_word.Show
 
 interface Show {
 
@@ -19,7 +16,7 @@ interface Hide {
     fun hide()
 }
 
-interface AbstractView : com.zinoview.translatorapp.ui.view.Show,Hide
+interface AbstractView : com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.Show, Hide
 
 interface SearchEditText : Hide {
 
