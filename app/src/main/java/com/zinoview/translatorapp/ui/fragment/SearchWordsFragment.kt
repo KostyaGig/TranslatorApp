@@ -11,8 +11,6 @@ import com.zinoview.translatorapp.ui.core.log
 import com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.SearchEditTextImpl
 import com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordProgressBarImpl
 import com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordTextViewImpl
-import com.zinoview.translatorapp.ui.feature.ta02_show_translated_word.MutableTranslatedWords
-import com.zinoview.translatorapp.ui.feature.ta02_show_translated_word.UniqueWords
 
 class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
 
@@ -22,11 +20,6 @@ class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
         application.translatedWordViewModel
     }
 
-    private val translatedWords = MutableTranslatedWords.Base(
-        UniqueWords.Base(
-            ArrayList()
-        )
-    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -40,7 +33,6 @@ class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
 
         viewModel.observe(this) { state ->
             state.show(wordTextView, wordProgressBar)
-            state.add(translatedWords)
         }
 
         searchWordBtn.setOnClickListener {
@@ -49,18 +41,13 @@ class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
         }
 
         backBtn.setOnClickListener {
-            navigation.navigateTo(WordsFragment(), translatedWords)
+            navigation.navigateTo(WordsFragment())
         }
 
     }
 
     override fun navigateToBack() {
-        navigation.navigateTo(WordsFragment(),translatedWords)
+        navigation.navigateTo(WordsFragment())
     }
 
-    override fun onDestroy() {
-        log("onDestroy()")
-        viewModel.clear()
-        super.onDestroy()
-    }
 }

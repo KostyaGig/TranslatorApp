@@ -1,6 +1,6 @@
 package com.zinoview.translatorapp.data.cloud
 
-import com.zinoview.translatorapp.data.DataWord
+import com.zinoview.translatorapp.data.DataWords
 
 interface CloudDataSource<T> {
 
@@ -14,18 +14,19 @@ interface CloudDataSource<T> {
             = wordService.translatedWord(srcWord)
     }
 
-    class Test : CloudDataSource<DataWord> {
+    class Test : CloudDataSource<DataWords> {
 
         private var count = 1
 
-        override suspend fun translatedWord(srcWord: String): DataWord {
-            val result: DataWord
+        override suspend fun translatedWord(srcWord: String): DataWords {
+            val result: DataWords
             result = if (count % 2 == 0) {
                 count++
-                DataWord.Success("Мышь","Mouse",com.zinoview.translatorapp.core.Language.Test())
+                val word = DataWords.Test("Мышь","Mouse")
+                word
             } else {
                 count++
-                DataWord.Failure("Test error")
+                DataWords.Failure("Test error")
             }
             if (count == 2) {
                 count = 0

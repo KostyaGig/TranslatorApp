@@ -9,24 +9,18 @@ interface WordCommunication<T> : Observe<T> {
 
     fun postValue(value: T)
 
-    //todo remove after adding destroyed viewmodel
-    fun clear()
+    open class BaseWordCommunication<T : Any> : WordCommunication<T> {
 
-    class Base : WordCommunication<UiWordState> {
+        private val liveData = MutableLiveData<T>()
 
-        private val liveData = MutableLiveData<UiWordState>()
-
-        override fun observe(owner: LifecycleOwner, observer: Observer<UiWordState>) {
+        override fun observe(owner: LifecycleOwner, observer: Observer<T>) {
             liveData.observe(owner, observer)
         }
 
-        override fun postValue(value: UiWordState)
-            = liveData.postValue(value)
-
-        override fun clear() {
-            //Mock value for last livevadata value
-            liveData.value = UiWordState.Empty
+        override fun postValue(value: T) {
+            liveData.value = value
         }
 
     }
+
 }

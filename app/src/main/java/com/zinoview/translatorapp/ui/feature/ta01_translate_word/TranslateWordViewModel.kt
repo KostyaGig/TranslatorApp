@@ -15,17 +15,16 @@ interface TranslateWordViewModel : Observe<UiWordState> {
 
     fun translateWord(srcWord: String)
 
-    //todo remove after adding owner for viewModel
-    fun clear()
     class Base(
         private val wordInteractor: WordInteractor,
         private val uiWordMapper: UiWordMapper,
         private val uiWordStateMapper: UiWordStateMapper,
-        private val communication: WordCommunication<UiWordState>,
+        private val communication: WordCommunication.BaseWordCommunication<UiWordState>,
         private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
     ) : TranslateWordViewModel, ViewModel() {
 
         override fun translateWord(srcWord: String) {
+            communication.postValue(UiWordState.Progress)
             viewModelScope.launch(defaultDispatcher) {
                 val domainTranslatedWord = wordInteractor.translatedWord(srcWord)
                 val uiTranslatedWord = domainTranslatedWord.map(uiWordMapper)
@@ -40,8 +39,6 @@ interface TranslateWordViewModel : Observe<UiWordState> {
         override fun observe(owner: LifecycleOwner, observer: Observer<UiWordState>)
             = communication.observe(owner,observer)
 
-        override fun clear() {
-            communication.clear()
-        }
+
     }
 }

@@ -6,34 +6,46 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zinoview.translatorapp.R
 import com.zinoview.translatorapp.ui.feature.ta01_translate_word.Show
-import com.zinoview.translatorapp.ui.feature.ta01_translate_word.UiWord
 import com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordTextViewImpl
+import com.zinoview.translatorapp.ui.feature.ta03_cached_translated_words.UiWordsStateRecyclerView
 
-interface WordsAdapter : Show<List<UiWord>> {
+interface WordsAdapter : Show<List<UiWordsStateRecyclerView>> {
 
     class Base : WordsAdapter, RecyclerView.Adapter<Base.WordsViewHolder>()  {
 
-        private val words = ArrayList<UiWord>()
+        private val words = ArrayList<UiWordsStateRecyclerView>()
 
-        override fun show(arg: List<UiWord>) {
+        //todo use diffutilcallback
+        override fun show(arg: List<UiWordsStateRecyclerView>) {
             this.words.clear()
             words.addAll(arg)
             notifyDataSetChanged()
         }
 
-        class WordsViewHolder(view: View) : RecyclerView.ViewHolder(view), Show<UiWord> {
+        override fun getItemViewType(position: Int): Int {
+            return when(words[position]) {
+                is UiWordsStateRecyclerView.Progress -> 1
+                else -> 2
+            }
+        }
+
+        class WordsViewHolder(view: View) : RecyclerView.ViewHolder(view), Show<UiWordsStateRecyclerView> {
 
             private val translatedWordTextView = view.findViewById<WordTextViewImpl>(R.id.translated_word_tv)
             private val srcWordTextView = view.findViewById<WordTextViewImpl>(R.id.src_word_tv)
 
-            override fun show(arg: UiWord) {
+            override fun show(arg: UiWordsStateRecyclerView) {
                 val views = Pair(translatedWordTextView,srcWordTextView)
                 arg.show(views)
             }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordsViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.word_item,parent,false)
+            val view = when(viewType) {
+                1 -> LayoutInflater.from(parent.context).inflate(R.layout.progress_item,parent,false)
+                else -> LayoutInflater.from(parent.context).inflate(R.layout.word_item,parent,false)
+
+            }
             return WordsViewHolder(view)
         }
 
@@ -43,7 +55,7 @@ interface WordsAdapter : Show<List<UiWord>> {
         }
 
         override fun getItemCount(): Int
-                = words.size
+            = words.size
     }
 }
 

@@ -2,9 +2,11 @@ package com.zinoview.translatorapp.ui.feature.ta01_translate_word
 
 import com.zinoview.translatorapp.core.Abstract
 import com.zinoview.translatorapp.core.Language
+import com.zinoview.translatorapp.data.cache.CacheWord
+import java.lang.IllegalStateException
 
 
-interface UiWordStateMapper : Abstract.WordMapper<UiWordState> {
+interface UiWordStateMapper : Abstract.WordsMapper<UiWordState> {
 
     class Base: UiWordStateMapper {
 
@@ -18,6 +20,9 @@ interface UiWordStateMapper : Abstract.WordMapper<UiWordState> {
 
         override fun map(message: String): UiWordState
             = UiWordState.Failure(message)
+
+        override fun map(cachedWords: List<CacheWord>): UiWordState
+            = throw IllegalStateException("UiWordStateMapper.Base not use map()")
     }
 
 }

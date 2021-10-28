@@ -2,22 +2,22 @@ package com.zinoview.translatorapp.ui.feature.ta01_translate_word
 
 import com.zinoview.translatorapp.core.Abstract
 import com.zinoview.translatorapp.core.Language
-import com.zinoview.translatorapp.ui.core.log
 import com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordProgressBar
 import com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordTextView
-import com.zinoview.translatorapp.ui.feature.ta02_show_translated_word.MutableTranslatedWords
 
-sealed class UiWordState : Abstract.Word, Same<UiWordState>,Compare<String> {
+sealed class UiWordState
+    : Abstract.Words,
+    Same<UiWordState>,
+    Compare<String> {
 
     override fun same(item: UiWordState): Boolean = false
     override fun compare(arg1: String, arg2: String): Boolean = false
 
-    override fun <T> map(mapper: Abstract.WordMapper<T>): T
+    override fun <T> map(mapper: Abstract.WordsMapper<T>): T
         =  throw IllegalStateException("UiWords state not use map()")
 
-    open fun show(wordTv: WordTextView, wordPb: WordProgressBar) = Unit
 
-    open fun add(translatedWords: MutableTranslatedWords<UiWordState>) = Unit
+    open fun show(wordTv: WordTextView, wordPb: WordProgressBar) = Unit
 
     object Empty : UiWordState()
 
@@ -27,7 +27,6 @@ sealed class UiWordState : Abstract.Word, Same<UiWordState>,Compare<String> {
             wordTv.hide()
             wordPb.show()
         }
-
     }
 
     class Success(
@@ -42,11 +41,7 @@ sealed class UiWordState : Abstract.Word, Same<UiWordState>,Compare<String> {
             wordPb.hide()
         }
 
-        override fun add(translatedWords: MutableTranslatedWords<UiWordState>) {
-            translatedWords.add(this)
-        }
-
-        override fun <T> map(mapper: Abstract.WordMapper<T>): T
+        override fun <T> map(mapper: Abstract.WordsMapper<T>): T
             = mapper.map(translatedWord, srcWord, language)
 
         override fun same(item: UiWordState): Boolean {
@@ -56,7 +51,6 @@ sealed class UiWordState : Abstract.Word, Same<UiWordState>,Compare<String> {
         override fun compare(arg1: String,arg2: String) : Boolean {
             return this.srcWord == arg1 && this.translatedWord == arg2
         }
-
     }
 
     class Failure(private val message: String) : UiWordState() {

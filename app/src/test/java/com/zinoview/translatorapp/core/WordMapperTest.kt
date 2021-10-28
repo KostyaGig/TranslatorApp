@@ -1,5 +1,6 @@
 package com.zinoview.translatorapp.core
 
+import com.zinoview.translatorapp.data.cache.CacheWord
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -37,7 +38,7 @@ class WordMapperTest {
         assertEquals(actual is TestDomainWord.Failure,true)
     }
 
-    private inner class TestWordMapper : Abstract.WordMapper<TestDomainWord> {
+    private inner class TestWordMapper : Abstract.WordsMapper<TestDomainWord> {
 
         override fun map(
             translatedWord: String,
@@ -49,36 +50,40 @@ class WordMapperTest {
         override fun map(message: String): TestDomainWord
                 = TestDomainWord.Failure(message)
 
+        override fun map(cachedWords: List<CacheWord>): TestDomainWord {
+            return TestDomainWord.Success("","",Language.Test())
+        }
+
     }
 
-    private interface TestDataWord : Abstract.Word {
+    private interface TestDataWord : Abstract.Words {
 
         data class Success(private val translatedWord: String,
                       private val srcWord: String,
                       private val language: Language) : TestDataWord {
 
-            override fun <T> map(mapper: Abstract.WordMapper<T>): T
+            override fun <T> map(mapper: Abstract.WordsMapper<T>): T
                     = mapper.map(translatedWord, srcWord, language)
         }
 
         data class Failure(private val message: String) : TestDataWord {
-            override fun <T> map(mapper: Abstract.WordMapper<T>): T
+            override fun <T> map(mapper: Abstract.WordsMapper<T>): T
                     = mapper.map(message)
         }
     }
 
-    private interface TestDomainWord: Abstract.Word {
+    private interface TestDomainWord: Abstract.Words {
 
         data class Success(private val translatedWord: String,
                       private val srcWord: String,
                       private val language: Language) : TestDomainWord {
 
-            override fun <T> map(mapper: Abstract.WordMapper<T>): T
+            override fun <T> map(mapper: Abstract.WordsMapper<T>): T
                     = mapper.map(translatedWord, srcWord, language)
         }
 
         data class Failure(private val message: String) : TestDomainWord {
-            override fun <T> map(mapper: Abstract.WordMapper<T>): T
+            override fun <T> map(mapper: Abstract.WordsMapper<T>): T
                     = mapper.map(message)
         }
     }

@@ -4,3 +4,8 @@ interface Show<T> {
 
     fun show(arg: T)
 }
+
+interface UiShow<A,B> : Show<A> {
+
+    fun uiShow(arg: B)
+}
