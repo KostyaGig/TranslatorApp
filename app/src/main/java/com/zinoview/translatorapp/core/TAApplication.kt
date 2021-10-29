@@ -4,16 +4,20 @@ import android.app.Application
 import com.zinoview.translatorapp.data.ExceptionMapper
 import com.zinoview.translatorapp.data.WordRepository
 import com.zinoview.translatorapp.data.cache.*
+import com.zinoview.translatorapp.data.cache.shared_prefs.ListToSetMapper
+import com.zinoview.translatorapp.data.cache.shared_prefs.SetToListMapper
+import com.zinoview.translatorapp.data.cache.shared_prefs.SharedPreferencesReader
+import com.zinoview.translatorapp.data.cache.shared_prefs.TranslatorSharedPreferences
 import com.zinoview.translatorapp.data.cloud.CloudDataSource
 import com.zinoview.translatorapp.data.cloud.CloudResultMapper
 import com.zinoview.translatorapp.data.cloud.WordService
-import com.zinoview.translatorapp.domain.DomainLanguageMapper
-import com.zinoview.translatorapp.domain.DomainWordMapper
-import com.zinoview.translatorapp.domain.WordInteractor
+import com.zinoview.translatorapp.domain.*
 import com.zinoview.translatorapp.ui.feature.ta01_translate_word.*
 import com.zinoview.translatorapp.ui.feature.ta03_cached_translated_words.RecyclerViewWordCommunication
 import com.zinoview.translatorapp.ui.feature.ta03_cached_translated_words.UiWordStateRecyclerViewMapper
 import com.zinoview.translatorapp.ui.feature.ta03_cached_translated_words.WordsViewModel
+import com.zinoview.translatorapp.ui.feature.ta04_recent_entered_words.RecentWordsCommunication
+import com.zinoview.translatorapp.ui.feature.ta04_recent_entered_words.UiRecentMapper
 import io.realm.Realm
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -62,12 +66,20 @@ class TAApplication : Application() {
             cacheDataSource,
             cloudDataSource,
             CloudResultMapper.Base(),
-            ExceptionMapper.Base(resourceProvider)
+            ExceptionMapper.Base(resourceProvider),
+            TranslatorSharedPreferences.Base(
+                this,
+                SharedPreferencesReader.Base(
+                    SetToListMapper.String()
+                ),
+                ListToSetMapper.String()
+            )
         )
         val wordInteractor = WordInteractor.Base(
             wordRepository,DomainWordMapper.Base(
                 DomainLanguageMapper.Base()
-            )
+            ),
+            DomainRecentMapper.Base()
         )
 
         val uiWordMapper = UiWordMapper.Base(
@@ -77,7 +89,9 @@ class TAApplication : Application() {
             wordInteractor,
             uiWordMapper,
             UiWordStateMapper.Base(),
-            TranslatedWordCommunication()
+            TranslatedWordCommunication(),
+            RecentWordsCommunication(),
+            UiRecentMapper.Base()
         )
 
         wordsViewModel = WordsViewModel.Base(

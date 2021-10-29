@@ -3,7 +3,7 @@ package com.zinoview.translatorapp.data
 import com.zinoview.translatorapp.core.Abstract
 import com.zinoview.translatorapp.data.cache.CacheWord
 import com.zinoview.translatorapp.data.cache.Database
-import com.zinoview.translatorapp.data.cache.Save
+import com.zinoview.translatorapp.data.cache.core.Save
 import com.zinoview.translatorapp.data.cache.SaveLanguage
 
 sealed class DataWords : Abstract.Words, Save<Database.Realm> {

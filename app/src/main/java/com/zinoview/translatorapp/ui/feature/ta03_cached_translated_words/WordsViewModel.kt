@@ -8,9 +8,7 @@ import com.zinoview.translatorapp.domain.WordInteractor
 import com.zinoview.translatorapp.ui.core.Observe
 import com.zinoview.translatorapp.ui.feature.ta01_translate_word.UiWordMapper
 import com.zinoview.translatorapp.ui.feature.ta01_translate_word.WordCommunication
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 interface WordsViewModel : Observe<UiWordsStateRecyclerView>{
 
@@ -21,16 +19,20 @@ interface WordsViewModel : Observe<UiWordsStateRecyclerView>{
         private val uiWordMapper: UiWordMapper,
         private val uiWordStateRecyclerViewMapper: UiWordStateRecyclerViewMapper,
         private val communication: WordCommunication.BaseWordCommunication<UiWordsStateRecyclerView>,
+        private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
         ) : WordsViewModel, ViewModel() {
 
         override fun words() {
-            viewModelScope.launch(Dispatchers.IO) {
-                communication.postValue(UiWordsStateRecyclerView.Progress)
+            communication.postValue(UiWordsStateRecyclerView.Progress)
+            viewModelScope.launch(defaultDispatcher) {
                 delay(1500)
                 val domainWords = wordInteractor.words()
                 val uiWords = domainWords.map(uiWordMapper)
                 val uiStateWordsRecyclerView = uiWords.map(uiWordStateRecyclerViewMapper)
-                communication.postValue(uiStateWordsRecyclerView)
+
+                withContext(Dispatchers.Main) {
+                    communication.postValue(uiStateWordsRecyclerView)
+                }
             }
         }
 

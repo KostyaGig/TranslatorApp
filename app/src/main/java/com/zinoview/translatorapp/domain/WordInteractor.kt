@@ -10,9 +10,12 @@ interface WordInteractor {
 
     suspend fun words() : DomainWords
 
+    suspend fun recentWords() : DomainRecentWords
+
     class Base(
         private val repository: WordRepository<DataWords>,
-        private val domainWordMapper: DomainWordMapper
+        private val domainWordMapper: DomainWordMapper,
+        private val domainRecentMapper: DomainRecentMapper
     ) : WordInteractor {
 
         override suspend fun translatedWord(srcWord: String): DomainWords {
@@ -23,6 +26,11 @@ interface WordInteractor {
         override suspend fun words(): DomainWords {
             val dataWords = repository.words()
             return dataWords.map(domainWordMapper)
+        }
+
+        override suspend fun recentWords(): DomainRecentWords {
+            val dataRecentWords = repository.recentWords()
+            return dataRecentWords.map(domainRecentMapper)
         }
     }
 }

@@ -2,6 +2,7 @@ package com.zinoview.translatorapp.data
 
 import com.zinoview.translatorapp.data.cache.CacheDataSource
 import com.zinoview.translatorapp.data.cache.CacheWord
+import com.zinoview.translatorapp.data.cache.shared_prefs.TranslatorSharedPreferences
 import com.zinoview.translatorapp.data.cloud.CloudDataSource
 import com.zinoview.translatorapp.data.cloud.CloudResultMapper
 import com.zinoview.translatorapp.data.cloud.CloudWord
@@ -12,11 +13,14 @@ interface WordRepository<T> {
 
     suspend fun words() : DataWords
 
+    suspend fun recentWords() : DataRecentWords
+
     class Base(
         private val cacheDataSource: CacheDataSource<List<CacheWord>>,
         private val cloudDataSource: CloudDataSource<CloudWord>,
         private val cloudResultMapper: CloudResultMapper,
-        private val exceptionMapper: ExceptionMapper
+        private val exceptionMapper: ExceptionMapper,
+        private val translatorSharedPreferences: TranslatorSharedPreferences
     ) : WordRepository<DataWords> {
 
         override suspend fun translatedWord(srcWord: String): DataWords {
@@ -34,6 +38,15 @@ interface WordRepository<T> {
         override suspend fun words(): DataWords {
             val cachedWords = cacheDataSource.words()
             return DataWords.Cache(cachedWords)
+        }
+
+        override suspend fun recentWords(): DataRecentWords {
+            val recentWords = translatorSharedPreferences.read()
+            return if (recentWords.isEmpty()) {
+                DataRecentWords.Empty
+            } else {
+                DataRecentWords.Base(recentWords)
+            }
         }
 
     }
@@ -61,6 +74,9 @@ interface WordRepository<T> {
 
             override suspend fun pairWords(): List<Pair<String,String>>
                 = cacheDataSource.words()
+
+            override suspend fun recentWords(): DataRecentWords
+                = throw IllegalStateException("WordRepository.TestRepository.Test not use recentWords()")
 
         }
     }

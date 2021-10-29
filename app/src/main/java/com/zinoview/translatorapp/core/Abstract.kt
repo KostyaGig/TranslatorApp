@@ -25,5 +25,17 @@ interface Abstract {
         fun map(src: S) : R
     }
 
+    interface RecentWord {
+
+        fun <T> map(mapper: RecentWordsMapper<T>) : T
+    }
+
+    interface RecentWordsMapper<T> {
+
+        fun map(recentWords: List<String>) : T
+
+        fun map() : T
+    }
+
     interface Mapper
 }

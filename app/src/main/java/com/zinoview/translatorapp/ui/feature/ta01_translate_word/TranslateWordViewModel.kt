@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zinoview.translatorapp.domain.WordInteractor
 import com.zinoview.translatorapp.ui.core.Observe
+import com.zinoview.translatorapp.ui.feature.ta04_recent_entered_words.UiRecentMapper
+import com.zinoview.translatorapp.ui.feature.ta04_recent_entered_words.UiRecentWords
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,11 +17,17 @@ interface TranslateWordViewModel : Observe<UiWordState> {
 
     fun translateWord(srcWord: String)
 
+    fun recentWords()
+
+    fun observeRecentWords(owner: LifecycleOwner,observer: Observer<UiRecentWords>)
+
     class Base(
         private val wordInteractor: WordInteractor,
         private val uiWordMapper: UiWordMapper,
         private val uiWordStateMapper: UiWordStateMapper,
         private val communication: WordCommunication.BaseWordCommunication<UiWordState>,
+        private val recentWordsCommunication: WordCommunication.BaseWordCommunication<UiRecentWords>,
+        private val uiRecentMapper: UiRecentMapper,
         private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
     ) : TranslateWordViewModel, ViewModel() {
 
@@ -39,6 +47,20 @@ interface TranslateWordViewModel : Observe<UiWordState> {
         override fun observe(owner: LifecycleOwner, observer: Observer<UiWordState>)
             = communication.observe(owner,observer)
 
+        override fun recentWords() {
+            viewModelScope.launch(defaultDispatcher) {
+                val domainRecentWords = wordInteractor.recentWords()
+                val uiRecentWords = domainRecentWords.map(uiRecentMapper)
+
+                withContext(Dispatchers.Main) {
+                    recentWordsCommunication.postValue(uiRecentWords)
+                }
+            }
+        }
+
+        override fun observeRecentWords(owner: LifecycleOwner, observer: Observer<UiRecentWords>) {
+            recentWordsCommunication.observe(owner,observer)
+        }
 
     }
 }
