@@ -2,11 +2,13 @@ package com.zinoview.translatorapp.data.cache
 
 import com.zinoview.translatorapp.core.Language
 
-interface SaveLanguage : Language {
+interface DataBaseOperationLanguage : Language {
 
     fun saveToDb(realmProvider: RealmProvider,translatedWord: String,srcWord: String)
 
-    object Test : SaveLanguage {
+    fun updateWord(realmProvider: RealmProvider,cacheWord: CacheWord,isFavorite: Boolean) : CacheWord
+
+    object Test : DataBaseOperationLanguage {
 
         private val list = ArrayList< Pair<String,String> >()
 
@@ -16,6 +18,15 @@ interface SaveLanguage : Language {
             srcWord: String
         ) {
             list.add(Pair(translatedWord,srcWord))
+        }
+
+        //todo write test for this method
+        override fun updateWord(
+            realmProvider: RealmProvider,
+            cacheWord: CacheWord,
+            isFavorite: Boolean
+        ) {
+
         }
 
         fun read() : List< Pair<String,String> >

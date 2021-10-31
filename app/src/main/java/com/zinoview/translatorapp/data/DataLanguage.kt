@@ -3,13 +3,12 @@ package com.zinoview.translatorapp.data
 import com.zinoview.translatorapp.core.Language
 import com.zinoview.translatorapp.data.cache.CacheWord
 import com.zinoview.translatorapp.data.cache.RealmProvider
-import com.zinoview.translatorapp.data.cache.SaveLanguage
-import io.realm.RealmObject
+import com.zinoview.translatorapp.data.cache.DataBaseOperationLanguage
 
 data class DataLanguage(
     private val fromLanguage: String,
     private val toLanguage: String
-) : SaveLanguage {
+) : DataBaseOperationLanguage {
 
     override fun <T> map(mapper: Language.LanguageMapper<T>): T
         = mapper.map(fromLanguage,toLanguage)
@@ -21,6 +20,17 @@ data class DataLanguage(
                 cacheWord.srcWord = srcWord
                 cacheWord.fromLanguage = fromLanguage
                 cacheWord.toLanguage = toLanguage
+            }
+        }
+    }
+
+    override fun updateWord(realmProvider: RealmProvider,cacheWord: CacheWord,isFavorite: Boolean) {
+        realmProvider.provide().use { realm ->
+                realm.executeTransaction { rm ->
+                 cacheWord.also {
+                     it.isFavorite = isFavorite
+                 }
+                rm.copyToRealmOrUpdate(cacheWord)
             }
         }
     }

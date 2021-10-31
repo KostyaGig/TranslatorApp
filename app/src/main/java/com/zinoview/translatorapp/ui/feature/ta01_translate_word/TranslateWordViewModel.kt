@@ -51,7 +51,7 @@ interface TranslateWordViewModel : Observe<UiWordState> {
 
         override fun recentWords() {
             viewModelScope.launch(defaultDispatcher) {
-                val domainRecentWords = wordInteractor.recentQuerys()
+                val domainRecentWords = wordInteractor.recentQuery()
                 val uiRecentWords = domainRecentWords.map(uiRecentMapper)
 
                 withContext(Dispatchers.Main) {
@@ -66,7 +66,7 @@ interface TranslateWordViewModel : Observe<UiWordState> {
 
         override fun saveRecentQuery(recentQuery: List<String>) {
             viewModelScope.launch(defaultDispatcher) {
-                wordInteractor.saveRecentQuerys(recentQuery)
+                wordInteractor.saveRecentQuery(recentQuery)
             }
         }
 

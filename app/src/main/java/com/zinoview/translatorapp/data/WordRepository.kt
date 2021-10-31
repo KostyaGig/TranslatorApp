@@ -13,9 +13,12 @@ interface WordRepository<T> {
 
     suspend fun words() : DataWords
 
-    suspend fun recentQuerys() : DataRecentWords
+    suspend fun recentQuery() : DataRecentWords
 
-    suspend fun saveRecentQuerys(recentQuerys: List<String>)
+    //todo make cache recentQuery in translatedWord(srcWord: String) and delete method below
+    suspend fun saveRecentQuery(recentQuery: List<String>)
+
+    suspend fun updateWord(translatedWord: String,isFavorite: Boolean)
 
     class Base(
         private val cacheDataSource: CacheDataSource<List<CacheWord>>,
@@ -42,7 +45,7 @@ interface WordRepository<T> {
             return DataWords.Cache(cachedWords)
         }
 
-        override suspend fun recentQuerys(): DataRecentWords {
+        override suspend fun recentQuery(): DataRecentWords {
             val recentWords = translatorSharedPreferences.read()
             return if (recentWords.isEmpty()) {
                 DataRecentWords.Empty
@@ -51,8 +54,11 @@ interface WordRepository<T> {
             }
         }
 
-        override suspend fun saveRecentQuerys(recentQuerys: List<String>) {
-            translatorSharedPreferences.save(recentQuerys)
+        override suspend fun saveRecentQuery(recentQuery: List<String>) {
+            translatorSharedPreferences.save(recentQuery)
+        }
+        override suspend fun updateWord(translatedWord: String, isFavorite: Boolean) {
+            cacheDataSource.updateWord(translatedWord, isFavorite)
         }
 
     }
@@ -81,13 +87,14 @@ interface WordRepository<T> {
             override suspend fun pairWords(): List<Pair<String,String>>
                 = cacheDataSource.words()
 
-            override suspend fun recentQuerys(): DataRecentWords
+            override suspend fun recentQuery(): DataRecentWords
                 = throw IllegalStateException("WordRepository.TestRepository.Test not use recentWords()")
 
-            override suspend fun saveRecentQuerys(recentQuerys: List<String>) {
+            override suspend fun saveRecentQuery(recentQuery: List<String>)
+                    = throw IllegalStateException("WordRepository.TestRepository.Test not use saveRecentQuery()")
 
-            }
-
+            override suspend fun updateWord(translatedWord: String, isFavorite: Boolean)
+                = throw IllegalStateException("WordRepository.TestRepository.Test not use updateWord()")
         }
     }
 

@@ -6,6 +6,8 @@ interface CacheDataSource<T> {
 
     suspend fun saveWord(word: DataWords)
 
+    suspend fun updateWord(translatedWord: String,isFavorite: Boolean)
+
     suspend fun words() : T
 
     class Base(
@@ -19,6 +21,9 @@ interface CacheDataSource<T> {
         override suspend fun words(): List<CacheWord> {
             return database.objects()
         }
+
+        override suspend fun updateWord(translatedWord: String, isFavorite: Boolean)
+             = database.updateObject(translatedWord,isFavorite)
     }
 
     class Test : CacheDataSource<List<Pair<String,String>>> {
@@ -37,6 +42,11 @@ interface CacheDataSource<T> {
 
         override suspend fun words(): List<Pair<String,String>>
             = data
+
+        //todo make test for this method
+        override suspend fun updateWord(translatedWord: String, isFavorite: Boolean) {
+
+        }
 
     }
 }

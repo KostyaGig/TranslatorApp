@@ -4,7 +4,7 @@ import com.zinoview.translatorapp.core.Abstract
 import com.zinoview.translatorapp.data.cache.CacheWord
 import com.zinoview.translatorapp.data.cache.Database
 import com.zinoview.translatorapp.data.cache.core.Save
-import com.zinoview.translatorapp.data.cache.SaveLanguage
+import com.zinoview.translatorapp.data.cache.DataBaseOperationLanguage
 
 sealed class DataWords : Abstract.Words, Save<Database.Realm> {
 
@@ -13,7 +13,7 @@ sealed class DataWords : Abstract.Words, Save<Database.Realm> {
     data class Success(
         private val srcWord: String,
         private val translatedWord: String,
-        private val language: SaveLanguage
+        private val language: DataBaseOperationLanguage
     ) : DataWords() {
 
         override fun <T> map(mapper: Abstract.WordsMapper<T>): T

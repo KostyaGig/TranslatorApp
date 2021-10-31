@@ -14,6 +14,7 @@ open class CacheWord : RealmObject(), Abstract.Words {
     var srcWord: String = ""
     var fromLanguage: String = ""
     var toLanguage: String = ""
+    var isFavorite: Boolean = false
 
     override fun <T> map(mapper: Abstract.WordsMapper<T>): T
         = mapper.map(translatedWord, srcWord, DataLanguage(fromLanguage,toLanguage))
