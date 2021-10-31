@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ProgressBar
-import com.zinoview.translatorapp.ui.feature.ta01_translate_word.Show
 
 interface Show {
 
@@ -50,7 +49,7 @@ class SearchEditTextImpl : SearchEditText, androidx.appcompat.widget.AppCompatEd
 
 }
 
-interface WordTextView : AbstractView {
+interface WordTextView :  AbstractView {
 
     fun text(text: String)
 }

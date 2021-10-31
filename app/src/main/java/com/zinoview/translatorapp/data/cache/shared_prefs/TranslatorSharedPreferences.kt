@@ -3,6 +3,7 @@ package com.zinoview.translatorapp.data.cache.shared_prefs
 import android.content.Context
 import com.zinoview.translatorapp.data.cache.core.Read
 import com.zinoview.translatorapp.data.cache.core.Save
+import com.zinoview.translatorapp.ui.core.log
 
 interface TranslatorSharedPreferences : Save<List<String>>, Read<List<String>> {
 
@@ -18,6 +19,8 @@ interface TranslatorSharedPreferences : Save<List<String>>, Read<List<String>> {
         override fun save(recentWords: List<String>) {
             val set = listToSetMapper.map(recentWords)
             sharedPreferences.edit().putStringSet(RECENT_WORDS_KEY,set).apply()
+            log("shared pref save")
+            read()
         }
 
         override fun read(): List<String>
@@ -25,7 +28,6 @@ interface TranslatorSharedPreferences : Save<List<String>>, Read<List<String>> {
 
         private companion object {
             private const val RECENT_WORDS_PREFERENCES = "recent_words"
-
             private const val RECENT_WORDS_KEY = "recent_words_key"
         }
     }

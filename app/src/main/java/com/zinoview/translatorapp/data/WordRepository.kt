@@ -13,7 +13,9 @@ interface WordRepository<T> {
 
     suspend fun words() : DataWords
 
-    suspend fun recentWords() : DataRecentWords
+    suspend fun recentQuerys() : DataRecentWords
+
+    suspend fun saveRecentQuerys(recentQuerys: List<String>)
 
     class Base(
         private val cacheDataSource: CacheDataSource<List<CacheWord>>,
@@ -40,13 +42,17 @@ interface WordRepository<T> {
             return DataWords.Cache(cachedWords)
         }
 
-        override suspend fun recentWords(): DataRecentWords {
+        override suspend fun recentQuerys(): DataRecentWords {
             val recentWords = translatorSharedPreferences.read()
             return if (recentWords.isEmpty()) {
                 DataRecentWords.Empty
             } else {
                 DataRecentWords.Base(recentWords)
             }
+        }
+
+        override suspend fun saveRecentQuerys(recentQuerys: List<String>) {
+            translatorSharedPreferences.save(recentQuerys)
         }
 
     }
@@ -75,8 +81,12 @@ interface WordRepository<T> {
             override suspend fun pairWords(): List<Pair<String,String>>
                 = cacheDataSource.words()
 
-            override suspend fun recentWords(): DataRecentWords
+            override suspend fun recentQuerys(): DataRecentWords
                 = throw IllegalStateException("WordRepository.TestRepository.Test not use recentWords()")
+
+            override suspend fun saveRecentQuerys(recentQuerys: List<String>) {
+
+            }
 
         }
     }

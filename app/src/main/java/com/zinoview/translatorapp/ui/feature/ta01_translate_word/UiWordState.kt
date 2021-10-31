@@ -4,6 +4,7 @@ import com.zinoview.translatorapp.core.Abstract
 import com.zinoview.translatorapp.core.Language
 import com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordProgressBar
 import com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordTextView
+import com.zinoview.translatorapp.ui.feature.ta04_recent_entered_words.TempRecentWords
 
 sealed class UiWordState
     : Abstract.Words,
@@ -18,6 +19,8 @@ sealed class UiWordState
 
 
     open fun show(wordTv: WordTextView, wordPb: WordProgressBar) = Unit
+
+    open fun changeRecentQuery(tempRecentWords: TempRecentWords) = Unit
 
     object Empty : UiWordState()
 
@@ -51,6 +54,9 @@ sealed class UiWordState
         override fun compare(arg1: String,arg2: String) : Boolean {
             return this.srcWord == arg1 && this.translatedWord == arg2
         }
+
+        override fun changeRecentQuery(tempRecentWords: TempRecentWords)
+            = tempRecentWords.addNewWord(srcWord)
     }
 
     class Failure(private val message: String) : UiWordState() {

@@ -1,61 +1,96 @@
 package com.zinoview.translatorapp.ui.feature.ta04_recent_entered_words
 
 import com.zinoview.translatorapp.data.cache.core.Save
-import com.zinoview.translatorapp.ui.core.log
-import java.util.*
+import com.zinoview.translatorapp.ui.feature.ta01_translate_word.TranslateWordViewModel
 import kotlin.collections.ArrayList
 
-//todo make test
-interface TempRecentWords : Save<List<String>> {
+interface TempRecentWords : Save<TranslateWordViewModel> {
 
     fun addNewWord(translatedWord: String)
 
-    //todo remove this
-    fun read()
+    fun fill(recentWordsFromCache: List<String>)
 
-    fun readFirstSeven()
+    fun show(adapter: RecentWordsAdapter)
+
+    //usage for test
+    fun read() : List<String>
 
     class Base : TempRecentWords {
 
         private val recentWords = ArrayList<String>()
 
-        override fun save(save: List<String>) {
-            recentWords.addAll(save)
+        override fun fill(recentWordsFromCache: List<String>) {
+            recentWords.clear()
+            recentWords.addAll(recentWordsFromCache)
         }
 
-        //todo make stack from retain words
+        override fun save(viewModel: TranslateWordViewModel) {
+            viewModel.saveRecentQuery(ArrayList(recentWords))
+        }
+
+        override fun show(adapter: RecentWordsAdapter) {
+            adapter.show(ArrayList(recentWords))
+        }
+
         override fun addNewWord(translatedWord: String) {
             if (recentWords.contains(translatedWord).not()) {
                 recentWords.add(translatedWord)
                 if (recentWords.size > 6) {
-                    log("SIZE > 6")
-                    val firstRecentSixWords = recentWords.take(6).reversed()
+                    val firstRecentSixWords = recentWords.take(6)
                     recentWords.clear()
                     recentWords.add(translatedWord)
                     recentWords.addAll(firstRecentSixWords)
-                }
-            }
-
-        }
-
-        override fun read() {
-            recentWords.forEach {
-                log("TempRecentWords read -> $it")
-            }
-        }
-
-        override fun readFirstSeven() {
-            if (recentWords.size > 7) {
-                val firstSevenWords = recentWords.take(7)
-                firstSevenWords.forEach {
-                    log("TempRecentWords read first seven (> 7) -> $it")
-                }
-            } else {
-                recentWords.forEach {
-                    log("TempRecentWords read first seven (< 7) -> $it")
+                } else {
+                    if (recentWords.size > 1) {
+                        val lastTempWord = recentWords[recentWords.size - 1]
+                        recentWords.remove(lastTempWord)
+                        val tempRecentWords = recentWords.take(recentWords.size)
+                        recentWords.clear()
+                        recentWords.add(translatedWord)
+                        recentWords.addAll(tempRecentWords)
+                    }
                 }
             }
         }
 
+        override fun read() = throw IllegalStateException("TempRecentWords.Base not use read()")
     }
+
+    class Test : TempRecentWords {
+
+        private val data = ArrayList<String>()
+
+        override fun addNewWord(translatedWord: String) {
+            if (data.contains(translatedWord).not()) {
+                data.add(translatedWord)
+                if (data.size > 6) {
+                    val firstRecentSixWords = data.take(6)
+                    data.clear()
+                    data.add(translatedWord)
+                    data.addAll(firstRecentSixWords)
+                } else {
+                    if (data.size > 1) {
+                        val lastTempWord = data[data.size - 1]
+                        data.remove(lastTempWord)
+                        val tempRecentWords = data.take(data.size)
+                        data.clear()
+                        data.add(translatedWord)
+                        data.addAll(tempRecentWords)
+                    }
+                }
+            }
+        }
+
+        override fun fill(recentWordsFromCache: List<String>)
+                = throw IllegalStateException("TempRecentWords.Test not use fill()")
+
+        override fun show(adapter: RecentWordsAdapter)
+                = throw IllegalStateException("TempRecentWords.Test not use show()")
+
+        override fun save(save: TranslateWordViewModel)
+                = throw IllegalStateException("TempRecentWords.Test not use save()")
+
+        override fun read() : List<String> = data
+    }
+
 }

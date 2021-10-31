@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.SearchEditTextImpl
@@ -12,11 +13,28 @@
         android:hint="@string/enter_word_text"
         />
 
+    <com.zinoview.translatorapp.ui.feature.ta04_recent_entered_words.RecentWordTextViewImpl
+        android:id="@+id/recent_query_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/show_recent_query_text"
+        android:layout_gravity="start"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:layout_marginStart="@dimen/margin_10dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recent_query_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
     <Button
         android:id="@+id/search_word_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/search_text"/>
+        android:text="@string/search_text"
+        android:layout_marginTop="@dimen/margin_10dp"/>
 
     <com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordTextViewImpl
         android:id="@+id/word_tv"

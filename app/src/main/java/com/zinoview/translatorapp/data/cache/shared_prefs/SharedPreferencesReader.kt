@@ -1,6 +1,7 @@
 package com.zinoview.translatorapp.data.cache.shared_prefs
 
 import android.content.SharedPreferences
+import com.zinoview.translatorapp.ui.core.log
 
 interface SharedPreferencesReader  {
 
@@ -12,6 +13,7 @@ interface SharedPreferencesReader  {
 
         override fun read(sharedPreferences: SharedPreferences,key: String): List<String> {
             val set = sharedPreferences.getStringSet(key, emptySet())
+            log("read recent words from shared pref: $set")
             return setToListMapper.map(set!!)
         }
     }

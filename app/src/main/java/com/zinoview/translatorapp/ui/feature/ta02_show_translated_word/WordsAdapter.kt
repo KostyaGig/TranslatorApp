@@ -57,5 +57,6 @@ interface WordsAdapter : Show<List<UiWordsStateRecyclerView>> {
         override fun getItemCount(): Int
             = words.size
     }
+
 }
 
