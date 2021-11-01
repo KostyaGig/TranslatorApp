@@ -22,8 +22,8 @@ interface DomainWordMapper : Abstract.WordsMapper<DomainWords> {
         override fun map(message: String): DomainWords
             = DomainWords.Failure(message)
 
-        override fun map(cachedWords: List<CacheWord>): DomainWords
-            = DomainWords.Cache(cachedWords)
+        override fun map(cachedWords: List<CacheWord>,position: Int): DomainWords
+            = DomainWords.Cache(cachedWords,position)
     }
 
 }

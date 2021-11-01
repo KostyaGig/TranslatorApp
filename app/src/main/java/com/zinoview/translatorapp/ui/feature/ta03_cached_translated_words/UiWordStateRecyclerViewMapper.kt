@@ -20,8 +20,8 @@ interface UiWordStateRecyclerViewMapper : Abstract.WordsMapper<UiWordsStateRecyc
         override fun map(message: String): UiWordsStateRecyclerView
             = throw IllegalStateException("UiWordStateRecyclerViewMapper.Success not use map()")
 
-        override fun map(cachedWords: List<CacheWord>): UiWordsStateRecyclerView
-            = UiWordsStateRecyclerView.Success(cachedWords)
+        override fun map(cachedWords: List<CacheWord>,position: Int): UiWordsStateRecyclerView
+            = UiWordsStateRecyclerView.Success(cachedWords,position)
     }
 
     class Base : UiWordStateRecyclerViewMapper {
@@ -29,14 +29,14 @@ interface UiWordStateRecyclerViewMapper : Abstract.WordsMapper<UiWordsStateRecyc
         override fun map(
             translatedWord: String,
             srcWord: String,
-            language: Language
+            language: Language,
         ): UiWordsStateRecyclerView
-                = UiWordsStateRecyclerView.Base(translatedWord, srcWord, language)
+                = UiWordsStateRecyclerView.Base(translatedWord, srcWord, language,false)
 
         override fun map(message: String): UiWordsStateRecyclerView
             = throw IllegalStateException("UiWordStateRecyclerViewMapper.Base not use map()")
 
-        override fun map(cachedWords: List<CacheWord>): UiWordsStateRecyclerView
+        override fun map(cachedWords: List<CacheWord>,position: Int): UiWordsStateRecyclerView
             = throw IllegalStateException("UiWordStateRecyclerViewMapper.Base not use map()")
     }
 

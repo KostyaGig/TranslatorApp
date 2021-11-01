@@ -6,7 +6,7 @@ interface CacheDataSource<T> {
 
     suspend fun saveWord(word: DataWords)
 
-    suspend fun updateWord(translatedWord: String,isFavorite: Boolean)
+    suspend fun updateWord(translatedWord: String,isFavorite: Boolean) : CacheWord
 
     suspend fun words() : T
 
@@ -22,7 +22,7 @@ interface CacheDataSource<T> {
             return database.objects()
         }
 
-        override suspend fun updateWord(translatedWord: String, isFavorite: Boolean)
+        override suspend fun updateWord(translatedWord: String, isFavorite: Boolean) : CacheWord
              = database.updateObject(translatedWord,isFavorite)
     }
 
@@ -44,8 +44,8 @@ interface CacheDataSource<T> {
             = data
 
         //todo make test for this method
-        override suspend fun updateWord(translatedWord: String, isFavorite: Boolean) {
-
+        override suspend fun updateWord(translatedWord: String, isFavorite: Boolean) : CacheWord {
+            TODO()
         }
 
     }

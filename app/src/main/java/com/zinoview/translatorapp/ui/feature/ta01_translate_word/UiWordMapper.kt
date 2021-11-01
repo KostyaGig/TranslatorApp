@@ -22,8 +22,8 @@ interface UiWordMapper : Abstract.WordsMapper<UiWords> {
         override fun map(message: String): UiWords
             = UiWords.Failure(message)
 
-        override fun map(cachedWords: List<CacheWord>): UiWords
-            = UiWords.Cache(cachedWords)
+        override fun map(cachedWords: List<CacheWord>,position: Int): UiWords
+            = UiWords.Cache(cachedWords,position)
 
     }
 

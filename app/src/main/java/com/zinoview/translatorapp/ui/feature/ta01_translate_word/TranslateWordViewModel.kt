@@ -17,6 +17,7 @@ interface TranslateWordViewModel : Observe<UiWordState> {
 
     fun translateWord(srcWord: String)
 
+
     fun recentWords()
 
     fun observeRecentWords(owner: LifecycleOwner,observer: Observer<UiRecentWords>)

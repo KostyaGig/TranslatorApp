@@ -21,7 +21,7 @@ interface UiWordStateMapper : Abstract.WordsMapper<UiWordState> {
         override fun map(message: String): UiWordState
             = UiWordState.Failure(message)
 
-        override fun map(cachedWords: List<CacheWord>): UiWordState
+        override fun map(cachedWords: List<CacheWord>,position: Int): UiWordState
             = throw IllegalStateException("UiWordStateMapper.Base not use map()")
     }
 

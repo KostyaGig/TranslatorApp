@@ -5,6 +5,7 @@ import com.zinoview.translatorapp.core.Language
 import com.zinoview.translatorapp.data.cache.CacheWord
 import com.zinoview.translatorapp.data.cache.SaveLanguageMapper
 
+//todo remove not usage mapper
 interface DataWordMapper : Abstract.WordsMapper<DataWords> {
 
     class Base(
@@ -17,7 +18,7 @@ interface DataWordMapper : Abstract.WordsMapper<DataWords> {
         override fun map(message: String): DataWords
             = DataWords.Failure(message)
 
-        override fun map(cachedWords: List<CacheWord>): DataWords
+        override fun map(cachedWords: List<CacheWord>,position: Int): DataWords
             = DataWords.Cache(cachedWords)
     }
 }

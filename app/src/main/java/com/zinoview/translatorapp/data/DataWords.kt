@@ -5,10 +5,14 @@ import com.zinoview.translatorapp.data.cache.CacheWord
 import com.zinoview.translatorapp.data.cache.Database
 import com.zinoview.translatorapp.data.cache.core.Save
 import com.zinoview.translatorapp.data.cache.DataBaseOperationLanguage
+import com.zinoview.translatorapp.ui.core.log
 
-sealed class DataWords : Abstract.Words, Save<Database.Realm> {
+sealed class DataWords : Abstract.Words {
 
-    override fun save(realm: Database.Realm) = Unit
+    open suspend fun save(realm: Database.Realm) = Unit
+
+    //remove later
+    open fun printUpdatedWord() = Unit
 
     data class Success(
         private val srcWord: String,
@@ -19,7 +23,7 @@ sealed class DataWords : Abstract.Words, Save<Database.Realm> {
         override fun <T> map(mapper: Abstract.WordsMapper<T>): T
             = mapper.map(translatedWord, srcWord, language)
 
-        override fun save(realm: Database.Realm) {
+        override suspend fun save(realm: Database.Realm) {
             realm.insertObject(
                 Triple(translatedWord,srcWord,language)
             )
@@ -27,11 +31,16 @@ sealed class DataWords : Abstract.Words, Save<Database.Realm> {
     }
 
     data class Cache(
-        private val words: List<CacheWord>
+        private val words: List<CacheWord>,
+        private val position: Int = -1
     ) : DataWords() {
 
         override fun <T> map(mapper: Abstract.WordsMapper<T>): T
-            = mapper.map(words)
+            = mapper.map(words,position)
+
+        override fun printUpdatedWord() {
+            log("Updated word ${words[0].srcWord} is favorite ${words[0].isFavorite}")
+        }
     }
 
     data class Failure(

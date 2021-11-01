@@ -17,11 +17,12 @@ sealed class DomainWords : Abstract.Words {
     }
 
     data class Cache(
-        private val words: List<CacheWord>
+        private val words: List<CacheWord>,
+        private val position: Int
     ) : DomainWords() {
 
         override fun <T> map(mapper: Abstract.WordsMapper<T>): T
-            = mapper.map(words)
+            = mapper.map(words,position)
     }
 
     class Failure(

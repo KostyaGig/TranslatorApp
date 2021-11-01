@@ -18,7 +18,7 @@ interface Abstract {
         fun map(message: String) : T
 
         //cached
-        fun map(cachedWords: List<CacheWord>) : T
+        fun map(cachedWords: List<CacheWord>,position: Int) : T
     }
 
     interface FactoryMapper<S,R> : Mapper {

@@ -1,6 +1,7 @@
 package com.zinoview.translatorapp.data.cache
 
 import io.realm.Realm
+import io.realm.RealmConfiguration
 import java.lang.IllegalStateException
 
 interface RealmProvider  {
@@ -10,7 +11,11 @@ interface RealmProvider  {
     class Base : RealmProvider {
 
         override fun provide(): Realm
-            = Realm.getDefaultInstance()
+
+        {
+            val config = RealmConfiguration.Builder().allowQueriesOnUiThread(true).build()
+            return Realm.getInstance(config)
+        }
     }
 
     class Test : RealmProvider {

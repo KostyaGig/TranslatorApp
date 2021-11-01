@@ -2,10 +2,15 @@ package com.zinoview.translatorapp.data
 
 import com.zinoview.translatorapp.data.cache.CacheDataSource
 import com.zinoview.translatorapp.data.cache.CacheWord
+import com.zinoview.translatorapp.data.cache.CacheWordMapper
 import com.zinoview.translatorapp.data.cache.shared_prefs.TranslatorSharedPreferences
 import com.zinoview.translatorapp.data.cloud.CloudDataSource
 import com.zinoview.translatorapp.data.cloud.CloudResultMapper
 import com.zinoview.translatorapp.data.cloud.CloudWord
+import com.zinoview.translatorapp.ui.core.log
+import com.zinoview.translatorapp.ui.feature.ta03_cached_translated_words.UiWordsStateRecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 interface WordRepository<T> {
 
@@ -18,7 +23,10 @@ interface WordRepository<T> {
     //todo make cache recentQuery in translatedWord(srcWord: String) and delete method below
     suspend fun saveRecentQuery(recentQuery: List<String>)
 
-    suspend fun updateWord(translatedWord: String,isFavorite: Boolean)
+    suspend fun updateWord(srcWord: String,isFavorite: Boolean,position: Int) : DataWords
+
+    //todo remove later
+    suspend fun tempUpdatedWord(srcWord: String,isFavorite: Boolean,position: Int) : UiWordsStateRecyclerView
 
     class Base(
         private val cacheDataSource: CacheDataSource<List<CacheWord>>,
@@ -32,7 +40,10 @@ interface WordRepository<T> {
             return try {
                 val cloudTranslatedWord = cloudDataSource.translatedWord(srcWord)
                 val dataWord = cloudTranslatedWord.map(cloudResultMapper)
-                cacheDataSource.saveWord(dataWord)
+                withContext(Dispatchers.Main) {
+                    cacheDataSource.saveWord(dataWord)
+                }
+                log("Save word on ${Thread.currentThread().name} thread")
                 return dataWord
             } catch (e: Exception) {
                 val errorMessage = exceptionMapper.map(e)
@@ -57,10 +68,21 @@ interface WordRepository<T> {
         override suspend fun saveRecentQuery(recentQuery: List<String>) {
             translatorSharedPreferences.save(recentQuery)
         }
-        override suspend fun updateWord(translatedWord: String, isFavorite: Boolean) {
-            cacheDataSource.updateWord(translatedWord, isFavorite)
+        override suspend fun updateWord(srcWord: String, isFavorite: Boolean,position: Int) : DataWords {
+            val updatedWord = cacheDataSource.updateWord(srcWord, isFavorite)
+            return DataWords.Cache(listOf(updatedWord),position)
         }
 
+        override suspend fun tempUpdatedWord(
+            srcWord: String,
+            isFavorite: Boolean,
+            position: Int
+        ): UiWordsStateRecyclerView {
+            val updatedWord = cacheDataSource.updateWord(srcWord, isFavorite)
+            val recWord = updatedWord.map(CacheWordMapper.Base())
+            log("Updated word and mapping here from ${Thread.currentThread().name}")
+            return recWord
+        }
     }
 
     interface TestRepository<T> : WordRepository<DataWords> {
@@ -93,8 +115,17 @@ interface WordRepository<T> {
             override suspend fun saveRecentQuery(recentQuery: List<String>)
                     = throw IllegalStateException("WordRepository.TestRepository.Test not use saveRecentQuery()")
 
-            override suspend fun updateWord(translatedWord: String, isFavorite: Boolean)
+            override suspend fun updateWord(srcWord: String, isFavorite: Boolean,position: Int)
                 = throw IllegalStateException("WordRepository.TestRepository.Test not use updateWord()")
+
+            //todo remove
+            override suspend fun tempUpdatedWord(
+                srcWord: String,
+                isFavorite: Boolean,
+                position: Int
+            ): UiWordsStateRecyclerView {
+                TODO("Not yet implemented")
+            }
         }
     }
 
