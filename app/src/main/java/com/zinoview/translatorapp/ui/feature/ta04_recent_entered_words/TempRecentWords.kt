@@ -1,6 +1,7 @@
 package com.zinoview.translatorapp.ui.feature.ta04_recent_entered_words
 
 import com.zinoview.translatorapp.data.cache.core.Save
+import com.zinoview.translatorapp.ui.core.log
 import com.zinoview.translatorapp.ui.feature.ta01_translate_word.TranslateWordViewModel
 import kotlin.collections.ArrayList
 
@@ -20,6 +21,7 @@ interface TempRecentWords : Save<TranslateWordViewModel> {
         private val recentWords = ArrayList<String>()
 
         override fun fill(recentWordsFromCache: List<String>) {
+            log("fill recent list $recentWordsFromCache")
             recentWords.clear()
             recentWords.addAll(recentWordsFromCache)
         }

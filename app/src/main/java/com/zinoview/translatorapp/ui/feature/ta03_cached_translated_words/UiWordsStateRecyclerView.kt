@@ -58,8 +58,8 @@ sealed class UiWordsStateRecyclerView
     ) : UiWordsStateRecyclerView() {
 
         override fun show(arg: Triple<WordTextView, WordTextView,ItemView>) {
-            arg.first.text("$translatedWord isFavorite $isFavorite")
-            arg.second.text(srcWord)
+            arg.first.text("Translated $translatedWord")
+            arg.second.text("Src: $srcWord")
             arg.third.changeBackground(isFavorite)
         }
 

@@ -18,8 +18,9 @@ interface WordRepository<T> {
     //param isFavorite need for tests
     suspend fun updateWord(srcWord: String,position: Int,isFavorite: Boolean = false) : DataWords
 
+    //I forced usage hard implementation for serialize here to string and back
     //todo make cache recentQuery in translatedWord(srcWord: String) and delete method below
-    suspend fun saveRecentQuery(recentQuery: List<String>)
+    suspend fun saveRecentQuery(recentQuery: ArrayList<String>)
 
     class Base(
         private val cacheDataSource: CacheDataSource<CacheWord>,
@@ -70,7 +71,7 @@ interface WordRepository<T> {
             }
         }
 
-        override suspend fun saveRecentQuery(recentQuery: List<String>) {
+        override suspend fun saveRecentQuery(recentQuery: ArrayList<String>) {
             translatorSharedPreferences.save(recentQuery)
         }
     }
@@ -101,7 +102,7 @@ interface WordRepository<T> {
             override suspend fun recentQuery(): DataRecentWords
                 = throw IllegalStateException("WordRepository.TestRepository.Test not use recentWords()")
 
-            override suspend fun saveRecentQuery(recentQuery: List<String>)
+            override suspend fun saveRecentQuery(recentQuery: ArrayList<String>)
                     = throw IllegalStateException("WordRepository.TestRepository.Test not use saveRecentQuery()")
 
             override suspend fun updateWord(srcWord: String,position: Int,isFavorite: Boolean) : DataWords{

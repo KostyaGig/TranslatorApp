@@ -14,7 +14,7 @@ interface WordInteractor {
 
     suspend fun recentQuery() : DomainRecentWords
 
-    suspend fun saveRecentQuery(recentQuery: List<String>)
+    suspend fun saveRecentQuery(recentQuery: ArrayList<String>)
 
     class Base(
         private val repository: WordRepository<DataWords>,
@@ -42,7 +42,7 @@ interface WordInteractor {
             return dataRecentWords.map(domainRecentMapper)
         }
 
-        override suspend fun saveRecentQuery(recentQuery: List<String>) {
+        override suspend fun saveRecentQuery(recentQuery: ArrayList<String>) {
             repository.saveRecentQuery(recentQuery)
         }
     }

@@ -6,8 +6,6 @@ import com.zinoview.translatorapp.data.WordRepository
 import com.zinoview.translatorapp.data.cache.*
 import com.zinoview.translatorapp.data.cache.db.Database
 import com.zinoview.translatorapp.data.cache.db.RoomProvider
-import com.zinoview.translatorapp.data.cache.shared_prefs.ListToSetMapper
-import com.zinoview.translatorapp.data.cache.shared_prefs.SetToListMapper
 import com.zinoview.translatorapp.data.cache.shared_prefs.SharedPreferencesReader
 import com.zinoview.translatorapp.data.cache.shared_prefs.TranslatorSharedPreferences
 import com.zinoview.translatorapp.data.cloud.CloudDataSource
@@ -70,10 +68,7 @@ class TAApplication : Application() {
             ExceptionMapper.Base(resourceProvider),
             TranslatorSharedPreferences.Base(
                 this,
-                SharedPreferencesReader.Base(
-                    SetToListMapper.String()
-                ),
-                ListToSetMapper.String()
+                SharedPreferencesReader.Base(),
             ),
             TranslatedCacheDataWordsMapper.Base(dataLanguageMapper),
             TranslatedCacheNotFavoriteDataWordsMapper.Base(dataLanguageMapper)

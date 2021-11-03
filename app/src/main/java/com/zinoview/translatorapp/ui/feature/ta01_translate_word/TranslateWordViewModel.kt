@@ -22,7 +22,7 @@ interface TranslateWordViewModel : Observe<UiWordState> {
 
     fun observeRecentWords(owner: LifecycleOwner,observer: Observer<UiRecentWords>)
 
-    fun saveRecentQuery(recentQuery: List<String>)
+    fun saveRecentQuery(recentQuery: ArrayList<String>)
 
     class Base(
         private val wordInteractor: WordInteractor,
@@ -65,7 +65,7 @@ interface TranslateWordViewModel : Observe<UiWordState> {
             recentWordsCommunication.observe(owner,observer)
         }
 
-        override fun saveRecentQuery(recentQuery: List<String>) {
+        override fun saveRecentQuery(recentQuery: ArrayList<String>) {
             viewModelScope.launch(defaultDispatcher) {
                 wordInteractor.saveRecentQuery(recentQuery)
             }

@@ -5,21 +5,19 @@ import com.zinoview.translatorapp.data.cache.core.Read
 import com.zinoview.translatorapp.data.cache.core.Save
 import com.zinoview.translatorapp.ui.core.log
 
-interface TranslatorSharedPreferences : Save<List<String>>, Read<List<String>> {
+interface TranslatorSharedPreferences : Save<ArrayList<String>>, Read<List<String>> {
 
     class Base(
         context: Context,
-        private val sharedPreferencesReader: SharedPreferencesReader,
-        private val listToSetMapper: ListToSetMapper<String>
+        private val sharedPreferencesReader: SharedPreferencesReader
     ) : TranslatorSharedPreferences {
 
         private val sharedPreferences = context.getSharedPreferences(RECENT_WORDS_PREFERENCES,Context.MODE_PRIVATE)
 
 
-        override fun save(recentWords: List<String>) {
-            val set = listToSetMapper.map(recentWords)
-            sharedPreferences.edit().putStringSet(RECENT_WORDS_KEY,set).apply()
-            log("Save $set")
+        override fun save(recentWords: ArrayList<String>) {
+            sharedPreferences.edit().putString(RECENT_WORDS_KEY,ObjectSerializer.serialize(recentWords)).apply()
+            log("Save $recentWords")
             read()
         }
 

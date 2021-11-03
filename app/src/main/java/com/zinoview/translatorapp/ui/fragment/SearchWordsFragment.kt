@@ -72,6 +72,7 @@ class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
         }
 
         viewModel.observeRecentWords(this) { uiRecentWords ->
+            log("view model recent words")
             uiRecentWords.map(tempRecentWords)
         }
 
