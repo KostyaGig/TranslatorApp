@@ -1,8 +1,6 @@
 package com.zinoview.translatorapp.data.cache
 
 import com.zinoview.translatorapp.ui.core.log
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -15,58 +13,40 @@ interface Database<T,S> {
 
     suspend fun updateObject(translatedWord: String,isFavorite: Boolean) : CacheWord
 
-    interface Realm : Database<List<CacheWord>,Triple<String,String,DataBaseOperationLanguage>> {
+    interface Room : Database<List<CacheWord>,Triple<String,String,DataBaseOperationLanguage>> {
 
         class Base(
-            private val realmProvider: RealmProvider,
-        ) : Realm {
+            private val roomProvider: RoomProvider
+        ) : Room {
 
             override fun objects(): List<CacheWord> {
-                realmProvider.provide().use { realm ->
-                    val words = realm.where(CacheWord::class.java).findAll() ?: emptyList()
-                    return realm.copyFromRealm(words)
-                }
+                return roomProvider.provide().words()
             }
 
             override suspend fun insertObject(data: Triple<String, String, DataBaseOperationLanguage>) {
                 val translatedWord = data.first
                 val srcWord = data.second
                 val language = data.third
-                if (objectNotExist(srcWord)) {
-                    language.saveToDb(realmProvider,translatedWord,srcWord)
-                }
-
+                language.saveToDb(roomProvider,translatedWord,srcWord)
             }
 
             override suspend fun updateObject(translatedWord: String,isFavorite: Boolean) : CacheWord {
-                return update(isFavorite, translatedWord)
+                return updatedObject(isFavorite, translatedWord)
             }
 
-            private suspend fun update(isFavorite: Boolean,translatedWord: String) : CacheWord {
-                return withContext(Dispatchers.Main) {
-                     suspendCoroutine { continuation ->
-                            realmProvider.provide().executeTransactionAsync { rm ->
-                                log("update from ${Thread.currentThread().name}")
-                                val cacheWord = rm.where(CacheWord::class.java).equalTo(SRC_WORD_FIELD_NAME,translatedWord).findFirst()
-                                cacheWord?.isFavorite = isFavorite
-                                val updatedWord = rm.copyToRealmOrUpdate(cacheWord!!)
-                                continuation.resume(updatedWord)
-                            }
+            private suspend fun updatedObject(isFavorite: Boolean,translatedWord: String) : CacheWord {
+                return suspendCoroutine { continuation ->
+                         val cacheWord = roomProvider.provide().word(translatedWord)
+                            log("words size ${roomProvider.provide().words().size}")
+                        if (cacheWord.isEmpty()) {
+                            log("cache word null")
+                        } else {
+                            val updatedCacheWord = cacheWord[0].update(isFavorite)
+                            roomProvider.provide().update(updatedCacheWord)
+                            continuation.resume(updatedCacheWord)
+                        }
                      }
                 }
-            }
-
-
-            private fun objectNotExist(objectKey: String) : Boolean {
-                val objectById = realmProvider.provide().use { realm ->
-                    realm.where(CacheWord::class.java).equalTo(SRC_WORD_FIELD_NAME,objectKey).findFirst()
-                }
-                return objectById == null
-            }
-
-            private companion object{
-                private const val SRC_WORD_FIELD_NAME = "srcWord"
-            }
         }
 
     }

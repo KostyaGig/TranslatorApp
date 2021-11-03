@@ -5,13 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zinoview.translatorapp.R
-import com.zinoview.translatorapp.ui.core.log
 import com.zinoview.translatorapp.ui.feature.ta01_translate_word.Show
 import com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordTextViewImpl
 import com.zinoview.translatorapp.ui.feature.ta03_cached_translated_words.UiWordsStateRecyclerView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 interface WordsAdapter : Show.WordsAdapterShow<List<UiWordsStateRecyclerView>> {
 
@@ -20,12 +16,10 @@ interface WordsAdapter : Show.WordsAdapterShow<List<UiWordsStateRecyclerView>> {
         private val adapterItemClickListener: WordsAdapterItemClickListener
     ) : WordsAdapter, RecyclerView.Adapter<Base.WordsViewHolder>()  {
 
-        private val mainScope = CoroutineScope(Dispatchers.Main)
         private val words = ArrayList<UiWordsStateRecyclerView>()
 
         //todo use diffutilcallback
         override fun show(items: List<UiWordsStateRecyclerView>,position: Int) {
-            mainScope.launch {
                 if (position < 0) {
                     this@Base.words.clear()
                     words.addAll(items)
@@ -34,7 +28,6 @@ interface WordsAdapter : Show.WordsAdapterShow<List<UiWordsStateRecyclerView>> {
                     val updatedItem = items[0]
                     updateItemByPosition(updatedItem,position)
                 }
-            }
         }
 
         private fun updateItemByPosition(item: UiWordsStateRecyclerView,position: Int) {
@@ -96,7 +89,7 @@ interface WordsAdapter : Show.WordsAdapterShow<List<UiWordsStateRecyclerView>> {
         //todo избавиться от лишнего параметра isFavprite так как он не нужен data слою
 //        Однако он нужен ui слою,чтобы понимать,какой фон отображать
 
-        fun itemClick(position: Int,srcWord: String,isFavorite: Boolean)
+        fun itemClick(position: Int,translatedWord: String,isFavorite: Boolean)
     }
 }
 

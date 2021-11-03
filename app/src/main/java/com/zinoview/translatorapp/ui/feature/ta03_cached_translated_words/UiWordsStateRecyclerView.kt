@@ -4,7 +4,6 @@ import com.zinoview.translatorapp.core.Abstract
 import com.zinoview.translatorapp.core.Language
 import com.zinoview.translatorapp.data.cache.CacheWord
 import com.zinoview.translatorapp.data.cache.CacheWordMapper
-import com.zinoview.translatorapp.ui.core.log
 import com.zinoview.translatorapp.ui.feature.ta01_translate_word.*
 import com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordTextView
 import com.zinoview.translatorapp.ui.feature.ta02_show_translated_word.WordsAdapter
@@ -31,7 +30,6 @@ sealed class UiWordsStateRecyclerView
 
         override fun uiShow(arg: WordsAdapter)
             = arg.show(listOf(this), -1)
-
     }
 
     class Success(
@@ -45,12 +43,10 @@ sealed class UiWordsStateRecyclerView
         override fun uiShow(arg: WordsAdapter) {
             val cacheWordMapper = CacheWordMapper.Base()
             val uiWordsStateRecyclerView = words.map { cachedWord ->
-                log("uishow -> map(), thread ${Thread.currentThread().name}")
                 cachedWord.map(cacheWordMapper)
             }
             arg.show(uiWordsStateRecyclerView,position)
         }
-
     }
 
     class Base(
@@ -66,7 +62,7 @@ sealed class UiWordsStateRecyclerView
         }
 
         override fun itemClick(position: Int,wordsAdapterItemClickListener: WordsAdapter.WordsAdapterItemClickListener)
-            = wordsAdapterItemClickListener.itemClick(position,srcWord,!isFavorite)
+            = wordsAdapterItemClickListener.itemClick(position,translatedWord,!isFavorite)
     }
 
 }

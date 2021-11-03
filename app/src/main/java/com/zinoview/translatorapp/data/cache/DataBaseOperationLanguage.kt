@@ -4,15 +4,15 @@ import com.zinoview.translatorapp.core.Language
 
 interface DataBaseOperationLanguage : Language {
 
-    suspend fun saveToDb(realmProvider: RealmProvider,translatedWord: String,srcWord: String)
+    suspend fun saveToDb(roomProvider: RoomProvider,translatedWord: String,srcWord: String)
 
     object Test : DataBaseOperationLanguage {
 
         private val list = ArrayList< Pair<String,String> >()
 
-        //todo rewrite test (was added suspend modificator)
+        //todo rewrite test (was added suspend modificator and replaced realmProvidr on RoomProvider)
         override suspend fun saveToDb(
-            realmProvider: RealmProvider,
+            roomProvider: RoomProvider,
             translatedWord: String,
             srcWord: String
         ) {

@@ -7,7 +7,7 @@ class SaveLanguageTest {
 
     @Test
     fun test_save_words() {
-        val realmProvider = RealmProvider.Test()
+        val realmProvider = RoomProvider.Test()
         val saveLanguage = DataBaseOperationLanguage.Test
 
         var srcWord = "Дом"

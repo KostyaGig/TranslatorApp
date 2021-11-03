@@ -11,7 +11,7 @@ interface CacheDataSource<T> {
     suspend fun words() : T
 
     class Base(
-        private val database: Database.Realm
+        private val database: Database.Room
     ) : CacheDataSource<List<CacheWord>> {
 
         override suspend fun saveWord(word: DataWords) {
@@ -22,8 +22,9 @@ interface CacheDataSource<T> {
             return database.objects()
         }
 
-        override suspend fun updateWord(translatedWord: String, isFavorite: Boolean) : CacheWord
-             = database.updateObject(translatedWord,isFavorite)
+        override suspend fun updateWord(translatedWord: String, isFavorite: Boolean) : CacheWord {
+            return database.updateObject(translatedWord,isFavorite)
+        }
     }
 
     class Test : CacheDataSource<List<Pair<String,String>>> {

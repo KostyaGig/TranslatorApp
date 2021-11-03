@@ -1,7 +1,6 @@
 package com.zinoview.translatorapp.core
 
 import android.app.Application
-import com.zinoview.translatorapp.data.DataWords
 import com.zinoview.translatorapp.data.ExceptionMapper
 import com.zinoview.translatorapp.data.WordRepository
 import com.zinoview.translatorapp.data.cache.*
@@ -30,8 +29,6 @@ class TAApplication : Application() {
     lateinit var translatedWordViewModel: TranslateWordViewModel
     lateinit var wordsViewModel: WordsViewModel
 
-    //todo remove later
-    lateinit var wordRepository: WordRepository<DataWords>
     private companion object {
         const val BASE_URL = "http://effeegre.pythonanywhere.com"
     }
@@ -58,14 +55,14 @@ class TAApplication : Application() {
         )
 
         val cacheDataSource = CacheDataSource.Base(
-            Database.Realm.Base(
-                RealmProvider.Base()
+            Database.Room.Base(
+                RoomProvider.Base(this)
             )
         )
 
         val resourceProvider = ResourceProvider.Base(this)
 
-        wordRepository = WordRepository.Base(
+        val wordRepository = WordRepository.Base(
             cacheDataSource,
             cloudDataSource,
             CloudResultMapper.Base(),
