@@ -19,7 +19,7 @@ interface TranslatorSharedPreferences : Save<List<String>>, Read<List<String>> {
         override fun save(recentWords: List<String>) {
             val set = listToSetMapper.map(recentWords)
             sharedPreferences.edit().putStringSet(RECENT_WORDS_KEY,set).apply()
-            log("shared pref save")
+            log("Save $set")
             read()
         }
 

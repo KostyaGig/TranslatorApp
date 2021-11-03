@@ -10,7 +10,7 @@ interface WordInteractor {
 
     suspend fun words() : DomainWords
 
-    suspend fun updateWord(srcWord: String,isFavorite: Boolean,position: Int) : DomainWords
+    suspend fun updateWord(srcWord: String,position: Int) : DomainWords
 
     suspend fun recentQuery() : DomainRecentWords
 
@@ -32,8 +32,8 @@ interface WordInteractor {
             return dataWords.map(domainWordMapper)
         }
 
-        override suspend fun updateWord(srcWord: String, isFavorite: Boolean,position: Int) : DomainWords {
-            val dataWords = repository.updateWord(srcWord, isFavorite,position)
+        override suspend fun updateWord(srcWord: String,position: Int) : DomainWords {
+            val dataWords = repository.updateWord(srcWord,position)
             return dataWords.map(domainWordMapper)
         }
 

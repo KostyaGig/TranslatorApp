@@ -1,6 +1,6 @@
 package com.zinoview.translatorapp.core
 
-import com.zinoview.translatorapp.data.cache.CacheWord
+import com.zinoview.translatorapp.data.cache.db.CacheWord
 
 interface Abstract {
 
@@ -14,11 +14,14 @@ interface Abstract {
         //success
         fun map(translatedWord: String,srcWord: String,language: Language) : T
 
+        //translated cached
+        fun cachedMap(translatedWord: String,srcWord: String,language: Language, isFavorite: Boolean) : T
+
         //failure
         fun map(message: String) : T
 
         //cached
-        fun map(cachedWords: List<CacheWord>,position: Int) : T
+        fun map(cachedWords: List<CacheWord>, position: Int) : T
     }
 
     interface FactoryMapper<S,R> : Mapper {

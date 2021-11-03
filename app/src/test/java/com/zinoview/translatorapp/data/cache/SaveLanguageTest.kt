@@ -1,12 +1,14 @@
 package com.zinoview.translatorapp.data.cache
 
+import com.zinoview.translatorapp.data.cache.db.RoomProvider
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Test
 
 class SaveLanguageTest {
 
     @Test
-    fun test_save_words() {
+    fun test_save_words() = runBlocking {
         val realmProvider = RoomProvider.Test()
         val saveLanguage = DataBaseOperationLanguage.Test
 

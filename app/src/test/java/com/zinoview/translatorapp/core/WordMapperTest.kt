@@ -1,6 +1,6 @@
 package com.zinoview.translatorapp.core
 
-import com.zinoview.translatorapp.data.cache.CacheWord
+import com.zinoview.translatorapp.data.cache.db.CacheWord
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -47,10 +47,17 @@ class WordMapperTest {
         ): TestDomainWord
                 = TestDomainWord.Success(translatedWord,srcWord, language)
 
+        override fun cachedMap(
+            translatedWord: String,
+            srcWord: String,
+            language: Language,
+            isFavorite: Boolean
+        ): TestDomainWord = TestDomainWord.Failure("")
+
         override fun map(message: String): TestDomainWord
                 = TestDomainWord.Failure(message)
 
-        override fun map(cachedWords: List<CacheWord>): TestDomainWord {
+        override fun map(cachedWords: List<CacheWord>, position: Int): TestDomainWord {
             return TestDomainWord.Success("","",Language.Test())
         }
 

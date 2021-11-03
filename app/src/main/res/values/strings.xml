@@ -8,4 +8,5 @@
     <string name="back_text">Back</string>
     <string name="show_recent_query_text">Show recent query</string>
     <string name="hide_recent_query_text">Hide recent query</string>
+    <string name="change_favorite_text">Change favorite</string>
 </resources>

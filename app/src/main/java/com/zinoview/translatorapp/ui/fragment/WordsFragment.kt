@@ -8,6 +8,7 @@ import com.zinoview.translatorapp.R
 import com.zinoview.translatorapp.core.TAApplication
 import com.zinoview.translatorapp.ui.core.BaseFragment
 import com.zinoview.translatorapp.ui.core.MainActivity
+import com.zinoview.translatorapp.ui.core.log
 import com.zinoview.translatorapp.ui.feature.ta02_show_translated_word.WordsAdapter
 
 
@@ -24,10 +25,11 @@ class WordsFragment : BaseFragment(R.layout.words_fragment) {
         val addWordButton = view.findViewById<FloatingActionButton>(R.id.add_word_btn)
         val adapter = WordsAdapter.Base(object : WordsAdapter.WordsAdapterItemClickListener {
 
-            override fun itemClick(position: Int, translatedWord: String, isFavorite: Boolean) {
-                viewModel.updateWord(translatedWord,isFavorite,position)
+            override fun itemClick(position: Int, translatedWord: String) {
+                viewModel.updateWord(translatedWord, position)
             }
         })
+
         val wordsRecyclerView = view.findViewById<RecyclerView>(R.id.words_rec_view)
         wordsRecyclerView.adapter = adapter
 
@@ -40,6 +42,16 @@ class WordsFragment : BaseFragment(R.layout.words_fragment) {
         }
 
         viewModel.words()
+    }
+
+    override fun onPause() {
+        log("words fragment onPause")
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        log("words fragment onDestroy")
+        super.onDestroy()
     }
 
     override fun navigateToBack() {

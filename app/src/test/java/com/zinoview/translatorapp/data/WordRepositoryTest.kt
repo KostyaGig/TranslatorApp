@@ -18,7 +18,7 @@ class WordRepositoryTest {
     @Before
     fun setUp() {
         val cloudDataSource = CloudDataSource.Test()
-        val cacheDataSource = CacheDataSource.Test()
+        val cacheDataSource = CacheDataSource.TestPair()
         repository = WordRepository.TestRepository.Test(cloudDataSource,cacheDataSource)
     }
 
@@ -49,6 +49,15 @@ class WordRepositoryTest {
         )
         val actual = repository.pairWords()
         assertEquals(expected,actual)
+    }
+
+    @Test
+    fun test_contains_word_in_database() = runBlocking {
+        repository.translatedWord("Nothing")
+        repository.translatedWord("Nothing")
+        val expected = DataWords.Test("Мышь true","Mouse",true)
+        val actual = repository.updateWord("Мышь",true,-1)
+        assertEquals(expected, actual)
     }
 
 }

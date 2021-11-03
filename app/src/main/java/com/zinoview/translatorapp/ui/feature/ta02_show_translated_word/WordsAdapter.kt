@@ -3,11 +3,13 @@ package com.zinoview.translatorapp.ui.feature.ta02_show_translated_word
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.zinoview.translatorapp.R
 import com.zinoview.translatorapp.ui.feature.ta01_translate_word.Show
 import com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordTextViewImpl
 import com.zinoview.translatorapp.ui.feature.ta03_cached_translated_words.UiWordsStateRecyclerView
+import com.zinoview.translatorapp.ui.feature.ta05_favorite_words.view.ItemViewImpl
 
 interface WordsAdapter : Show.WordsAdapterShow<List<UiWordsStateRecyclerView>> {
 
@@ -50,14 +52,16 @@ interface WordsAdapter : Show.WordsAdapterShow<List<UiWordsStateRecyclerView>> {
 
                 private val translatedWordTextView = view.findViewById<WordTextViewImpl>(R.id.translated_word_tv)
                 private val srcWordTextView = view.findViewById<WordTextViewImpl>(R.id.src_word_tv)
+                private val rootItemView = view.findViewById<ItemViewImpl>(R.id.item_view)
+                private val changeFavoriteBtn = view.findViewById<Button>(R.id.change_favorite_btn)
 
                 override fun show(arg: UiWordsStateRecyclerView) {
                     super.show(arg)
 
-                    val views = Pair(translatedWordTextView,srcWordTextView)
+                    val views = Triple(translatedWordTextView,srcWordTextView,rootItemView)
                     arg.show(views)
 
-                    itemView.setOnClickListener {
+                    changeFavoriteBtn.setOnClickListener {
                         arg.itemClick(adapterPosition,itemClickListener)
                     }
                 }
@@ -86,10 +90,8 @@ interface WordsAdapter : Show.WordsAdapterShow<List<UiWordsStateRecyclerView>> {
     }
 
     interface WordsAdapterItemClickListener {
-        //todo избавиться от лишнего параметра isFavprite так как он не нужен data слою
-//        Однако он нужен ui слою,чтобы понимать,какой фон отображать
 
-        fun itemClick(position: Int,translatedWord: String,isFavorite: Boolean)
+        fun itemClick(position: Int,translatedWord: String)
     }
 }
 

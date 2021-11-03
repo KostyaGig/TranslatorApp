@@ -1,11 +1,11 @@
-package com.zinoview.translatorapp.data.cache
+package com.zinoview.translatorapp.data.cache.db
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [CacheWord::class], version = 1, exportSchema = false)
+@Database(entities = [CacheWord.Base::class], version = 1, exportSchema = false)
 abstract class WordsDatabase : RoomDatabase() {
 
     abstract fun dao() : WordDao

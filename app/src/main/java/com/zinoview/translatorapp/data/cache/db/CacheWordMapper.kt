@@ -1,4 +1,4 @@
-package com.zinoview.translatorapp.data.cache
+package com.zinoview.translatorapp.data.cache.db
 
 import com.zinoview.translatorapp.core.Language
 import com.zinoview.translatorapp.ui.feature.ta03_cached_translated_words.UiWordsStateRecyclerView

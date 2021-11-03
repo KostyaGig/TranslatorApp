@@ -4,6 +4,8 @@ import android.app.Application
 import com.zinoview.translatorapp.data.ExceptionMapper
 import com.zinoview.translatorapp.data.WordRepository
 import com.zinoview.translatorapp.data.cache.*
+import com.zinoview.translatorapp.data.cache.db.Database
+import com.zinoview.translatorapp.data.cache.db.RoomProvider
 import com.zinoview.translatorapp.data.cache.shared_prefs.ListToSetMapper
 import com.zinoview.translatorapp.data.cache.shared_prefs.SetToListMapper
 import com.zinoview.translatorapp.data.cache.shared_prefs.SharedPreferencesReader
@@ -18,7 +20,6 @@ import com.zinoview.translatorapp.ui.feature.ta03_cached_translated_words.UiWord
 import com.zinoview.translatorapp.ui.feature.ta03_cached_translated_words.WordsViewModel
 import com.zinoview.translatorapp.ui.feature.ta04_recent_entered_words.RecentWordsCommunication
 import com.zinoview.translatorapp.ui.feature.ta04_recent_entered_words.UiRecentMapper
-import io.realm.Realm
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -36,7 +37,6 @@ class TAApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        Realm.init(this)
         val client =
             OkHttpClient.Builder()
                 .addInterceptor(HttpLoggingInterceptor().apply {
@@ -62,6 +62,7 @@ class TAApplication : Application() {
 
         val resourceProvider = ResourceProvider.Base(this)
 
+        val dataLanguageMapper = DataLanguageMapper.Base()
         val wordRepository = WordRepository.Base(
             cacheDataSource,
             cloudDataSource,
@@ -73,7 +74,9 @@ class TAApplication : Application() {
                     SetToListMapper.String()
                 ),
                 ListToSetMapper.String()
-            )
+            ),
+            TranslatedCacheDataWordsMapper.Base(dataLanguageMapper),
+            TranslatedCacheNotFavoriteDataWordsMapper.Base(dataLanguageMapper)
         )
         val wordInteractor = WordInteractor.Base(
             wordRepository,DomainWordMapper.Base(

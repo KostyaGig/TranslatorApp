@@ -2,18 +2,19 @@ package com.zinoview.translatorapp.ui.feature.ta03_cached_translated_words
 
 import com.zinoview.translatorapp.core.Abstract
 import com.zinoview.translatorapp.core.Language
-import com.zinoview.translatorapp.data.cache.CacheWord
-import com.zinoview.translatorapp.data.cache.CacheWordMapper
+import com.zinoview.translatorapp.data.cache.db.CacheWord
+import com.zinoview.translatorapp.data.cache.db.CacheWordMapper
 import com.zinoview.translatorapp.ui.feature.ta01_translate_word.*
 import com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordTextView
 import com.zinoview.translatorapp.ui.feature.ta02_show_translated_word.WordsAdapter
+import com.zinoview.translatorapp.ui.feature.ta05_favorite_words.view.ItemView
 
 
 sealed class UiWordsStateRecyclerView
     : Abstract.Words,
-    UiShow<Pair<WordTextView, WordTextView>,WordsAdapter> {
+    UiShow<Triple<WordTextView, WordTextView,ItemView>,WordsAdapter> {
 
-    override fun show(arg: Pair<WordTextView, WordTextView>) = Unit
+    override fun show(arg: Triple<WordTextView, WordTextView,ItemView>) = Unit
 
     override fun uiShow(arg: WordsAdapter) = Unit
 
@@ -56,13 +57,14 @@ sealed class UiWordsStateRecyclerView
         private val isFavorite: Boolean
     ) : UiWordsStateRecyclerView() {
 
-        override fun show(arg: Pair<WordTextView, WordTextView>) {
+        override fun show(arg: Triple<WordTextView, WordTextView,ItemView>) {
             arg.first.text("$translatedWord isFavorite $isFavorite")
             arg.second.text(srcWord)
+            arg.third.changeBackground(isFavorite)
         }
 
         override fun itemClick(position: Int,wordsAdapterItemClickListener: WordsAdapter.WordsAdapterItemClickListener)
-            = wordsAdapterItemClickListener.itemClick(position,translatedWord,!isFavorite)
+            = wordsAdapterItemClickListener.itemClick(position,translatedWord)
     }
 
 }

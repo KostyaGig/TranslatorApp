@@ -1,9 +1,9 @@
 package com.zinoview.translatorapp.data
 
 import com.zinoview.translatorapp.core.Language
-import com.zinoview.translatorapp.data.cache.CacheWord
-import com.zinoview.translatorapp.data.cache.RoomProvider
+import com.zinoview.translatorapp.data.cache.db.RoomProvider
 import com.zinoview.translatorapp.data.cache.DataBaseOperationLanguage
+import com.zinoview.translatorapp.data.cache.db.CacheWord
 
 data class DataLanguage(
     private val fromLanguage: String,
@@ -14,18 +14,10 @@ data class DataLanguage(
         = mapper.map(fromLanguage,toLanguage)
 
     override suspend fun saveToDb(roomProvider: RoomProvider, translatedWord: String, srcWord: String) {
-        val cacheWord = CacheWord(
+        val cacheWord = CacheWord.Base(
             srcWord,translatedWord,fromLanguage, toLanguage
         )
         roomProvider.provide().insert(cacheWord)
     }
 
-    //todo remove later
-//    override fun updateWord(realmProvider: RealmProvider,cacheWord: CacheWord) {
-//        realmProvider.provide().use { realm ->
-//                realm.executeTransaction { rm ->
-//                rm.copyToRealmOrUpdate(cacheWord)
-//            }
-//        }
-//    }
 }

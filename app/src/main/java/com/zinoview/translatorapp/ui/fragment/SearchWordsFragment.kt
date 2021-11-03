@@ -15,6 +15,7 @@ import com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordTextVi
 import com.zinoview.translatorapp.ui.feature.ta04_recent_entered_words.RecentWordTextViewImpl
 import com.zinoview.translatorapp.ui.feature.ta04_recent_entered_words.RecentWordsAdapter
 import com.zinoview.translatorapp.ui.feature.ta04_recent_entered_words.TempRecentWords
+import com.zinoview.translatorapp.ui.feature.ta05_favorite_words.view.ItemViewImpl
 
 class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
 
@@ -36,6 +37,8 @@ class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
         val wordProgressBar = view.findViewById<WordProgressBarImpl>(R.id.word_pb)
         val recentQueryTextView = view.findViewById<RecentWordTextViewImpl>(R.id.recent_query_tv)
 
+        val rootWordTextViewView = view.findViewById<ItemViewImpl>(R.id.root_word_tv)
+
         val adapter = RecentWordsAdapter.Base(object : RecentWordsAdapter.ItemClickListener<String> {
             override fun onItemClick(item: String) {
                 wordField.setText(item)
@@ -47,7 +50,7 @@ class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
         recentQueryRecyclerView.adapter = adapter
 
         viewModel.observe(this) { state ->
-            state.show(wordTextView, wordProgressBar)
+            state.show(wordTextView, wordProgressBar,rootWordTextViewView)
             state.changeRecentQuery(tempRecentWords)
         }
 
@@ -59,7 +62,7 @@ class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
         }
 
         backBtn.setOnClickListener {
-            navigation.navigateTo(WordsFragment())
+            navigateToBack()
         }
 
         recentQueryTextView.setOnClickListener { tv ->
@@ -76,12 +79,19 @@ class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
     }
 
     override fun navigateToBack() {
+        log("SEARCH NAV TO BACK")
         navigation.navigateTo(WordsFragment())
     }
 
     override fun onPause() {
+        log("search fragment onPause")
         tempRecentWords.save(viewModel)
         super.onPause()
+    }
+
+    override fun onDestroy() {
+        log("search fragment onDestroy")
+        super.onDestroy()
     }
 
 }

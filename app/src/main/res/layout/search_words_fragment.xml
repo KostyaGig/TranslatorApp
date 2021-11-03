@@ -13,6 +13,7 @@
         android:hint="@string/enter_word_text"
         />
 
+
     <com.zinoview.translatorapp.ui.feature.ta04_recent_entered_words.RecentWordTextViewImpl
         android:id="@+id/recent_query_tv"
         android:layout_width="wrap_content"
@@ -36,16 +37,24 @@
         android:text="@string/search_text"
         android:layout_marginTop="@dimen/margin_10dp"/>
 
-    <com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordTextViewImpl
-        android:id="@+id/word_tv"
-        android:layout_width="wrap_content"
+    <com.zinoview.translatorapp.ui.feature.ta05_favorite_words.view.ItemViewImpl
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="House"
-        android:layout_marginTop="@dimen/margin_10dp"
-        android:layout_marginStart="@dimen/margin_10dp"
-        android:textStyle="bold"
-        android:textSize="@dimen/tszie_17sp"
-        />
+        android:id="@+id/root_word_tv">
+
+        <com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordTextViewImpl
+            android:id="@+id/word_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="House"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:layout_marginStart="@dimen/margin_10dp"
+            android:textStyle="bold"
+            android:textSize="@dimen/tszie_17sp"
+            />
+
+    </com.zinoview.translatorapp.ui.feature.ta05_favorite_words.view.ItemViewImpl>
+
 
     <com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordProgressBarImpl
         android:id="@+id/word_pb"

@@ -50,7 +50,7 @@ interface CloudWord {
             val stateWord = mapper.map(mark)
             val language = DataLanguage(fromLanguage, toLanguage)
             return when(stateWord) {
-                CloudResultMapper.StateMark.SUCCESS -> DataWords.Success(
+                CloudResultMapper.StateMark.SUCCESS -> DataWords.Base.Success(
                     srcWord,
                     translatedWord,
                     language

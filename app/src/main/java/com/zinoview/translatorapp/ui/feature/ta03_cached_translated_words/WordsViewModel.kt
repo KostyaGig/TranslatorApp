@@ -14,7 +14,7 @@ interface WordsViewModel : Observe<UiWordsStateRecyclerView>{
 
     fun words()
 
-    fun updateWord(srcWord: String, isFavorite: Boolean, position: Int)
+    fun updateWord(srcWord: String,position: Int)
 
     class Base(
         private val wordInteractor: WordInteractor,
@@ -38,9 +38,9 @@ interface WordsViewModel : Observe<UiWordsStateRecyclerView>{
             }
         }
 
-        override fun updateWord(srcWord: String, isFavorite: Boolean, position: Int) {
+        override fun updateWord(srcWord: String,position: Int) {
             viewModelScope.launch(defaultDispatcher) {
-                val domainUpdatedWord = wordInteractor.updateWord(srcWord, isFavorite, position)
+                val domainUpdatedWord = wordInteractor.updateWord(srcWord, position)
                 val uiUpdatedWord = domainUpdatedWord.map(uiWordMapper)
                 val uiStateWordsRecyclerView = uiUpdatedWord.map(uiWordStateRecyclerViewMapper)
 

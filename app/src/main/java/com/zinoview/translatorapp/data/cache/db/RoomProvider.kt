@@ -1,4 +1,4 @@
-package com.zinoview.translatorapp.data.cache
+package com.zinoview.translatorapp.data.cache.db
 
 import android.content.Context
 import java.lang.IllegalStateException

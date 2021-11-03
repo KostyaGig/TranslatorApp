@@ -13,7 +13,7 @@ interface SharedPreferencesReader  {
 
         override fun read(sharedPreferences: SharedPreferences,key: String): List<String> {
             val set = sharedPreferences.getStringSet(key, emptySet())
-            log("read recent words from shared pref: $set")
+            log("Read $set")
             return setToListMapper.map(set!!)
         }
     }

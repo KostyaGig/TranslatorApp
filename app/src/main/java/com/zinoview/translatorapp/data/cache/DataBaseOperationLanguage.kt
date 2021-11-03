@@ -1,16 +1,16 @@
 package com.zinoview.translatorapp.data.cache
 
 import com.zinoview.translatorapp.core.Language
+import com.zinoview.translatorapp.data.cache.db.RoomProvider
 
 interface DataBaseOperationLanguage : Language {
 
-    suspend fun saveToDb(roomProvider: RoomProvider,translatedWord: String,srcWord: String)
+    suspend fun saveToDb(roomProvider: RoomProvider, translatedWord: String, srcWord: String)
 
     object Test : DataBaseOperationLanguage {
 
         private val list = ArrayList< Pair<String,String> >()
 
-        //todo rewrite test (was added suspend modificator and replaced realmProvidr on RoomProvider)
         override suspend fun saveToDb(
             roomProvider: RoomProvider,
             translatedWord: String,

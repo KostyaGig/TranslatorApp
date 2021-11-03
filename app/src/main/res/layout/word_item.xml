@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zinoview.translatorapp.ui.feature.ta05_favorite_words.view.ItemViewImpl
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/item_view">
 
     <com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordTextViewImpl
         android:id="@+id/translated_word_tv"
@@ -27,4 +29,11 @@
         android:textSize="@dimen/tszie_14sp"
         />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/change_favorite_btn"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="@string/change_favorite_text"
+        android:layout_gravity="end"/>
+
+</com.zinoview.translatorapp.ui.feature.ta05_favorite_words.view.ItemViewImpl>

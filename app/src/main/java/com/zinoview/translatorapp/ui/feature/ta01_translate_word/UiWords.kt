@@ -1,12 +1,10 @@
 package com.zinoview.translatorapp.ui.feature.ta01_translate_word
 
 import com.zinoview.translatorapp.core.Abstract
-import com.zinoview.translatorapp.core.Language
-import com.zinoview.translatorapp.data.cache.CacheWord
-import com.zinoview.translatorapp.ui.core.log
+import com.zinoview.translatorapp.data.cache.db.CacheWord
+
 import com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordTextView
 import com.zinoview.translatorapp.ui.feature.ta02_show_translated_word.WordsAdapter
-import com.zinoview.translatorapp.ui.feature.ta03_cached_translated_words.UiWordStateRecyclerViewMapper
 import java.lang.IllegalStateException
 
 sealed class UiWords : Abstract.Words, UiShow<Pair<WordTextView,WordTextView>,WordsAdapter> {
@@ -15,20 +13,35 @@ sealed class UiWords : Abstract.Words, UiShow<Pair<WordTextView,WordTextView>,Wo
 
     override fun uiShow(arg: WordsAdapter) = Unit
 
-    class Success(
+    open class Base(
         private val srcWord: String,
         private val translatedWord: String,
-        private val language: Language
+        private val language: UiLanguage
     ) : UiWords() {
 
-        override fun <T> map(mapper: Abstract.WordsMapper<T>): T
-            = mapper.map(translatedWord, srcWord, language)
+        override fun <T> map(mapper: Abstract.WordsMapper<T>): T =
+            mapper.map(translatedWord, srcWord, language)
 
-        override fun show(arg: Pair<WordTextView, WordTextView>) {
-            arg.first.text(translatedWord)
-            arg.second.text(srcWord)
+        class Success(
+            srcWord: String,
+            translatedWord: String,
+            language: UiLanguage
+        ) : Base(srcWord, translatedWord, language)
+
+        class TranslatedCache(
+            private val srcWord: String,
+            private val translatedWord: String,
+            private val language: UiLanguage,
+            private val isFavorite: Boolean
+        ) : Base(srcWord, translatedWord, language) {
+
+            override fun <T> map(mapper: Abstract.WordsMapper<T>): T
+                = mapper.cachedMap(translatedWord, srcWord, language,isFavorite)
         }
     }
+
+
+
 
     data class Cache(
         private val words: List<CacheWord>,
