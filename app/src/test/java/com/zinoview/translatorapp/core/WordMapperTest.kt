@@ -1,6 +1,6 @@
 package com.zinoview.translatorapp.core
 
-import com.zinoview.translatorapp.data.cache.db.CacheWord
+import com.zinoview.translatorapp.data.words.cache.db.CacheWord
 import org.junit.Assert.*
 import org.junit.Test
 

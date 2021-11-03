@@ -1,7 +1,9 @@
 package com.zinoview.translatorapp.data
 
-import com.zinoview.translatorapp.data.cache.CacheDataSource
-import com.zinoview.translatorapp.data.cloud.CloudDataSource
+import com.zinoview.translatorapp.data.words.DataWords
+import com.zinoview.translatorapp.data.words.WordRepository
+import com.zinoview.translatorapp.data.words.cache.CacheDataSource
+import com.zinoview.translatorapp.data.words.cloud.CloudDataSource
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Before

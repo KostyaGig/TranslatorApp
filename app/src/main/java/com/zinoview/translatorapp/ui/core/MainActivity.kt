@@ -6,7 +6,7 @@ import android.util.Log
 import com.zinoview.translatorapp.R
 import com.zinoview.translatorapp.ui.core.nav.Navigation
 import com.zinoview.translatorapp.ui.core.nav.Navigator
-import com.zinoview.translatorapp.ui.fragment.WordsFragment
+import com.zinoview.translatorapp.ui.words.fragment.WordsFragment
 
 //todo remove
 fun Any.log(message: String) {
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(), Navigation {
 
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.main_fragment_container,WordsFragment())
+            .replace(R.id.main_fragment_container, WordsFragment())
             .commit()
 
         navigator = Navigator.Base()
