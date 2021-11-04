@@ -26,6 +26,8 @@ interface TranslateWordViewModel : Observe<UiWordState> {
 
     fun saveRecentQuery(recentQuery: ArrayList<String>)
 
+    fun userIsAuthorize(block:(Boolean) -> Unit)
+
     class Base(
         private val wordInteractor: WordInteractor,
         private val uiWordMapper: UiWordMapper,
@@ -70,6 +72,15 @@ interface TranslateWordViewModel : Observe<UiWordState> {
         override fun saveRecentQuery(recentQuery: ArrayList<String>) {
             viewModelScope.launch(defaultDispatcher) {
                 wordInteractor.saveRecentQuery(recentQuery)
+            }
+        }
+
+        override fun userIsAuthorize(block:(Boolean) -> Unit) {
+            viewModelScope.launch(defaultDispatcher) {
+                val result = wordInteractor.userIsAuthorize()
+                withContext(Dispatchers.Main) {
+                    block.invoke(result)
+                }
             }
         }
 

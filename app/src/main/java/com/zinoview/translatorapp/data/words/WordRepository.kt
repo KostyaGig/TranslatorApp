@@ -1,5 +1,6 @@
 package com.zinoview.translatorapp.data.words
 
+import com.zinoview.translatorapp.data.auth.cache.AuthSharedPreferences
 import com.zinoview.translatorapp.data.words.cache.db.CacheWord
 import com.zinoview.translatorapp.data.words.cache.shared_prefs.TranslatorSharedPreferences
 import com.zinoview.translatorapp.data.words.cloud.CloudDataSource
@@ -23,12 +24,16 @@ interface WordRepository<T> {
     //I forced usage hard implementation for serialize here to string and back
     suspend fun saveRecentQuery(recentQuery: ArrayList<String>)
 
+    //todo remove after complete feature ta06
+    suspend fun userIsAuthorize(): Boolean
+
     class Base(
         private val cacheDataSource: CacheDataSource<CacheWord>,
         private val cloudDataSource: CloudDataSource<CloudWord>,
         private val cloudResultMapper: CloudResultMapper,
         private val exceptionMapper: ExceptionMapper,
         private val translatorSharedPreferences: TranslatorSharedPreferences,
+        private val authSharedPreferences: AuthSharedPreferences,
         private val translatedCacheFavoriteDataWordsMapper: TranslatedCacheDataWordsMapper,
         private val translatedCacheNotFavoriteDataWordsMapper: TranslatedCacheNotFavoriteDataWordsMapper
     ) : WordRepository<DataWords> {
@@ -75,6 +80,10 @@ interface WordRepository<T> {
         override suspend fun saveRecentQuery(recentQuery: ArrayList<String>) {
             translatorSharedPreferences.save(recentQuery)
         }
+
+        override suspend fun userIsAuthorize(): Boolean {
+            return authSharedPreferences.read() != ""
+        }
     }
 
     interface TestRepository<T> : WordRepository<DataWords> {
@@ -113,6 +122,8 @@ interface WordRepository<T> {
                     isFavorite
                 )
             }
+
+            override suspend fun userIsAuthorize(): Boolean = false
         }
     }
 
