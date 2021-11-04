@@ -1,5 +1,6 @@
 package com.zinoview.translatorapp.ui.feature.ta04_recent_entered_words
 
+import com.zinoview.translatorapp.ui.words.feature.ta04_recent_entered_words.TempRecentWords
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
