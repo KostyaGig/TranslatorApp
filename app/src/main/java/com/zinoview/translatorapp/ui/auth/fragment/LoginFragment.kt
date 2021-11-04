@@ -10,41 +10,40 @@ import com.zinoview.translatorapp.ui.core.BaseFragment
 import com.zinoview.translatorapp.ui.core.MainActivity
 import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.SearchEditTextImpl
 import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordProgressBarImpl
-import com.zinoview.translatorapp.ui.words.fragment.SearchWordsFragment
 
-class RegisterFragment : BaseFragment(R.layout.auth_fagment) {
+class LoginFragment : BaseFragment(R.layout.auth_fagment) {
 
-    private val registerViewModel by lazy {
+    private val loginViewModel by lazy {
         val activity = (requireActivity() as MainActivity)
         val application = activity.application as TAApplication
-        application.registerViewModel
+        application.loginViewModel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val fieldUserName = view.findViewById<SearchEditTextImpl>(R.id.field_user_name)
         val fieldUserPhone = view.findViewById<SearchEditTextImpl>(R.id.field_user_phone)
-        val registerBtn = view.findViewById<Button>(R.id.authorize_btn)
-        registerBtn.text = "Register"
+        val loginBtn = view.findViewById<Button>(R.id.authorize_btn)
+        loginBtn.text = "Login"
         val progressBar = view.findViewById<WordProgressBarImpl>(R.id.progress_bar)
 
         val authResultTextView = view.findViewById<TextView>(R.id.auth_result_tv)
 
-        registerBtn.setOnClickListener {
+        loginBtn.setOnClickListener {
             val userName = fieldUserName.enteredText()
             val userPhone = fieldUserPhone.enteredText()
 
-            registerViewModel.register(userName, userPhone)
+            loginViewModel.login(userName, userPhone)
         }
 
-        registerViewModel.observe(this) { uiAuthRegisterState ->
-            uiAuthRegisterState.map(navigation)
+        loginViewModel.observe(this) { uiAuthLoginState ->
+            uiAuthLoginState.map(navigation)
         }
     }
+
+    override fun navigateToBack() = navigation.navigateTo(RegisterFragment())
 
     override fun onDestroy() {
-        registerViewModel.clean()
+        loginViewModel.clean()
         super.onDestroy()
     }
-
-    override fun navigateToBack() = navigation.navigateTo(SearchWordsFragment())
 }

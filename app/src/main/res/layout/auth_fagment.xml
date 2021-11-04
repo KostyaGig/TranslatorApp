@@ -18,10 +18,10 @@
         android:hint="@string/your_phone_text"/>
 
     <Button
-        android:id="@+id/register_btn"
+        android:id="@+id/authorize_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/register_text"/>
+        />
 
 <!--    //todo move this class pb to core package-->
     <com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordProgressBarImpl
@@ -30,5 +30,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/auth_result_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:textColor="@android:color/black"/>
 
 </LinearLayout>

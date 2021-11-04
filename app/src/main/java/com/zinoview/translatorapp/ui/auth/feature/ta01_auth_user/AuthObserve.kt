@@ -4,7 +4,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.zinoview.translatorapp.ui.core.Observe
 
-interface AuthObserve<T,E> : Observe<T> {
+interface AuthObserve<T> : Observe<T> {
 
-    fun observeLogin(owner: LifecycleOwner, observer: Observer<E>)
+    fun observeLogin(owner: LifecycleOwner, observer: Observer<T>)
 }

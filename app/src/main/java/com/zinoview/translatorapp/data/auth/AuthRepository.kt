@@ -1,28 +1,34 @@
 package com.zinoview.translatorapp.data.auth
 
-import com.zinoview.translatorapp.data.auth.core.AuthCloudDataSource
-import com.zinoview.translatorapp.data.auth.core.ExceptionMapper
-import com.zinoview.translatorapp.data.auth.register.cloud.CloudRegisterMapper
-import com.zinoview.translatorapp.data.auth.register.DataRegister
-
-
 interface AuthRepository {
 
-    suspend fun register(userName: String, userPhone: String) : DataRegister
+    suspend fun register(userName: String, userPhone: String) : DataAuth
+
+    suspend fun login(userName: String, userPhone: String) : DataAuth
 
     class Base(
         private val cloudDataSource: AuthCloudDataSource,
-        private val cloudRegisterMapper: CloudRegisterMapper,
+        private val cloudAuthMapper: CloudAuthMapper,
         private val exceptionMapper: ExceptionMapper,
     ) : AuthRepository {
 
-        override suspend fun register(userName: String, userPhone: String): DataRegister {
+        override suspend fun register(userName: String, userPhone: String): DataAuth {
             return try {
                 val cloudRegister = cloudDataSource.register(userName, userPhone)
-                return cloudRegister.map(cloudRegisterMapper)
+                return cloudRegister.map(cloudAuthMapper)
             } catch (e: Exception) {
                 val errorMessage = exceptionMapper.map(e)
-                DataRegister.Failure(errorMessage)
+                DataAuth.Failure(errorMessage)
+            }
+        }
+
+        override suspend fun login(userName: String, userPhone: String): DataAuth {
+            return try {
+                val cloudRegister = cloudDataSource.login(userName, userPhone)
+                return cloudRegister.map(cloudAuthMapper)
+            } catch (e: Exception) {
+                val errorMessage = exceptionMapper.map(e)
+                DataAuth.Failure(errorMessage)
             }
         }
     }

@@ -1,11 +1,10 @@
-package com.zinoview.translatorapp.data.auth.register.cloud
+package com.zinoview.translatorapp.data.auth
 
 import com.google.gson.annotations.SerializedName
-import com.zinoview.translatorapp.data.auth.register.DataRegister
 
-interface CloudRegister {
+interface CloudAuth {
 
-    fun map(mapper: CloudRegisterMapper) : DataRegister
+    fun map(mapper: CloudAuthMapper) : DataAuth
 
     class Base(
         @SerializedName("message")
@@ -14,18 +13,18 @@ interface CloudRegister {
         private val mark: String = "",
         @SerializedName("uniqueKey")
         private val uniqueKey: String = ""
-    ) : CloudRegister {
+    ) : CloudAuth {
 
-        override fun map(mapper: CloudRegisterMapper): DataRegister {
+        override fun map(mapper: CloudAuthMapper): DataAuth {
             val stateWord = mapper.map(mark)
             return when(stateWord) {
-               CloudRegisterMapper.StateMark.SUCCESS -> DataRegister.Success(
+               CloudAuthMapper.StateMark.SUCCESS -> DataAuth.Success(
                     message,uniqueKey
                 )
-                CloudRegisterMapper.StateMark.EXIST -> DataRegister.Exist(
+                CloudAuthMapper.StateMark.EXIST -> DataAuth.Exist(
                     message
                 )
-                CloudRegisterMapper.StateMark.FAILURE -> DataRegister.Failure(
+                CloudAuthMapper.StateMark.FAILURE -> DataAuth.Failure(
                     message
                 )
             }

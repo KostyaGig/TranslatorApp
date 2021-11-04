@@ -1,4 +1,4 @@
-package com.zinoview.translatorapp.data.auth.register.cloud
+package com.zinoview.translatorapp.data.auth
 
 import com.zinoview.translatorapp.core.FactoryMapper
 import java.lang.IllegalStateException
@@ -6,9 +6,9 @@ import java.lang.IllegalStateException
 /**
  * @param src - result from server
  */
-interface CloudRegisterMapper : FactoryMapper<String, CloudRegisterMapper.StateMark> {
+interface CloudAuthMapper : FactoryMapper<String, CloudAuthMapper.StateMark> {
 
-    class Base : CloudRegisterMapper {
+    class Base : CloudAuthMapper {
 
         override fun map(src: String): StateMark {
             return when(src) {
