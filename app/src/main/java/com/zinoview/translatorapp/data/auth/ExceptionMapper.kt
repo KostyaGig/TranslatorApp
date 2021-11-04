@@ -1,4 +1,4 @@
-package com.zinoview.translatorapp.data.auth.core
+package com.zinoview.translatorapp.data.auth
 
 import com.zinoview.translatorapp.R
 import com.zinoview.translatorapp.core.FactoryMapper

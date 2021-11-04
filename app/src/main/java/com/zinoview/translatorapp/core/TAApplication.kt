@@ -2,9 +2,9 @@ package com.zinoview.translatorapp.core
 
 import android.app.Application
 import com.zinoview.translatorapp.data.auth.AuthRepository
-import com.zinoview.translatorapp.data.auth.core.AuthCloudDataSource
-import com.zinoview.translatorapp.data.auth.core.AuthService
-import com.zinoview.translatorapp.data.auth.register.cloud.CloudRegisterMapper
+import com.zinoview.translatorapp.data.auth.AuthCloudDataSource
+import com.zinoview.translatorapp.data.auth.AuthService
+import com.zinoview.translatorapp.data.auth.CloudAuthMapper
 import com.zinoview.translatorapp.data.words.ExceptionMapper
 import com.zinoview.translatorapp.data.words.WordRepository
 import com.zinoview.translatorapp.data.words.cache.db.Database
@@ -19,15 +19,18 @@ import com.zinoview.translatorapp.data.words.cache.DataLanguageMapper
 import com.zinoview.translatorapp.data.words.cache.TranslatedCacheDataWordsMapper
 import com.zinoview.translatorapp.data.words.cache.TranslatedCacheNotFavoriteDataWordsMapper
 import com.zinoview.translatorapp.domain.auth.AuthInteractor
-import com.zinoview.translatorapp.domain.auth.DomainRegisterMapper
+import com.zinoview.translatorapp.domain.auth.DomainAuthMapper
 import com.zinoview.translatorapp.domain.words.DomainLanguageMapper
 import com.zinoview.translatorapp.domain.words.DomainRecentMapper
 import com.zinoview.translatorapp.domain.words.DomainWordMapper
 import com.zinoview.translatorapp.domain.words.WordInteractor
-import com.zinoview.translatorapp.ui.auth.feature.ta01_auth_user.AuthViewModel
-import com.zinoview.translatorapp.ui.auth.feature.ta01_auth_user.RegisterCommunication
-import com.zinoview.translatorapp.ui.auth.feature.ta01_auth_user.UiRegisterMapper
-import com.zinoview.translatorapp.ui.auth.feature.ta01_auth_user.state.UiRegisterStateMapper
+import com.zinoview.translatorapp.ui.auth.feature.ta01_auth_user.register.RegisterViewModel
+import com.zinoview.translatorapp.ui.auth.feature.ta01_auth_user.login.LoginCommunication
+import com.zinoview.translatorapp.ui.auth.feature.ta01_auth_user.register.RegisterCommunication
+import com.zinoview.translatorapp.ui.auth.feature.ta01_auth_user.UiAuthMapper
+import com.zinoview.translatorapp.ui.auth.feature.ta01_auth_user.login.LoginViewModel
+import com.zinoview.translatorapp.ui.auth.feature.ta01_auth_user.login.UiAuthLoginStateMapper
+import com.zinoview.translatorapp.ui.auth.feature.ta01_auth_user.register.UiAuthRegisterStateMapper
 import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.TranslateWordViewModel
 import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.UiLanguageMapper
 import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.UiWordMapper
@@ -47,7 +50,8 @@ class TAApplication : Application() {
     lateinit var translatedWordViewModel: TranslateWordViewModel
     lateinit var wordsViewModel: WordsViewModel
 
-    lateinit var authViewModel: AuthViewModel
+    lateinit var registerViewModel: RegisterViewModel
+    lateinit var loginViewModel: LoginViewModel
 
     private companion object {
         //http://effeegre.pythonanywhere.com - older server link
@@ -135,19 +139,27 @@ class TAApplication : Application() {
             AuthCloudDataSource.Base(
                 authService
             ),
-            CloudRegisterMapper.Base(),
-            com.zinoview.translatorapp.data.auth.core.ExceptionMapper.Base(resourceProvider)
+            CloudAuthMapper.Base(),
+            com.zinoview.translatorapp.data.auth.ExceptionMapper.Base(resourceProvider)
         )
 
         val authInteractor = AuthInteractor.Base(
-            authRepository,DomainRegisterMapper.Base()
+            authRepository,DomainAuthMapper.Base()
         )
 
-        authViewModel = AuthViewModel.Base(
+        registerViewModel = RegisterViewModel.Base(
             authInteractor,
-            UiRegisterMapper.Base(),
-            UiRegisterStateMapper.Base(),
+            UiAuthMapper.Base(),
+            UiAuthRegisterStateMapper.Base(),
             RegisterCommunication()
         )
+
+        loginViewModel = LoginViewModel.Base(
+            authInteractor,
+            UiAuthMapper.Base(),
+            UiAuthLoginStateMapper.Base(),
+            LoginCommunication()
+        )
+
     }
 }

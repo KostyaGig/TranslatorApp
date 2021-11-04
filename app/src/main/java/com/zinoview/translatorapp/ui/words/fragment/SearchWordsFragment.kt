@@ -6,6 +6,7 @@ import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.zinoview.translatorapp.R
 import com.zinoview.translatorapp.core.TAApplication
+import com.zinoview.translatorapp.ui.auth.fragment.LoginFragment
 import com.zinoview.translatorapp.ui.auth.fragment.RegisterFragment
 import com.zinoview.translatorapp.ui.core.BaseFragment
 import com.zinoview.translatorapp.ui.core.MainActivity
@@ -77,7 +78,6 @@ class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
         }
 
         viewModel.recentWords()
-
     }
 
     override fun navigateToBack() {
