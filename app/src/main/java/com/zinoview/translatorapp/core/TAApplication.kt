@@ -5,11 +5,13 @@ import com.zinoview.translatorapp.data.auth.AuthRepository
 import com.zinoview.translatorapp.data.auth.AuthCloudDataSource
 import com.zinoview.translatorapp.data.auth.AuthService
 import com.zinoview.translatorapp.data.auth.CloudAuthMapper
+import com.zinoview.translatorapp.data.auth.cache.AuthSharedPreferences
+import com.zinoview.translatorapp.data.auth.cache.UniqueKey
 import com.zinoview.translatorapp.data.words.ExceptionMapper
 import com.zinoview.translatorapp.data.words.WordRepository
 import com.zinoview.translatorapp.data.words.cache.db.Database
 import com.zinoview.translatorapp.data.words.cache.db.RoomProvider
-import com.zinoview.translatorapp.data.words.cache.shared_prefs.SharedPreferencesReader
+import com.zinoview.translatorapp.data.words.cache.shared_prefs.RecentWords
 import com.zinoview.translatorapp.data.words.cache.shared_prefs.TranslatorSharedPreferences
 import com.zinoview.translatorapp.data.words.cloud.CloudDataSource
 import com.zinoview.translatorapp.data.words.cloud.CloudResultMapper
@@ -88,6 +90,8 @@ class TAApplication : Application() {
 
         val resourceProvider = ResourceProvider.Base(this)
 
+        val authSharedPreferences = AuthSharedPreferences.Base(this,UniqueKey.Base())
+
         val dataLanguageMapper = DataLanguageMapper.Base()
         val wordRepository = WordRepository.Base(
             cacheDataSource,
@@ -96,8 +100,9 @@ class TAApplication : Application() {
             ExceptionMapper.Base(resourceProvider),
             TranslatorSharedPreferences.Base(
                 this,
-                SharedPreferencesReader.Base(),
+                RecentWords.Base(),
             ),
+            authSharedPreferences,
             TranslatedCacheDataWordsMapper.Base(dataLanguageMapper),
             TranslatedCacheNotFavoriteDataWordsMapper.Base(dataLanguageMapper)
         )
@@ -140,7 +145,8 @@ class TAApplication : Application() {
                 authService
             ),
             CloudAuthMapper.Base(),
-            com.zinoview.translatorapp.data.auth.ExceptionMapper.Base(resourceProvider)
+            com.zinoview.translatorapp.data.auth.ExceptionMapper.Base(resourceProvider),
+            authSharedPreferences
         )
 
         val authInteractor = AuthInteractor.Base(

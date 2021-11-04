@@ -1,13 +1,12 @@
 package com.zinoview.translatorapp.data.words.cache.shared_prefs
 
 import android.content.SharedPreferences
+import com.zinoview.translatorapp.data.core.SharedPreferencesReader
 import java.util.ArrayList
 
-interface SharedPreferencesReader  {
+interface RecentWords : SharedPreferencesReader<List<String>>  {
 
-    fun read(sharedPreferences: SharedPreferences,key: String) : List<String>
-
-    class Base : SharedPreferencesReader {
+    class Base : RecentWords {
 
         override fun read(sharedPreferences: SharedPreferences,key: String): List<String> {
             val list = ObjectSerializer.deserialize(

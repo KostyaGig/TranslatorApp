@@ -6,7 +6,6 @@ import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.zinoview.translatorapp.R
 import com.zinoview.translatorapp.core.TAApplication
-import com.zinoview.translatorapp.ui.auth.fragment.LoginFragment
 import com.zinoview.translatorapp.ui.auth.fragment.RegisterFragment
 import com.zinoview.translatorapp.ui.core.BaseFragment
 import com.zinoview.translatorapp.ui.core.MainActivity
@@ -41,43 +40,54 @@ class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
         val rootWordTextViewView = view.findViewById<ItemViewImpl>(R.id.root_word_tv)
 
         val adapter = RecentWordsAdapter.Base(object : RecentWordsAdapter.ItemClickListener<String> {
-            override fun onItemClick(item: String) {
-                wordField.setText(item)
-                wordField.setSelection(wordField.length())
-            }
-        })
+                override fun onItemClick(item: String) {
+                    wordField.setText(item)
+                    wordField.setSelection(wordField.length())
+                }
+            })
 
-        val recentQueryRecyclerView = view.findViewById<RecyclerView>(R.id.recent_query_recycler_view)
+        val recentQueryRecyclerView =
+            view.findViewById<RecyclerView>(R.id.recent_query_recycler_view)
         recentQueryRecyclerView.adapter = adapter
 
         viewModel.observe(this) { state ->
-            state.show(wordTextView, wordProgressBar,rootWordTextViewView)
+            state.show(wordTextView, wordProgressBar, rootWordTextViewView)
             state.changeRecentQuery(tempRecentWords)
         }
 
         searchWordBtn.setOnClickListener {
-//            val enteredWord = wordField.enteredText()
-//            viewModel.translateWord(enteredWord)
-//
+            viewModel.userIsAuthorize { authorize ->
+                if (authorize) {
+                    // translate with uniqueKey
+
+            val enteredWord = wordField.enteredText()
+            viewModel.translateWord(enteredWord)
 //            recentQueryTextView.defaultState(recentQueryRecyclerView)
-            navigation.navigateTo(RegisterFragment())
+                } else {
+                    navigation.navigateTo(RegisterFragment())
+                }
+            }
         }
 
-        backBtn.setOnClickListener {
-            navigateToBack()
-        }
+            backBtn.setOnClickListener {
+                navigateToBack()
+            }
 
-        recentQueryTextView.setOnClickListener { tv ->
-            val wordTv = tv as RecentWordTextViewImpl
-            wordTv.changeText()
-            wordTv.changeRecyclerViewVisibility(recentQueryRecyclerView,tempRecentWords,adapter)
-        }
+            recentQueryTextView.setOnClickListener { tv ->
+                val wordTv = tv as RecentWordTextViewImpl
+                wordTv.changeText()
+                wordTv.changeRecyclerViewVisibility(
+                    recentQueryRecyclerView,
+                    tempRecentWords,
+                    adapter
+                )
+            }
 
-        viewModel.observeRecentWords(this) { uiRecentWords ->
-            uiRecentWords.map(tempRecentWords)
-        }
+            viewModel.observeRecentWords(this) { uiRecentWords ->
+                uiRecentWords.map(tempRecentWords)
+            }
 
-        viewModel.recentWords()
+            viewModel.recentWords()
     }
 
     override fun navigateToBack() {

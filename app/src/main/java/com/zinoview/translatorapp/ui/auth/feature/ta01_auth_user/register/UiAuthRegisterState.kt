@@ -35,7 +35,10 @@ sealed class UiAuthRegisterState : Abstract.Register {
         override fun <T> map(mapper: Abstract.RegisterMapper<T>): T
             = mapper.mapExist(message)
 
-        override fun map(navigation: Navigation) = navigation.navigateTo(LoginFragment())
+        override fun map(navigation: Navigation) {
+            log("Register exist $message")
+            navigation.navigateTo(LoginFragment())
+        }
     }
 
     class Failure(
