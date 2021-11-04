@@ -7,7 +7,7 @@ sealed class DataAuth : Abstract.Register {
 
     open fun saveUniqueKey(authSharedPreferences: AuthSharedPreferences) = Unit
 
-    class Success(
+    data class Success(
         private val message: String,
         private val uniqueKey: String
     ) : DataAuth() {
@@ -20,13 +20,13 @@ sealed class DataAuth : Abstract.Register {
     }
 
     //usage this state only for register
-    class Exist(private val message: String) : DataAuth() {
+    data class Exist(private val message: String) : DataAuth() {
 
         override fun <T> map(mapper: Abstract.RegisterMapper<T>): T
             = mapper.mapExist(message)
     }
 
-    class Failure(
+    data class Failure(
         private val message: String
     ) : DataAuth() {
 

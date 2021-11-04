@@ -1,6 +1,7 @@
 package com.zinoview.translatorapp.data.auth
 
 import com.zinoview.translatorapp.data.auth.cache.AuthSharedPreferences
+import com.zinoview.translatorapp.ui.core.log
 
 interface AuthRepository {
 
@@ -36,5 +37,20 @@ interface AuthRepository {
                 DataAuth.Failure(errorMessage)
             }
         }
+    }
+
+    class Test(
+        private val authCloudDataSource: AuthCloudDataSource,
+        private val cloudAuthMapper: CloudAuthMapper
+    ) : AuthRepository {
+
+        override suspend fun register(userName: String, userPhone: String): DataAuth {
+            return authCloudDataSource.register(userName, userPhone).map(cloudAuthMapper)
+        }
+
+        override suspend fun login(userName: String, userPhone: String): DataAuth {
+            return authCloudDataSource.login(userName, userPhone).map(cloudAuthMapper)
+        }
+
     }
 }

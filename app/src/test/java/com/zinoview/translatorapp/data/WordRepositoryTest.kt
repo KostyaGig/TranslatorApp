@@ -58,7 +58,7 @@ class WordRepositoryTest {
         repository.translatedWord("Nothing")
         repository.translatedWord("Nothing")
         val expected = DataWords.Test("Мышь true","Mouse",true)
-        val actual = repository.updateWord("Мышь",true,-1)
+        val actual = repository.updateWord("Мышь",-1,true)
         assertEquals(expected, actual)
     }
 
