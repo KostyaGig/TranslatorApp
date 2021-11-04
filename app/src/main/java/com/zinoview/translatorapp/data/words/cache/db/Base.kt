@@ -2,9 +2,9 @@ package com.zinoview.translatorapp.data.words.cache.db
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import com.zinoview.translatorapp.core.Abstract
+import com.zinoview.translatorapp.core.words.Abstract
 import com.zinoview.translatorapp.data.words.DataLanguage
-import com.zinoview.translatorapp.ui.feature.ta03_cached_translated_words.UiWordsStateRecyclerView
+import com.zinoview.translatorapp.ui.words.feature.ta03_cached_translated_words.UiWordsStateRecyclerView
 
 interface CacheWord {
 

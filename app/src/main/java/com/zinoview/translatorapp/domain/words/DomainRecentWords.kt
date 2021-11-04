@@ -1,6 +1,6 @@
 package com.zinoview.translatorapp.domain.words
 
-import com.zinoview.translatorapp.core.Abstract
+import com.zinoview.translatorapp.core.words.Abstract
 
 sealed class DomainRecentWords : Abstract.RecentWord {
 

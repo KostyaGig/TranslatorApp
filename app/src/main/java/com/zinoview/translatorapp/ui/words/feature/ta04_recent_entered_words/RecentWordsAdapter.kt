@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zinoview.translatorapp.R
 import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.Show
-import com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordTextViewImpl
+import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordTextViewImpl
 
 interface RecentWordsAdapter :
-    com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.Show<List<String>> {
+    Show<List<String>> {
 
 
     class Base(

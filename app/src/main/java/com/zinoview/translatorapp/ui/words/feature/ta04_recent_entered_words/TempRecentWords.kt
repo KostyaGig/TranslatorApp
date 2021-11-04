@@ -2,7 +2,7 @@ package com.zinoview.translatorapp.ui.words.feature.ta04_recent_entered_words
 
 import com.zinoview.translatorapp.data.words.cache.core.Save
 import com.zinoview.translatorapp.ui.core.log
-import com.zinoview.translatorapp.ui.feature.ta01_translate_word.TranslateWordViewModel
+import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.TranslateWordViewModel
 import kotlin.collections.ArrayList
 
 interface TempRecentWords : Save<TranslateWordViewModel> {

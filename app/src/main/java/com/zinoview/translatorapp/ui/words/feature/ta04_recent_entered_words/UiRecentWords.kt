@@ -1,6 +1,6 @@
 package com.zinoview.translatorapp.ui.words.feature.ta04_recent_entered_words
 
-import com.zinoview.translatorapp.core.Abstract
+import com.zinoview.translatorapp.core.words.Abstract
 import com.zinoview.translatorapp.ui.core.log
 
 sealed class UiRecentWords : Abstract.RecentWord {

@@ -1,13 +1,12 @@
 package com.zinoview.translatorapp.ui.words.feature.ta03_cached_translated_words
 
-import com.zinoview.translatorapp.core.Abstract
-import com.zinoview.translatorapp.core.Language
+import com.zinoview.translatorapp.core.words.Abstract
+import com.zinoview.translatorapp.core.words.Language
 import com.zinoview.translatorapp.data.words.cache.db.CacheWord
 import com.zinoview.translatorapp.data.words.cache.db.CacheWordMapper
-import com.zinoview.translatorapp.ui.feature.ta01_translate_word.*
-import com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordTextView
-import com.zinoview.translatorapp.ui.feature.ta02_show_translated_word.WordsAdapter
-import com.zinoview.translatorapp.ui.feature.ta05_favorite_words.view.ItemView
+import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordTextView
+import com.zinoview.translatorapp.ui.words.feature.ta02_show_translated_word.WordsAdapter
+import com.zinoview.translatorapp.ui.words.feature.ta05_favorite_words.view.ItemView
 
 
 sealed class UiWordsStateRecyclerView

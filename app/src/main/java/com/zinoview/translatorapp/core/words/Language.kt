@@ -1,4 +1,4 @@
-package com.zinoview.translatorapp.core
+package com.zinoview.translatorapp.core.words
 
 import java.lang.IllegalStateException
 

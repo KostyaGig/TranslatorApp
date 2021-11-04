@@ -1,7 +1,7 @@
 package com.zinoview.translatorapp.data.words
 
 import com.zinoview.translatorapp.R
-import com.zinoview.translatorapp.core.Abstract
+import com.zinoview.translatorapp.core.FactoryMapper
 import com.zinoview.translatorapp.core.ResourceProvider
 import com.zinoview.translatorapp.ui.core.info
 import retrofit2.HttpException
@@ -10,7 +10,7 @@ import java.lang.IllegalArgumentException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
-interface ExceptionMapper : Abstract.FactoryMapper<Exception,String> {
+interface ExceptionMapper : FactoryMapper<Exception,String> {
 
     class Base(
         private val resourceProvider: ResourceProvider

@@ -7,11 +7,12 @@ import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.zinoview.translatorapp.R
 import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.Show
-import com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordTextViewImpl
-import com.zinoview.translatorapp.ui.feature.ta03_cached_translated_words.UiWordsStateRecyclerView
-import com.zinoview.translatorapp.ui.feature.ta05_favorite_words.view.ItemViewImpl
 
-interface WordsAdapter : com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.Show.WordsAdapterShow<List<UiWordsStateRecyclerView>> {
+import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordTextViewImpl
+import com.zinoview.translatorapp.ui.words.feature.ta03_cached_translated_words.UiWordsStateRecyclerView
+import com.zinoview.translatorapp.ui.words.feature.ta05_favorite_words.view.ItemViewImpl
+
+interface WordsAdapter : Show.WordsAdapterShow<List<UiWordsStateRecyclerView>> {
 
 
     class Base(
@@ -21,7 +22,7 @@ interface WordsAdapter : com.zinoview.translatorapp.ui.words.feature.ta01_transl
         private val words = ArrayList<UiWordsStateRecyclerView>()
 
         //todo use diffutilcallback
-        override fun show(items: List<UiWordsStateRecyclerView>,position: Int) {
+        override fun show(items: List<UiWordsStateRecyclerView>, position: Int) {
                 if (position < 0) {
                     this@Base.words.clear()
                     words.addAll(items)
@@ -45,7 +46,7 @@ interface WordsAdapter : com.zinoview.translatorapp.ui.words.feature.ta01_transl
         }
 
         abstract class WordsViewHolder(view: View) : RecyclerView.ViewHolder(view),
-            com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.Show<UiWordsStateRecyclerView> {
+            Show<UiWordsStateRecyclerView> {
 
             override fun show(arg: UiWordsStateRecyclerView) {}
 

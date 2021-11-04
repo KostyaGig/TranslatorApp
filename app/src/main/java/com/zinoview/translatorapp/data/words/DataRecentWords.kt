@@ -1,6 +1,6 @@
 package com.zinoview.translatorapp.data.words
 
-import com.zinoview.translatorapp.core.Abstract
+import com.zinoview.translatorapp.core.words.Abstract
 
 sealed class DataRecentWords : Abstract.RecentWord {
 

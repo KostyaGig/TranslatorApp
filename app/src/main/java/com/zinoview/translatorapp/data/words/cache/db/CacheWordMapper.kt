@@ -1,7 +1,7 @@
 package com.zinoview.translatorapp.data.words.cache.db
 
-import com.zinoview.translatorapp.core.Language
-import com.zinoview.translatorapp.ui.feature.ta03_cached_translated_words.UiWordsStateRecyclerView
+import com.zinoview.translatorapp.core.words.Language
+import com.zinoview.translatorapp.ui.words.feature.ta03_cached_translated_words.UiWordsStateRecyclerView
 
 interface CacheWordMapper {
 

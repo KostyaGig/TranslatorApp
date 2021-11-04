@@ -5,12 +5,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zinoview.translatorapp.domain.words.WordInteractor
+import com.zinoview.translatorapp.ui.core.BaseCommunication
 import com.zinoview.translatorapp.ui.core.Observe
-import com.zinoview.translatorapp.ui.feature.ta01_translate_word.UiWordMapper
-import com.zinoview.translatorapp.ui.feature.ta01_translate_word.WordCommunication
+
+import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.UiWordMapper
 import kotlinx.coroutines.*
 
-interface WordsViewModel : Observe<UiWordsStateRecyclerView>{
+interface WordsViewModel : Observe<UiWordsStateRecyclerView> {
 
     fun words()
 
@@ -20,7 +21,7 @@ interface WordsViewModel : Observe<UiWordsStateRecyclerView>{
         private val wordInteractor: WordInteractor,
         private val uiWordMapper: UiWordMapper,
         private val uiWordStateRecyclerViewMapper: UiWordStateRecyclerViewMapper,
-        private val communication: WordCommunication.BaseWordCommunication<UiWordsStateRecyclerView>,
+        private val communication: BaseCommunication<UiWordsStateRecyclerView>,
         private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
         ) : WordsViewModel, ViewModel() {
 

@@ -8,7 +8,8 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3398148148148148" />
         <entry key="app/src/main/res/layout/progress_item.xml" value="0.29259259259259257" />
         <entry key="app/src/main/res/layout/recent_word.xml" value="0.3651041666666667" />
-        <entry key="app/src/main/res/layout/search_words_fragment.xml" value="0.3333333333333333" />
+        <entry key="app/src/main/res/layout/register_fagment.xml" value="0.33055555555555555" />
+        <entry key="app/src/main/res/layout/search_words_fragment.xml" value="0.1" />
         <entry key="app/src/main/res/layout/word_item.xml" value="0.3651041666666667" />
         <entry key="app/src/main/res/layout/words_fragment.xml" value="0.3651041666666667" />
       </map>

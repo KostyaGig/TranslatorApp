@@ -1,7 +1,7 @@
 package com.zinoview.translatorapp.data.words.cache
 
-import com.zinoview.translatorapp.core.Abstract
-import com.zinoview.translatorapp.core.Language
+import com.zinoview.translatorapp.core.words.Abstract
+import com.zinoview.translatorapp.core.words.Language
 import com.zinoview.translatorapp.data.words.DataWords
 import com.zinoview.translatorapp.data.words.cache.db.CacheWord
 

@@ -1,6 +1,6 @@
 package com.zinoview.translatorapp.ui.words.feature.ta01_translate_word
 
-import com.zinoview.translatorapp.core.Language
+import com.zinoview.translatorapp.core.words.Language
 
 data class UiLanguage(
     private val fromLanguage: String,

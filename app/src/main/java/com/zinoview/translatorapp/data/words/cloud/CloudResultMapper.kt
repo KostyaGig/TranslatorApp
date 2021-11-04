@@ -1,12 +1,12 @@
 package com.zinoview.translatorapp.data.words.cloud
 
-import com.zinoview.translatorapp.core.Abstract
+import com.zinoview.translatorapp.core.FactoryMapper
 import java.lang.IllegalStateException
 
 /**
  * @param src - result from server
  */
-interface CloudResultMapper : Abstract.FactoryMapper<String, CloudResultMapper.StateMark> {
+interface CloudResultMapper : FactoryMapper<String, CloudResultMapper.StateMark> {
 
     class Base : CloudResultMapper {
 
@@ -21,7 +21,6 @@ interface CloudResultMapper : Abstract.FactoryMapper<String, CloudResultMapper.S
         private companion object {
             const val SUCCESS = "Success"
             const val FAILURE = "Failure"
-
         }
     }
 

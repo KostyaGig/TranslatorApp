@@ -1,7 +1,7 @@
 package com.zinoview.translatorapp.ui.words.feature.ta01_translate_word
 
-import com.zinoview.translatorapp.core.Abstract
-import com.zinoview.translatorapp.core.Language
+import com.zinoview.translatorapp.core.words.Abstract
+import com.zinoview.translatorapp.core.words.Language
 import com.zinoview.translatorapp.data.words.cache.db.CacheWord
 import java.lang.IllegalStateException
 

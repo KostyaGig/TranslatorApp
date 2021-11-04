@@ -21,7 +21,6 @@ interface WordRepository<T> {
     suspend fun updateWord(srcWord: String,position: Int,isFavorite: Boolean = false) : DataWords
 
     //I forced usage hard implementation for serialize here to string and back
-    //todo make cache recentQuery in translatedWord(srcWord: String) and delete method below
     suspend fun saveRecentQuery(recentQuery: ArrayList<String>)
 
     class Base(

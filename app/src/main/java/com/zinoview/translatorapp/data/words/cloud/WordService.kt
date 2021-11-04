@@ -4,7 +4,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 /**
- * Base url - http://effeegre.pythonanywhere.com
+ * Base url - http://translatorappserver.pythonanywhere.com/
  * */
 
 interface WordService {

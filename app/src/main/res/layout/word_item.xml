@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zinoview.translatorapp.ui.feature.ta05_favorite_words.view.ItemViewImpl
+<com.zinoview.translatorapp.ui.words.feature.ta05_favorite_words.view.ItemViewImpl
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:id="@+id/item_view">
 
-    <com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordTextViewImpl
+    <com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordTextViewImpl
         android:id="@+id/translated_word_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         android:textSize="@dimen/tszie_17sp"
         />
 
-    <com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordTextViewImpl
+    <com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordTextViewImpl
         android:id="@+id/src_word_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,4 +36,4 @@
         android:text="@string/change_favorite_text"
         android:layout_gravity="end"/>
 
-</com.zinoview.translatorapp.ui.feature.ta05_favorite_words.view.ItemViewImpl>
+</com.zinoview.translatorapp.ui.words.feature.ta05_favorite_words.view.ItemViewImpl>

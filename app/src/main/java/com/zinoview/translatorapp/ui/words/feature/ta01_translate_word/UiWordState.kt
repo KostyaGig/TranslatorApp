@@ -1,17 +1,18 @@
 package com.zinoview.translatorapp.ui.words.feature.ta01_translate_word
 
-import com.zinoview.translatorapp.core.Abstract
-import com.zinoview.translatorapp.core.Language
+import com.zinoview.translatorapp.core.words.Abstract
+import com.zinoview.translatorapp.core.words.Language
 import com.zinoview.translatorapp.ui.core.log
-import com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordProgressBar
-import com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordTextView
-import com.zinoview.translatorapp.ui.feature.ta04_recent_entered_words.TempRecentWords
-import com.zinoview.translatorapp.ui.feature.ta05_favorite_words.view.ItemView
+import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordProgressBar
+import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordTextView
+import com.zinoview.translatorapp.ui.words.feature.ta04_recent_entered_words.TempRecentWords
+import com.zinoview.translatorapp.ui.words.feature.ta05_favorite_words.view.ItemView
+
 
 sealed class UiWordState
     : Abstract.Words,
-    com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.Same<UiWordState>,
-    com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.Compare<String> {
+    Same<UiWordState>,
+    Compare<String> {
 
     override fun same(item: UiWordState): Boolean = false
     override fun compare(arg1: String, arg2: String): Boolean = false
@@ -28,7 +29,7 @@ sealed class UiWordState
 
     object Progress : UiWordState() {
 
-        override fun show(wordTv: WordTextView, wordPb: WordProgressBar,view: ItemView) {
+        override fun show(wordTv: WordTextView, wordPb: WordProgressBar, view: ItemView) {
             wordTv.hide()
             wordPb.show()
         }

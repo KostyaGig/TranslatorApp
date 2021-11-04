@@ -6,16 +6,17 @@ import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.zinoview.translatorapp.R
 import com.zinoview.translatorapp.core.TAApplication
+import com.zinoview.translatorapp.ui.auth.fragment.RegisterFragment
 import com.zinoview.translatorapp.ui.core.BaseFragment
 import com.zinoview.translatorapp.ui.core.MainActivity
 import com.zinoview.translatorapp.ui.core.log
-import com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.SearchEditTextImpl
-import com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordProgressBarImpl
-import com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordTextViewImpl
-import com.zinoview.translatorapp.ui.feature.ta04_recent_entered_words.RecentWordTextViewImpl
-import com.zinoview.translatorapp.ui.feature.ta04_recent_entered_words.RecentWordsAdapter
-import com.zinoview.translatorapp.ui.feature.ta04_recent_entered_words.TempRecentWords
-import com.zinoview.translatorapp.ui.feature.ta05_favorite_words.view.ItemViewImpl
+import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.SearchEditTextImpl
+import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordProgressBarImpl
+import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordTextViewImpl
+import com.zinoview.translatorapp.ui.words.feature.ta04_recent_entered_words.RecentWordTextViewImpl
+import com.zinoview.translatorapp.ui.words.feature.ta04_recent_entered_words.RecentWordsAdapter
+import com.zinoview.translatorapp.ui.words.feature.ta04_recent_entered_words.TempRecentWords
+import com.zinoview.translatorapp.ui.words.feature.ta05_favorite_words.view.ItemViewImpl
 
 class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
 
@@ -28,7 +29,6 @@ class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
     private val tempRecentWords = TempRecentWords.Base()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        log("onViewCreated")
 
         val wordField = view.findViewById<SearchEditTextImpl>(R.id.word_field)
         val searchWordBtn = view.findViewById<Button>(R.id.search_word_btn)
@@ -55,10 +55,11 @@ class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
         }
 
         searchWordBtn.setOnClickListener {
-            val enteredWord = wordField.enteredText()
-            viewModel.translateWord(enteredWord)
-
-            recentQueryTextView.defaultState(recentQueryRecyclerView)
+//            val enteredWord = wordField.enteredText()
+//            viewModel.translateWord(enteredWord)
+//
+//            recentQueryTextView.defaultState(recentQueryRecyclerView)
+            navigation.navigateTo(RegisterFragment())
         }
 
         backBtn.setOnClickListener {
@@ -72,11 +73,11 @@ class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
         }
 
         viewModel.observeRecentWords(this) { uiRecentWords ->
-            log("view model recent words")
             uiRecentWords.map(tempRecentWords)
         }
 
         viewModel.recentWords()
+
     }
 
     override fun navigateToBack() {

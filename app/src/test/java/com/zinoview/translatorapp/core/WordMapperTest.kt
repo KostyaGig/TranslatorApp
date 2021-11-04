@@ -1,5 +1,7 @@
 package com.zinoview.translatorapp.core
 
+import com.zinoview.translatorapp.core.words.Abstract
+import com.zinoview.translatorapp.core.words.Language
 import com.zinoview.translatorapp.data.words.cache.db.CacheWord
 import org.junit.Assert.*
 import org.junit.Test
@@ -58,7 +60,7 @@ class WordMapperTest {
                 = TestDomainWord.Failure(message)
 
         override fun map(cachedWords: List<CacheWord>, position: Int): TestDomainWord {
-            return TestDomainWord.Success("","",Language.Test())
+            return TestDomainWord.Success("","", Language.Test())
         }
 
     }
@@ -67,7 +69,8 @@ class WordMapperTest {
 
         data class Success(private val translatedWord: String,
                       private val srcWord: String,
-                      private val language: Language) : TestDataWord {
+                      private val language: Language
+        ) : TestDataWord {
 
             override fun <T> map(mapper: Abstract.WordsMapper<T>): T
                     = mapper.map(translatedWord, srcWord, language)
@@ -83,7 +86,8 @@ class WordMapperTest {
 
         data class Success(private val translatedWord: String,
                       private val srcWord: String,
-                      private val language: Language) : TestDomainWord {
+                      private val language: Language
+        ) : TestDomainWord {
 
             override fun <T> map(mapper: Abstract.WordsMapper<T>): T
                     = mapper.map(translatedWord, srcWord, language)

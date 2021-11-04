@@ -1,14 +1,14 @@
 package com.zinoview.translatorapp.ui.words.feature.ta01_translate_word
 
-import com.zinoview.translatorapp.core.Abstract
+import com.zinoview.translatorapp.core.words.Abstract
 import com.zinoview.translatorapp.data.words.cache.db.CacheWord
 
-import com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordTextView
-import com.zinoview.translatorapp.ui.feature.ta02_show_translated_word.WordsAdapter
+import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordTextView
+import com.zinoview.translatorapp.ui.words.feature.ta02_show_translated_word.WordsAdapter
 import java.lang.IllegalStateException
 
 sealed class UiWords : Abstract.Words,
-    com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.UiShow<Pair<WordTextView, WordTextView>, WordsAdapter> {
+    UiShow<Pair<WordTextView, WordTextView>, WordsAdapter> {
 
     override fun show(arg: Pair<WordTextView, WordTextView>) = Unit
 

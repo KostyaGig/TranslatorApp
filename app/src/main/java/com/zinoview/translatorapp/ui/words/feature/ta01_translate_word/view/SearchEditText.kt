@@ -15,7 +15,7 @@ interface Hide {
     fun hide()
 }
 
-interface AbstractView : com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.Show, Hide
+interface AbstractView : Show,Hide
 
 interface SearchEditText : Hide {
 

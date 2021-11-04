@@ -9,4 +9,7 @@
     <string name="show_recent_query_text">Show recent query</string>
     <string name="hide_recent_query_text">Hide recent query</string>
     <string name="change_favorite_text">Change favorite</string>
+    <string name="your_name_text">Your name</string>
+    <string name="your_phone_text">Your phone</string>
+    <string name="register_text">Register</string>
 </resources>

@@ -4,8 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.zinoview.translatorapp.ui.core.log
-import com.zinoview.translatorapp.ui.feature.ta01_translate_word.view.WordTextView
 
 interface RecentWordTextView {
 

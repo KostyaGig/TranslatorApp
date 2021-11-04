@@ -5,9 +5,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zinoview.translatorapp.domain.words.WordInteractor
+import com.zinoview.translatorapp.ui.core.BaseCommunication
 import com.zinoview.translatorapp.ui.core.Observe
-import com.zinoview.translatorapp.ui.feature.ta04_recent_entered_words.UiRecentMapper
-import com.zinoview.translatorapp.ui.feature.ta04_recent_entered_words.UiRecentWords
+
+import com.zinoview.translatorapp.ui.words.feature.ta04_recent_entered_words.UiRecentMapper
+import com.zinoview.translatorapp.ui.words.feature.ta04_recent_entered_words.UiRecentWords
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,8 +30,8 @@ interface TranslateWordViewModel : Observe<UiWordState> {
         private val wordInteractor: WordInteractor,
         private val uiWordMapper: UiWordMapper,
         private val uiWordStateMapper: UiWordStateMapper,
-        private val communication: WordCommunication.BaseWordCommunication<UiWordState>,
-        private val recentWordsCommunication: WordCommunication.BaseWordCommunication<UiRecentWords>,
+        private val communication: BaseCommunication<UiWordState>,
+        private val recentWordsCommunication: BaseCommunication<UiRecentWords>,
         private val uiRecentMapper: UiRecentMapper,
         private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
     ) : TranslateWordViewModel, ViewModel() {

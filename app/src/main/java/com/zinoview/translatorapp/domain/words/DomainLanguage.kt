@@ -1,6 +1,6 @@
 package com.zinoview.translatorapp.domain.words
 
-import com.zinoview.translatorapp.core.Language
+import com.zinoview.translatorapp.core.words.Language
 
 data class DomainLanguage(
     private val fromLanguage: String,

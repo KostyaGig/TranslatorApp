@@ -9,7 +9,7 @@ import com.zinoview.translatorapp.core.TAApplication
 import com.zinoview.translatorapp.ui.core.BaseFragment
 import com.zinoview.translatorapp.ui.core.MainActivity
 import com.zinoview.translatorapp.ui.core.log
-import com.zinoview.translatorapp.ui.feature.ta02_show_translated_word.WordsAdapter
+import com.zinoview.translatorapp.ui.words.feature.ta02_show_translated_word.WordsAdapter
 
 
 class WordsFragment : BaseFragment(R.layout.words_fragment) {
