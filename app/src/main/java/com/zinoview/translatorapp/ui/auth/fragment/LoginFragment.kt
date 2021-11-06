@@ -27,7 +27,6 @@ class LoginFragment : BaseFragment(R.layout.auth_fagment) {
         val authView = view.findViewById<LinearLayout>(R.id.auth_view)
         authView.visibility = View.VISIBLE
 
-        //todo use resoruces
         loginBtn.text = resourceProvider.string(R.string.login_text)
 
         val authorizeSnackBar = AuthorizeSnackBar.Base(authView)
