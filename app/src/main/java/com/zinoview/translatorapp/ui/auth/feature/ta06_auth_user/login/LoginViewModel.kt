@@ -1,12 +1,11 @@
-package com.zinoview.translatorapp.ui.auth.feature.ta01_auth_user.login
+package com.zinoview.translatorapp.ui.auth.feature.ta06_auth_user.login
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zinoview.translatorapp.domain.auth.AuthInteractor
-import com.zinoview.translatorapp.ui.auth.feature.ta01_auth_user.UiAuthMapper
-import com.zinoview.translatorapp.ui.auth.feature.ta01_auth_user.register.UiAuthRegisterState
+import com.zinoview.translatorapp.ui.auth.feature.ta06_auth_user.UiAuthMapper
 import com.zinoview.translatorapp.ui.core.BaseCommunication
 import com.zinoview.translatorapp.ui.core.Observe
 import kotlinx.coroutines.CoroutineDispatcher

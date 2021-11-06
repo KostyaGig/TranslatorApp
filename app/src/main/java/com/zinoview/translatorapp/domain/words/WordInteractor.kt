@@ -16,8 +16,6 @@ interface WordInteractor {
 
     suspend fun saveRecentQuery(recentQuery: ArrayList<String>)
 
-    suspend fun userIsAuthorize(): Boolean
-
     class Base(
         private val repository: WordRepository<DataWords>,
         private val domainWordMapper: DomainWordMapper,
@@ -48,8 +46,5 @@ interface WordInteractor {
             repository.saveRecentQuery(recentQuery)
         }
 
-        override suspend fun userIsAuthorize(): Boolean {
-            return repository.userIsAuthorize()
-        }
     }
 }

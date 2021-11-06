@@ -9,6 +9,8 @@ interface AuthInteractor {
 
     suspend fun login(userName: String, userPhone: String) : DomainAuth
 
+    suspend fun requestAuthorize(): Boolean
+
     class Base(
         private val authRepository: AuthRepository,
         private val domainRegisterMapper: DomainAuthMapper
@@ -22,6 +24,10 @@ interface AuthInteractor {
         override suspend fun login(userName: String, userPhone: String): DomainAuth {
             val dataRegister = authRepository.login(userName, userPhone)
             return dataRegister.map(domainRegisterMapper)
+        }
+
+        override suspend fun requestAuthorize(): Boolean {
+            return authRepository.requestAuthorize()
         }
     }
 }

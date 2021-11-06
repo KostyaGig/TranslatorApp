@@ -3,13 +3,13 @@ package com.zinoview.translatorapp.ui.auth.fragment
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.TextView
+import android.widget.LinearLayout
 import com.zinoview.translatorapp.R
 import com.zinoview.translatorapp.core.TAApplication
+import com.zinoview.translatorapp.ui.auth.feature.ta07_translate_user_without_authorize.AuthorizeSnackBar
 import com.zinoview.translatorapp.ui.core.BaseFragment
 import com.zinoview.translatorapp.ui.core.MainActivity
 import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.SearchEditTextImpl
-import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordProgressBarImpl
 
 class LoginFragment : BaseFragment(R.layout.auth_fagment) {
 
@@ -19,21 +19,18 @@ class LoginFragment : BaseFragment(R.layout.auth_fagment) {
         application.loginViewModel
     }
 
-    private var enteredWord = ""
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        arguments?.let {
-            enteredWord = it.getString(ENTERED_WORD)!!
-        }
 
         val fieldUserName = view.findViewById<SearchEditTextImpl>(R.id.field_user_name)
         val fieldUserPhone = view.findViewById<SearchEditTextImpl>(R.id.field_user_phone)
         val loginBtn = view.findViewById<Button>(R.id.authorize_btn)
-        loginBtn.text = "Login"
-        val progressBar = view.findViewById<WordProgressBarImpl>(R.id.progress_bar)
+        val authView = view.findViewById<LinearLayout>(R.id.auth_view)
+        authView.visibility = View.VISIBLE
 
-        val authResultTextView = view.findViewById<TextView>(R.id.auth_result_tv)
+        //todo use resoruces
+        loginBtn.text = resourceProvider.string(R.string.login_text)
+
+        val authorizeSnackBar = AuthorizeSnackBar.Base(authView)
 
         loginBtn.setOnClickListener {
             val userName = fieldUserName.enteredText()
@@ -43,11 +40,12 @@ class LoginFragment : BaseFragment(R.layout.auth_fagment) {
         }
 
         loginViewModel.observe(this) { uiAuthLoginState ->
-            uiAuthLoginState.map(navigation,enteredWord)
+            uiAuthLoginState.map(navigation,authorizeSnackBar)
         }
     }
 
-    override fun navigateToBack() = navigation.navigateTo(RegisterFragment())
+    override fun navigateToBack()
+        = navigation.navigateTo(RegisterFragment())
 
     override fun onDestroy() {
         loginViewModel.clean()

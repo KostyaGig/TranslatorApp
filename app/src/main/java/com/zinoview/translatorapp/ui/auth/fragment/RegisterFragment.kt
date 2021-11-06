@@ -3,14 +3,15 @@ package com.zinoview.translatorapp.ui.auth.fragment
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.TextView
+import android.widget.LinearLayout
 import com.zinoview.translatorapp.R
 import com.zinoview.translatorapp.core.TAApplication
+import com.zinoview.translatorapp.ui.auth.feature.ta07_translate_user_without_authorize.AuthorizeSnackBar
 import com.zinoview.translatorapp.ui.core.BaseFragment
 import com.zinoview.translatorapp.ui.core.MainActivity
 import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.SearchEditTextImpl
-import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordProgressBarImpl
-import com.zinoview.translatorapp.ui.words.fragment.SearchWordsFragment
+import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordTextViewImpl
+import com.zinoview.translatorapp.ui.words.fragment.WordsFragment
 
 class RegisterFragment : BaseFragment(R.layout.auth_fagment) {
 
@@ -20,21 +21,17 @@ class RegisterFragment : BaseFragment(R.layout.auth_fagment) {
         application.registerViewModel
     }
 
-    private var enteredWord = ""
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        arguments?.let {
-            enteredWord = it.getString(ENTERED_WORD)!!
-        }
 
         val fieldUserName = view.findViewById<SearchEditTextImpl>(R.id.field_user_name)
         val fieldUserPhone = view.findViewById<SearchEditTextImpl>(R.id.field_user_phone)
         val registerBtn = view.findViewById<Button>(R.id.authorize_btn)
-        registerBtn.text = "Register"
-        val progressBar = view.findViewById<WordProgressBarImpl>(R.id.progress_bar)
+        val authView = view.findViewById<LinearLayout>(R.id.auth_view)
+        val authorizeTextView = view.findViewById<WordTextViewImpl>(R.id.authorized_tv)
 
-        val authResultTextView = view.findViewById<TextView>(R.id.auth_result_tv)
+        registerBtn.text = resourceProvider.string(R.string.register_text)
+
+        val authorizeSnackBar = AuthorizeSnackBar.Base(authView)
 
         registerBtn.setOnClickListener {
             val userName = fieldUserName.enteredText()
@@ -44,7 +41,19 @@ class RegisterFragment : BaseFragment(R.layout.auth_fagment) {
         }
 
         registerViewModel.observe(this) { uiAuthRegisterState ->
-            uiAuthRegisterState.map(navigation,enteredWord)
+            uiAuthRegisterState.map(navigation,authorizeSnackBar)
+        }
+
+        //todo replace isAuthorized Boolean to sealed class and move this logic to here
+        registerViewModel.observeAuthorize(this) { isAuthorized ->
+            if (isAuthorized) {
+                authView.visibility = View.GONE
+                authorizeTextView.text = resourceProvider.string(R.string.already_authorized_text)
+                authorizeTextView.visibility = View.VISIBLE
+            } else {
+                authView.visibility = View.VISIBLE
+                authorizeTextView.visibility = View.GONE
+            }
         }
     }
 
@@ -53,5 +62,10 @@ class RegisterFragment : BaseFragment(R.layout.auth_fagment) {
         super.onDestroy()
     }
 
-    override fun navigateToBack() = navigation.navigateTo(SearchWordsFragment())
+    override fun onStart() {
+        super.onStart()
+        registerViewModel.requestAuthorize()
+    }
+
+    override fun navigateToBack() = navigation.navigateTo(WordsFragment())
 }

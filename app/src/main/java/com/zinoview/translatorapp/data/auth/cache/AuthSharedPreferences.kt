@@ -8,6 +8,8 @@ interface AuthSharedPreferences {
 
     fun read() : String
 
+    fun userIsAuthorized() : Boolean
+
     class Base(
         context: Context,
         private val reader: UniqueKey
@@ -21,6 +23,9 @@ interface AuthSharedPreferences {
 
         override fun read(): String
             = reader.read(sharedPreferences,UNIQUE_USER_ID_KEY)
+
+        override fun userIsAuthorized(): Boolean
+            = read().isNotEmpty()
 
         private companion object {
             private const val UNIQUE_KEY_PREFERENCES = "unique_key_preferences"

@@ -9,6 +9,7 @@ import com.zinoview.translatorapp.data.words.cache.CacheDataSource
 import com.zinoview.translatorapp.data.words.cache.TranslatedCacheDataWordsMapper
 import com.zinoview.translatorapp.data.words.cache.TranslatedCacheNotFavoriteDataWordsMapper
 import com.zinoview.translatorapp.data.words.cloud.CloudWord
+import com.zinoview.translatorapp.ui.core.log
 
 interface WordRepository<T> {
 
@@ -24,9 +25,6 @@ interface WordRepository<T> {
     //I forced usage hard implementation for serialize here to string and back
     suspend fun saveRecentQuery(recentQuery: ArrayList<String>)
 
-    //todo remove after complete feature ta06
-    suspend fun userIsAuthorize(): Boolean
-
     class Base(
         private val cacheDataSource: CacheDataSource<CacheWord>,
         private val cloudDataSource: CloudDataSource<CloudWord>,
@@ -40,21 +38,33 @@ interface WordRepository<T> {
 
         override suspend fun translatedWord(srcWord: String): DataWords {
             return try {
-                val cloudTranslatedWord = cloudDataSource.translatedWord(srcWord)
-                val dataWord = cloudTranslatedWord.map(cloudResultMapper)
-                return if (cacheDataSource.contains(dataWord)) {
-                    return if (cacheDataSource.isFavorite(dataWord)) {
-                        dataWord.map(translatedCacheFavoriteDataWordsMapper)
-                    } else {
-                        dataWord.map(translatedCacheNotFavoriteDataWordsMapper)
-                    }
+                return if (authSharedPreferences.userIsAuthorized()) {
+                    log("repo fetch words by authorize")
+                    val userUniqueKey = authSharedPreferences.read()
+                    val cloudWord = cloudDataSource.translateWithAuthorized(srcWord,userUniqueKey)
+                    translateWordByAuthorization(cloudWord)
                 } else {
-                    cacheDataSource.saveWord(dataWord)
-                    dataWord
+                    log("repo fetch words by bnot authorize")
+                    val cloudWord = cloudDataSource.translatedWord(srcWord)
+                    translateWordByAuthorization(cloudWord)
                 }
             } catch (e: Exception) {
                 val errorMessage = exceptionMapper.map(e)
                 DataWords.Failure(errorMessage)
+            }
+        }
+
+        private suspend fun translateWordByAuthorization(cloudTranslatedWord: CloudWord) : DataWords {
+            val dataWord = cloudTranslatedWord.map(cloudResultMapper)
+            return if (cacheDataSource.contains(dataWord)) {
+                return if (cacheDataSource.isFavorite(dataWord)) {
+                    dataWord.map(translatedCacheFavoriteDataWordsMapper)
+                } else {
+                    dataWord.map(translatedCacheNotFavoriteDataWordsMapper)
+                }
+            } else {
+                cacheDataSource.saveWord(dataWord)
+                dataWord
             }
         }
 
@@ -79,10 +89,6 @@ interface WordRepository<T> {
 
         override suspend fun saveRecentQuery(recentQuery: ArrayList<String>) {
             translatorSharedPreferences.save(recentQuery)
-        }
-
-        override suspend fun userIsAuthorize(): Boolean {
-            return authSharedPreferences.read() != ""
         }
     }
 
@@ -122,8 +128,6 @@ interface WordRepository<T> {
                     isFavorite
                 )
             }
-
-            override suspend fun userIsAuthorize(): Boolean = false
         }
     }
 

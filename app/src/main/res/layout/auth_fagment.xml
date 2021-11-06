@@ -4,39 +4,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--    todo move to core this class edit text-->
-    <com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.SearchEditTextImpl
-        android:id="@+id/field_user_name"
+    <LinearLayout
+        android:id="@+id/auth_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/your_name_text"/>
+        android:orientation="vertical"
+        android:visibility="gone">
 
-    <com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.SearchEditTextImpl
-        android:id="@+id/field_user_phone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/your_phone_text"/>
+        <!--    todo move to core this class edit text-->
+        <com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.SearchEditTextImpl
+            android:id="@+id/field_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/your_name_text"/>
 
-    <Button
-        android:id="@+id/authorize_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        <com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.SearchEditTextImpl
+            android:id="@+id/field_user_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/your_phone_text"/>
 
-<!--    //todo move this class pb to core package-->
-    <com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordProgressBarImpl
-        android:id="@+id/progress_bar"
+        <Button
+            android:id="@+id/authorize_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+
+    <com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordTextViewImpl
+        android:id="@+id/authorized_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:layout_gravity="center"/>
 
-    <TextView
-        android:id="@+id/auth_result_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:textColor="@android:color/black"/>
 
 </LinearLayout>

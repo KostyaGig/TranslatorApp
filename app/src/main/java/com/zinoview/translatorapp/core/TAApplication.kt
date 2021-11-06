@@ -26,13 +26,14 @@ import com.zinoview.translatorapp.domain.words.DomainLanguageMapper
 import com.zinoview.translatorapp.domain.words.DomainRecentMapper
 import com.zinoview.translatorapp.domain.words.DomainWordMapper
 import com.zinoview.translatorapp.domain.words.WordInteractor
-import com.zinoview.translatorapp.ui.auth.feature.ta01_auth_user.register.RegisterViewModel
-import com.zinoview.translatorapp.ui.auth.feature.ta01_auth_user.login.LoginCommunication
-import com.zinoview.translatorapp.ui.auth.feature.ta01_auth_user.register.RegisterCommunication
-import com.zinoview.translatorapp.ui.auth.feature.ta01_auth_user.UiAuthMapper
-import com.zinoview.translatorapp.ui.auth.feature.ta01_auth_user.login.LoginViewModel
-import com.zinoview.translatorapp.ui.auth.feature.ta01_auth_user.login.UiAuthLoginStateMapper
-import com.zinoview.translatorapp.ui.auth.feature.ta01_auth_user.register.UiAuthRegisterStateMapper
+import com.zinoview.translatorapp.ui.auth.feature.ta06_auth_user.register.RegisterViewModel
+import com.zinoview.translatorapp.ui.auth.feature.ta06_auth_user.login.LoginCommunication
+import com.zinoview.translatorapp.ui.auth.feature.ta06_auth_user.register.RegisterCommunication
+import com.zinoview.translatorapp.ui.auth.feature.ta06_auth_user.UiAuthMapper
+import com.zinoview.translatorapp.ui.auth.feature.ta06_auth_user.login.LoginViewModel
+import com.zinoview.translatorapp.ui.auth.feature.ta06_auth_user.login.UiAuthLoginStateMapper
+import com.zinoview.translatorapp.ui.auth.feature.ta06_auth_user.register.AuthorizeCommunication
+import com.zinoview.translatorapp.ui.auth.feature.ta06_auth_user.register.UiAuthRegisterStateMapper
 import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.TranslateWordViewModel
 import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.UiLanguageMapper
 import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.UiWordMapper
@@ -157,7 +158,8 @@ class TAApplication : Application() {
             authInteractor,
             UiAuthMapper.Base(),
             UiAuthRegisterStateMapper.Base(),
-            RegisterCommunication()
+            RegisterCommunication(),
+            AuthorizeCommunication()
         )
 
         loginViewModel = LoginViewModel.Base(

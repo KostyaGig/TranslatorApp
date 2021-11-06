@@ -12,4 +12,8 @@
     <string name="your_name_text">Your name</string>
     <string name="your_phone_text">Your phone</string>
     <string name="authorize_text">Authorize</string>
+    <string name="translate_text">Translate</string>
+    <string name="register_text">Register</string>
+    <string name="already_authorized_text">You already authorized</string>
+    <string name="login_text">Login</string>
 </resources>

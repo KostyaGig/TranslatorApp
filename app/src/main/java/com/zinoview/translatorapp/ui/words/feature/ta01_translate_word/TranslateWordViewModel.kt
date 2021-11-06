@@ -19,14 +19,14 @@ interface TranslateWordViewModel : Observe<UiWordState> {
 
     fun translateWord(srcWord: String)
 
-
     fun recentWords()
 
     fun observeRecentWords(owner: LifecycleOwner,observer: Observer<UiRecentWords>)
 
     fun saveRecentQuery(recentQuery: ArrayList<String>)
 
-    fun userIsAuthorize(block:(Boolean) -> Unit)
+    //todo remove after adding viewmodel to lifecycle
+    fun clean()
 
     class Base(
         private val wordInteractor: WordInteractor,
@@ -75,14 +75,8 @@ interface TranslateWordViewModel : Observe<UiWordState> {
             }
         }
 
-        override fun userIsAuthorize(block:(Boolean) -> Unit) {
-            viewModelScope.launch(defaultDispatcher) {
-                val result = wordInteractor.userIsAuthorize()
-                withContext(Dispatchers.Main) {
-                    block.invoke(result)
-                }
-            }
+        override fun clean() {
+            communication.postValue(UiWordState.Empty)
         }
-
     }
 }

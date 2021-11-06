@@ -2,6 +2,7 @@ package com.zinoview.translatorapp.ui.core
 
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
+import com.zinoview.translatorapp.core.ResourceProvider
 import com.zinoview.translatorapp.ui.core.nav.Navigation
 
 abstract class BaseFragment(@LayoutRes id: Int) : Fragment(id) {
@@ -10,10 +11,11 @@ abstract class BaseFragment(@LayoutRes id: Int) : Fragment(id) {
         requireActivity() as Navigation
     }
 
+    protected val resourceProvider by lazy {
+        ResourceProvider.Base(requireContext())
+    }
+
     abstract fun navigateToBack()
 
-    protected companion object {
 
-        const val ENTERED_WORD = "entered_word"
-    }
 }

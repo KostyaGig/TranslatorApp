@@ -5,6 +5,8 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.37407407407407406" />
         <entry key="app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.32407407407407407" />
+        <entry key="app/src/main/res/drawable/ic_login.xml" value="0.3333333333333333" />
+        <entry key="app/src/main/res/drawable/ic_translate.xml" value="0.3333333333333333" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3398148148148148" />
         <entry key="app/src/main/res/layout/auth_fagment.xml" value="0.31203703703703706" />
         <entry key="app/src/main/res/layout/progress_item.xml" value="0.29259259259259257" />
@@ -13,6 +15,8 @@
         <entry key="app/src/main/res/layout/search_words_fragment.xml" value="0.1" />
         <entry key="app/src/main/res/layout/word_item.xml" value="0.3651041666666667" />
         <entry key="app/src/main/res/layout/words_fragment.xml" value="0.3651041666666667" />
+        <entry key="app/src/main/res/menu-v26/main_menu.xml" value="0.3651041666666667" />
+        <entry key="app/src/main/res/menu/main_menu.xml" value="0.29259259259259257" />
       </map>
     </option>
   </component>

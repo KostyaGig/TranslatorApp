@@ -1,11 +1,11 @@
-package com.zinoview.translatorapp.ui.auth.feature.ta01_auth_user.register
+package com.zinoview.translatorapp.ui.auth.feature.ta06_auth_user.register
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zinoview.translatorapp.domain.auth.AuthInteractor
-import com.zinoview.translatorapp.ui.auth.feature.ta01_auth_user.UiAuthMapper
+import com.zinoview.translatorapp.ui.auth.feature.ta06_auth_user.UiAuthMapper
 import com.zinoview.translatorapp.ui.core.BaseCommunication
 import com.zinoview.translatorapp.ui.core.Observe
 import kotlinx.coroutines.CoroutineDispatcher
@@ -19,11 +19,16 @@ interface RegisterViewModel : Observe<UiAuthRegisterState> {
 
     fun clean()
 
+    fun requestAuthorize()
+
+    fun observeAuthorize(owner: LifecycleOwner,observer: Observer<Boolean>)
+
     class Base(
         private val authInteractor: AuthInteractor,
         private val uiAuthMapper: UiAuthMapper,
         private val uiAuthRegisterStateMapper: UiAuthRegisterStateMapper,
         private val registerCommunication: BaseCommunication<UiAuthRegisterState>,
+        private val authorizeCommunication: BaseCommunication<Boolean>,
         private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
     ) : RegisterViewModel, ViewModel() {
 
@@ -47,6 +52,19 @@ interface RegisterViewModel : Observe<UiAuthRegisterState> {
 
         override fun observe(owner: LifecycleOwner, observer: Observer<UiAuthRegisterState>) {
             registerCommunication.observe(owner, observer)
+        }
+
+        override fun requestAuthorize() {
+            viewModelScope.launch(defaultDispatcher) {
+                val authorize = authInteractor.requestAuthorize()
+                withContext(Dispatchers.Main) {
+                    authorizeCommunication.postValue(authorize)
+                }
+            }
+        }
+
+        override fun observeAuthorize(owner: LifecycleOwner, observer: Observer<Boolean>) {
+            authorizeCommunication.observe(owner, observer)
         }
 
     }

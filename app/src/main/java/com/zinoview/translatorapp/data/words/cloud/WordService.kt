@@ -11,4 +11,7 @@ interface WordService {
 
     @GET("/translate/{word}")
     suspend fun translatedWord(@Path("word") srcWord: String) : CloudWord.Base
+
+    @GET("/translateUniqueKey/{srcWord}/{userUniqueKey}")
+    suspend fun translatedWordWithAuthorized(@Path("srcWord") srcWord: String,@Path("userUniqueKey") userUniqueKey: String) : CloudWord.Base
 }

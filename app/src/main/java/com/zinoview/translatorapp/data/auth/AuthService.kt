@@ -8,10 +8,9 @@ import retrofit2.http.*
 
 interface AuthService {
 
-    //todo Come up with following: how result should return our server?
-    @POST("/register/{userName}/{userNumberPhone}")
+    @GET("/register/{userName}/{userNumberPhone}")
     suspend fun register(@Path("userName") userName: String, @Path("userNumberPhone") userNumberPhone: String) : CloudAuth.Base
 
-    @POST("/login/{userName}/{userNumberPhone}")
+    @GET("/login/{userName}/{userNumberPhone}")
     suspend fun login(@Path("userName") userName: String, @Path("userNumberPhone") userNumberPhone: String) : CloudAuth.Base
 }

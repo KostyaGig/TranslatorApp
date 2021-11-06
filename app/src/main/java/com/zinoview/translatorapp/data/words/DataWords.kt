@@ -54,7 +54,9 @@ sealed class DataWords : Abstract.Words {
             override fun <T> map(mapper: Abstract.WordsMapper<T>): T {
                 return mapper.cachedMap(translatedWord, srcWord, language,isFavorite)
             }
+
         }
+
     }
 
     data class Cache(

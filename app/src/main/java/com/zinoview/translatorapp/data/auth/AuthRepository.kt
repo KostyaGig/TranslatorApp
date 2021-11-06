@@ -1,13 +1,14 @@
 package com.zinoview.translatorapp.data.auth
 
 import com.zinoview.translatorapp.data.auth.cache.AuthSharedPreferences
-import com.zinoview.translatorapp.ui.core.log
 
 interface AuthRepository {
 
     suspend fun register(userName: String, userPhone: String) : DataAuth
 
     suspend fun login(userName: String, userPhone: String) : DataAuth
+
+    suspend fun requestAuthorize(): Boolean
 
     class Base(
         private val cloudDataSource: AuthCloudDataSource,
@@ -19,9 +20,7 @@ interface AuthRepository {
         override suspend fun register(userName: String, userPhone: String): DataAuth {
             return try {
                 val cloudRegister = cloudDataSource.register(userName, userPhone)
-                val dataAuth = cloudRegister.map(cloudAuthMapper)
-                dataAuth.saveUniqueKey(authSharedPreferences)
-                return dataAuth
+                authorize(cloudRegister)
             } catch (e: Exception) {
                 val errorMessage = exceptionMapper.map(e)
                 DataAuth.Failure(errorMessage)
@@ -31,11 +30,21 @@ interface AuthRepository {
         override suspend fun login(userName: String, userPhone: String): DataAuth {
             return try {
                 val cloudRegister = cloudDataSource.login(userName, userPhone)
-                return cloudRegister.map(cloudAuthMapper)
+                authorize(cloudRegister)
             } catch (e: Exception) {
                 val errorMessage = exceptionMapper.map(e)
                 DataAuth.Failure(errorMessage)
             }
+        }
+
+        private suspend fun authorize(cloudAuth: CloudAuth) : DataAuth {
+            val dataAuth = cloudAuth.map(cloudAuthMapper)
+            dataAuth.saveUniqueKey(authSharedPreferences)
+            return dataAuth
+        }
+
+        override suspend fun requestAuthorize(): Boolean {
+            return authSharedPreferences.userIsAuthorized()
         }
     }
 
@@ -50,6 +59,11 @@ interface AuthRepository {
 
         override suspend fun login(userName: String, userPhone: String): DataAuth {
             return authCloudDataSource.login(userName, userPhone).map(cloudAuthMapper)
+        }
+
+        //todo make test for this method
+        override suspend fun requestAuthorize(): Boolean {
+            return false
         }
 
     }

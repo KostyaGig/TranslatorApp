@@ -3,6 +3,7 @@ package com.zinoview.translatorapp.data.words.cloud
 import com.google.gson.annotations.SerializedName
 import com.zinoview.translatorapp.data.words.DataLanguage
 import com.zinoview.translatorapp.data.words.DataWords
+import com.zinoview.translatorapp.ui.core.log
 
 //SUCCESS_RESULT = "Success translator word"
 //EMPTY_WORD_RESULT = "Empty field"
@@ -43,18 +44,22 @@ interface CloudWord {
         @SerializedName("fromLanguage")
         private val fromLanguage: String = "",
         @SerializedName("toLanguage")
-        private val toLanguage: String = ""
+        private val toLanguage: String = "",
+        @SerializedName("userIsAuthorized")
+        private val userIsAuthorized: Boolean
     ) : CloudWord {
 
         override fun map(mapper: CloudResultMapper) : DataWords {
             val stateWord = mapper.map(mark)
             val language = DataLanguage(fromLanguage, toLanguage)
             return when(stateWord) {
-                CloudResultMapper.StateMark.SUCCESS -> DataWords.Base.Success(
-                    srcWord,
-                    translatedWord,
-                    language
-                )
+                CloudResultMapper.StateMark.SUCCESS -> {
+                    DataWords.Base.Success(
+                        srcWord,
+                        translatedWord,
+                        language
+                    )
+                }
                 CloudResultMapper.StateMark.FAILURE -> DataWords.Failure(
                     message
                 )
