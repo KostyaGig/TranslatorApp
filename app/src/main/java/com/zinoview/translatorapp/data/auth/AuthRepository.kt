@@ -53,17 +53,22 @@ interface AuthRepository {
         private val cloudAuthMapper: CloudAuthMapper
     ) : AuthRepository {
 
+        private var isAuthorized = false
+
         override suspend fun register(userName: String, userPhone: String): DataAuth {
-            return authCloudDataSource.register(userName, userPhone).map(cloudAuthMapper)
+            val dataAuth = authCloudDataSource.register(userName, userPhone).map(cloudAuthMapper)
+            isAuthorized = dataAuth.saveUniqueKey()
+            return dataAuth
         }
 
         override suspend fun login(userName: String, userPhone: String): DataAuth {
-            return authCloudDataSource.login(userName, userPhone).map(cloudAuthMapper)
+            val dataAuth = authCloudDataSource.login(userName, userPhone).map(cloudAuthMapper)
+            isAuthorized = dataAuth.saveUniqueKey()
+            return dataAuth
         }
 
-        //todo make test for this method
         override suspend fun requestAuthorize(): Boolean {
-            return false
+            return isAuthorized
         }
 
     }

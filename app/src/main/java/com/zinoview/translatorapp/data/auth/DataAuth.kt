@@ -7,6 +7,9 @@ sealed class DataAuth : Abstract.Register {
 
     open fun saveUniqueKey(authSharedPreferences: AuthSharedPreferences) = Unit
 
+    //method for junit tests
+    open fun saveUniqueKey() = false
+
     data class Success(
         private val message: String,
         private val uniqueKey: String
@@ -17,6 +20,8 @@ sealed class DataAuth : Abstract.Register {
 
         override fun saveUniqueKey(authSharedPreferences: AuthSharedPreferences)
             = authSharedPreferences.save(uniqueKey)
+
+        override fun saveUniqueKey() = true
     }
 
     //usage this state only for register

@@ -9,7 +9,7 @@ import org.junit.Test
  * Test for [com.zinoview.translatorapp.data.auth.AuthRepository.Test]
  * */
 
-class AuthCloudDataSourceTest {
+class AuthRepositoryTest {
 
     private lateinit var authRepository: AuthRepository
 
@@ -110,6 +110,18 @@ class AuthCloudDataSourceTest {
 
         val expected = DataAuth.Failure("Name or phone not should be empty")
         val actual = authRepository.login(userName,userNumberPhone)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun test_is_authorized_user() = runBlocking {
+        val userName = "Kostya"
+        val userNumberPhone = "123"
+
+        authRepository.register(userName,userNumberPhone)
+        val expected = true
+        val actual = authRepository.requestAuthorize()
 
         assertEquals(expected, actual)
     }
