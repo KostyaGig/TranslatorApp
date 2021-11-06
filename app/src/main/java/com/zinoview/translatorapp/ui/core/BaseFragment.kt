@@ -11,4 +11,9 @@ abstract class BaseFragment(@LayoutRes id: Int) : Fragment(id) {
     }
 
     abstract fun navigateToBack()
+
+    protected companion object {
+
+        const val ENTERED_WORD = "entered_word"
+    }
 }
