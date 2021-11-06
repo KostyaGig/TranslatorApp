@@ -29,7 +29,6 @@ class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
     private val tempRecentWords = TempRecentWords.Base()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         val wordField = view.findViewById<SearchEditTextImpl>(R.id.word_field)
         val searchWordBtn = view.findViewById<Button>(R.id.search_word_btn)
         val backBtn = view.findViewById<Button>(R.id.back_btn)
@@ -50,21 +49,34 @@ class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
             view.findViewById<RecyclerView>(R.id.recent_query_recycler_view)
         recentQueryRecyclerView.adapter = adapter
 
+        arguments?.let { bundle ->
+            val enteredWord = bundle.getString(ENTERED_WORD)
+
+            viewModel.translateWord(enteredWord!!)
+            recentQueryTextView.defaultState(recentQueryRecyclerView)
+        }
+
         viewModel.observe(this) { state ->
             state.show(wordTextView, wordProgressBar, rootWordTextViewView)
             state.changeRecentQuery(tempRecentWords)
         }
 
         searchWordBtn.setOnClickListener {
+            val enteredWord = wordField.enteredText()
             viewModel.userIsAuthorize { authorize ->
                 if (authorize) {
                     // translate with uniqueKey
 
-            val enteredWord = wordField.enteredText()
             viewModel.translateWord(enteredWord)
-//            recentQueryTextView.defaultState(recentQueryRecyclerView)
+            recentQueryTextView.defaultState(recentQueryRecyclerView)
                 } else {
-                    navigation.navigateTo(RegisterFragment())
+                    //todo add to navigation nav with arguments
+                    val registerFragment = RegisterFragment().apply {
+                        arguments = Bundle().apply {
+                            putString(ENTERED_WORD,enteredWord)
+                        }
+                    }
+                    navigation.navigateTo(registerFragment)
                 }
             }
         }

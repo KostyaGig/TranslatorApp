@@ -20,7 +20,14 @@ class RegisterFragment : BaseFragment(R.layout.auth_fagment) {
         application.registerViewModel
     }
 
+    private var enteredWord = ""
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        arguments?.let {
+            enteredWord = it.getString(ENTERED_WORD)!!
+        }
+
         val fieldUserName = view.findViewById<SearchEditTextImpl>(R.id.field_user_name)
         val fieldUserPhone = view.findViewById<SearchEditTextImpl>(R.id.field_user_phone)
         val registerBtn = view.findViewById<Button>(R.id.authorize_btn)
@@ -37,7 +44,7 @@ class RegisterFragment : BaseFragment(R.layout.auth_fagment) {
         }
 
         registerViewModel.observe(this) { uiAuthRegisterState ->
-            uiAuthRegisterState.map(navigation)
+            uiAuthRegisterState.map(navigation,enteredWord)
         }
     }
 
