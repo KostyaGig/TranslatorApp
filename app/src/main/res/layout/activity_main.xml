@@ -25,7 +25,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@android:color/white"
-        app:menu="@menu/main_menu"
         />
 
   </androidx.constraintlayout.widget.ConstraintLayout>

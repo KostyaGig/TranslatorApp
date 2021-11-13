@@ -11,6 +11,10 @@ abstract class BaseFragment(@LayoutRes id: Int) : Fragment(id) {
         requireActivity() as Navigation
     }
 
+    protected val bottomNavigationActivity by lazy {
+        requireActivity() as BottomNavigationActivity
+    }
+
     protected val resourceProvider by lazy {
         ResourceProvider.Base(requireContext())
     }

@@ -6,7 +6,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import com.zinoview.translatorapp.R
 import com.zinoview.translatorapp.core.TAApplication
-import com.zinoview.translatorapp.ui.auth.feature.ta07_translate_user_without_authorize.AuthorizeSnackBar
+import com.zinoview.translatorapp.ui.auth.feature.ta07_translate_word_user_without_authorize.AuthSnackBar
 import com.zinoview.translatorapp.ui.core.BaseFragment
 import com.zinoview.translatorapp.ui.core.MainActivity
 import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.SearchEditTextImpl
@@ -29,7 +29,7 @@ class LoginFragment : BaseFragment(R.layout.auth_fagment) {
 
         loginBtn.text = resourceProvider.string(R.string.login_text)
 
-        val authorizeSnackBar = AuthorizeSnackBar.Base(authView)
+        val authorizeSnackBar = AuthSnackBar.Base(authView)
 
         loginBtn.setOnClickListener {
             val userName = fieldUserName.enteredText()
@@ -40,6 +40,7 @@ class LoginFragment : BaseFragment(R.layout.auth_fagment) {
 
         loginViewModel.observe(this) { uiAuthLoginState ->
             uiAuthLoginState.map(navigation,authorizeSnackBar)
+            uiAuthLoginState.map(bottomNavigationActivity)
         }
     }
 

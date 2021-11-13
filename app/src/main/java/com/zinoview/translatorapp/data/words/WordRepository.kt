@@ -19,7 +19,7 @@ interface WordRepository<T> {
 
     suspend fun recentQuery() : DataRecentWords
 
-    //param isFavorite need for tests
+    //param isFavorite needs for tests
     suspend fun updateWord(srcWord: String,position: Int,isFavorite: Boolean = false) : DataWords
 
     //I forced usage hard implementation for serialize here to string and back
@@ -44,7 +44,7 @@ interface WordRepository<T> {
                     val cloudWord = cloudDataSource.translateWithAuthorized(srcWord,userUniqueKey)
                     translateWordByAuthorization(cloudWord)
                 } else {
-                    log("repo fetch words by bnot authorize")
+                    log("repo fetch words by not authorize")
                     val cloudWord = cloudDataSource.translatedWord(srcWord)
                     translateWordByAuthorization(cloudWord)
                 }

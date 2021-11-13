@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/translate_item"
-        android:title="@string/translate_text"
-        android:icon="@drawable/ic_translate"
-        android:iconTint="@android:color/white"
-        />
+    <group android:id="@+id/menu_group">
+        <item
+            android:id="@+id/words_item"
+            android:title="@string/words"
+            android:icon="@drawable/ic_words"
+            />
 
-    <item
-        android:id="@+id/authorize_item"
-        android:title="@string/authorize_text"
-        android:icon="@drawable/ic_login"
-        android:iconTint="@android:color/white"
-        />
+        <item
+            android:id="@+id/translate_item"
+            android:title="@string/translate_text"
+            android:icon="@drawable/ic_search"
+            />
+
+        <item
+            android:id="@+id/authorize_item"
+            android:title="@string/auth_text"
+            android:icon="@drawable/ic_login"
+            />
+    </group>
+
+
+
 
 </menu>

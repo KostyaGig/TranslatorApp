@@ -25,7 +25,7 @@ interface TranslateWordViewModel : Observe<UiWordState> {
 
     fun saveRecentQuery(recentQuery: ArrayList<String>)
 
-    //todo remove after adding viewmodel to lifecycle
+    //todo remove after invoked view model to lifecycle
     fun clean()
 
     class Base(

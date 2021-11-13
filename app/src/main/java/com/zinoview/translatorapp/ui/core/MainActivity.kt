@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.zinoview.translatorapp.R
+import com.zinoview.translatorapp.core.TAApplication
 import com.zinoview.translatorapp.ui.auth.fragment.RegisterFragment
 import com.zinoview.translatorapp.ui.core.nav.Navigation
 import com.zinoview.translatorapp.ui.core.nav.Navigator
@@ -20,15 +21,15 @@ fun Exception.info() : String {
     return "class ${this::class.java}, message ${this.message}"
 }
 
-class MainActivity : AppCompatActivity(), Navigation {
+class MainActivity : AppCompatActivity(), Navigation, BottomNavigationActivity {
 
     private var navigator: Navigator = Navigator.Empty
 
-    private val selectedItem =  SelectedItem.Base(
-        SelectedItem.FragmentClassMapper.Base()
-    )
-
     private lateinit var bottomNavigationView: BottomNavigationView
+
+    private val registerViewModel by lazy {
+        (application as TAApplication).registerViewModel
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,29 +44,41 @@ class MainActivity : AppCompatActivity(), Navigation {
             navigatorModel.navigate(this)
         }
 
+        registerViewModel.observeAuthorize(this) { authState ->
+            authState.handleAuth(this)
+        }
+
         bottomNavigationView.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
+                R.id.words_item -> navigateTo(WordsFragment())
                 R.id.translate_item -> navigateTo(SearchWordsFragment())
                 R.id.authorize_item -> navigateTo(RegisterFragment())
             }
             return@setOnItemSelectedListener true
         }
 
+        registerViewModel.requestAuthorize()
     }
+
 
     override fun selectItem(itemId: Int) {
         bottomNavigationView.selectedItemId = itemId
+    }
+
+    override fun inflateBottomNavigationMenu(id: Int) {
+        log("inflate botto, nav menu")
+        bottomNavigationView.menu.removeGroup(R.id.menu_group)
+        bottomNavigationView.inflateMenu(id)
     }
 
     override fun navigateTo(fragment: BaseFragment) {
         navigator.openFragment(fragment)
     }
 
-    override fun exit() = super.onBackPressed()
-
     override fun onBackPressed() {
         val fragment = supportFragmentManager.fragments[0] as BaseFragment
-        selectedItem.show(bottomNavigationView,fragment)
         fragment.navigateToBack()
     }
+
+    override fun exit() = super.onBackPressed()
 }

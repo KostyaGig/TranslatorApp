@@ -13,12 +13,5 @@
             android:title="@string/translate_text"
             android:icon="@drawable/ic_search"
             />
-
-        <item
-            android:id="@+id/authorize_item"
-            android:title="@string/auth_text"
-            android:icon="@drawable/ic_login"
-            />
     </group>
-
 </menu>

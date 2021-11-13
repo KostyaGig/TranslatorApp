@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone">
+        >
 
         <!--    todo move to core this class edit text-->
         <com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.SearchEditTextImpl
@@ -31,13 +31,5 @@
             />
 
     </LinearLayout>
-
-    <com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordTextViewImpl
-        android:id="@+id/authorized_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_gravity="center"/>
-
 
 </LinearLayout>

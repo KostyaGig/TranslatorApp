@@ -2,22 +2,25 @@ package com.zinoview.translatorapp.ui.auth.feature.ta06_auth_user.login
 
 import com.zinoview.translatorapp.R
 import com.zinoview.translatorapp.core.auth.Abstract
-import com.zinoview.translatorapp.ui.auth.feature.ta07_translate_user_without_authorize.AuthorizeSnackBar
+import com.zinoview.translatorapp.ui.auth.feature.ta06_auth_user.core.AuthHandle
+import com.zinoview.translatorapp.ui.auth.feature.ta07_translate_word_user_without_authorize.AuthSnackBar
+import com.zinoview.translatorapp.ui.core.BottomNavigationActivity
 import com.zinoview.translatorapp.ui.core.nav.Navigation
-import com.zinoview.translatorapp.ui.words.fragment.WordsFragment
 
-sealed class UiAuthLoginState : Abstract.Register {
+sealed class UiAuthLoginState : Abstract.Register,AuthHandle {
 
     override fun <T> map(mapper: Abstract.RegisterMapper<T>): T
             = mapper.map("")
 
-    open fun map(navigation: Navigation,snackBar: AuthorizeSnackBar) = Unit
+    override fun map(navigation: Navigation,snackBar: AuthSnackBar) = Unit
+
+    override fun map(activity: BottomNavigationActivity) = Unit
 
     object Empty : UiAuthLoginState()
 
     object Progress : UiAuthLoginState() {
 
-        override fun map(navigation: Navigation,snackBar: AuthorizeSnackBar) {
+        override fun map(navigation: Navigation,snackBar: AuthSnackBar) {
             snackBar.show("Loading...")
         }
     }
@@ -29,12 +32,13 @@ sealed class UiAuthLoginState : Abstract.Register {
         override fun <T> map(mapper: Abstract.RegisterMapper<T>): T
                 = mapper.map(message)
 
-        override fun map(navigation: Navigation,snackBar: AuthorizeSnackBar) {
+        override fun map(navigation: Navigation,snackBar: AuthSnackBar) {
             snackBar.show(message)
-            navigation.navigateTo(WordsFragment())
-            navigation.selectItem(R.id.translate_item)
+            navigation.selectItem(R.id.words_item)
         }
 
+        override fun map(activity: BottomNavigationActivity)
+            = activity.inflateBottomNavigationMenu(R.menu.authentificated_main_menu)
 
     }
 
@@ -45,7 +49,7 @@ sealed class UiAuthLoginState : Abstract.Register {
         override fun <T> map(mapper: Abstract.RegisterMapper<T>): T
                 = mapper.mapFailure(message)
 
-        override fun map(navigation: Navigation, snackBar: AuthorizeSnackBar) {
+        override fun map(navigation: Navigation, snackBar: AuthSnackBar) {
             snackBar.show(message)
         }
 

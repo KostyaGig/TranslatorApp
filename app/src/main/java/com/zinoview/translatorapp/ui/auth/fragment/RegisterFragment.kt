@@ -6,11 +6,11 @@ import android.widget.Button
 import android.widget.LinearLayout
 import com.zinoview.translatorapp.R
 import com.zinoview.translatorapp.core.TAApplication
-import com.zinoview.translatorapp.ui.auth.feature.ta07_translate_user_without_authorize.AuthorizeSnackBar
+import com.zinoview.translatorapp.ui.auth.feature.ta07_translate_word_user_without_authorize.AuthSnackBar
 import com.zinoview.translatorapp.ui.core.BaseFragment
 import com.zinoview.translatorapp.ui.core.MainActivity
+import com.zinoview.translatorapp.ui.core.log
 import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.SearchEditTextImpl
-import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordTextViewImpl
 import com.zinoview.translatorapp.ui.words.fragment.WordsFragment
 
 class RegisterFragment : BaseFragment(R.layout.auth_fagment) {
@@ -27,11 +27,10 @@ class RegisterFragment : BaseFragment(R.layout.auth_fagment) {
         val fieldUserPhone = view.findViewById<SearchEditTextImpl>(R.id.field_user_phone)
         val registerBtn = view.findViewById<Button>(R.id.authorize_btn)
         val authView = view.findViewById<LinearLayout>(R.id.auth_view)
-        val authorizeTextView = view.findViewById<WordTextViewImpl>(R.id.authorized_tv)
 
         registerBtn.text = resourceProvider.string(R.string.register_text)
 
-        val authorizeSnackBar = AuthorizeSnackBar.Base(authView)
+        val authorizeSnackBar = AuthSnackBar.Base(authView)
 
         registerBtn.setOnClickListener {
             val userName = fieldUserName.enteredText()
@@ -42,19 +41,9 @@ class RegisterFragment : BaseFragment(R.layout.auth_fagment) {
 
         registerViewModel.observe(this) { uiAuthRegisterState ->
             uiAuthRegisterState.map(navigation,authorizeSnackBar)
+            uiAuthRegisterState.map(bottomNavigationActivity)
         }
 
-        //todo replace isAuthorized Boolean to sealed class and move this logic to here
-        registerViewModel.observeAuthorize(this) { isAuthorized ->
-            if (isAuthorized) {
-                authView.visibility = View.GONE
-                authorizeTextView.text = resourceProvider.string(R.string.already_authorized_text)
-                authorizeTextView.visibility = View.VISIBLE
-            } else {
-                authView.visibility = View.VISIBLE
-                authorizeTextView.visibility = View.GONE
-            }
-        }
     }
 
     override fun onDestroy() {
@@ -62,10 +51,8 @@ class RegisterFragment : BaseFragment(R.layout.auth_fagment) {
         super.onDestroy()
     }
 
-    override fun onStart() {
-        super.onStart()
-        registerViewModel.requestAuthorize()
+    override fun navigateToBack() {
+        navigation.navigateTo(WordsFragment())
+        navigation.selectItem(R.id.words_item)
     }
-
-    override fun navigateToBack() = navigation.navigateTo(WordsFragment())
 }

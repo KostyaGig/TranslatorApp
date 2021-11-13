@@ -11,7 +11,6 @@ import com.zinoview.translatorapp.ui.core.MainActivity
 import com.zinoview.translatorapp.ui.core.log
 import com.zinoview.translatorapp.ui.words.feature.ta02_show_translated_word.WordsAdapter
 
-
 class WordsFragment : BaseFragment(R.layout.words_fragment) {
 
     private val viewModel by lazy {
@@ -21,8 +20,6 @@ class WordsFragment : BaseFragment(R.layout.words_fragment) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        val addWordButton = view.findViewById<FloatingActionButton>(R.id.add_word_btn)
         val adapter = WordsAdapter.Base(object : WordsAdapter.WordsAdapterItemClickListener {
 
             override fun itemClick(position: Int, translatedWord: String) {
@@ -32,10 +29,6 @@ class WordsFragment : BaseFragment(R.layout.words_fragment) {
 
         val wordsRecyclerView = view.findViewById<RecyclerView>(R.id.words_rec_view)
         wordsRecyclerView.adapter = adapter
-
-        addWordButton.setOnClickListener {
-            navigation.navigateTo(SearchWordsFragment())
-        }
 
         viewModel.observe(this) { state ->
             state.uiShow(adapter)

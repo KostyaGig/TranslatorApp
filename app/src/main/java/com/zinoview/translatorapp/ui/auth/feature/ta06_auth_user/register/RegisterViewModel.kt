@@ -6,14 +6,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zinoview.translatorapp.domain.auth.AuthInteractor
 import com.zinoview.translatorapp.ui.auth.feature.ta06_auth_user.UiAuthMapper
+import com.zinoview.translatorapp.ui.auth.feature.ta07_translate_word_user_without_authorize.AuthState
+import com.zinoview.translatorapp.ui.auth.feature.ta07_translate_word_user_without_authorize.AuthorizeObserve
 import com.zinoview.translatorapp.ui.core.BaseCommunication
-import com.zinoview.translatorapp.ui.core.Observe
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-interface RegisterViewModel : Observe<UiAuthRegisterState> {
+interface RegisterViewModel : AuthorizeObserve<UiAuthRegisterState> {
 
     fun register(userName: String, userPhone: String)
 
@@ -21,14 +22,12 @@ interface RegisterViewModel : Observe<UiAuthRegisterState> {
 
     fun requestAuthorize()
 
-    fun observeAuthorize(owner: LifecycleOwner,observer: Observer<Boolean>)
-
     class Base(
         private val authInteractor: AuthInteractor,
         private val uiAuthMapper: UiAuthMapper,
         private val uiAuthRegisterStateMapper: UiAuthRegisterStateMapper,
         private val registerCommunication: BaseCommunication<UiAuthRegisterState>,
-        private val authorizeCommunication: BaseCommunication<Boolean>,
+        private val authorizeCommunication: BaseCommunication<AuthState>,
         private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
     ) : RegisterViewModel, ViewModel() {
 
@@ -57,13 +56,18 @@ interface RegisterViewModel : Observe<UiAuthRegisterState> {
         override fun requestAuthorize() {
             viewModelScope.launch(defaultDispatcher) {
                 val authorize = authInteractor.requestAuthorize()
+                val authState = authorize.mapAuth()
                 withContext(Dispatchers.Main) {
-                    authorizeCommunication.postValue(authorize)
+                    authorizeCommunication.postValue(authState)
                 }
             }
         }
 
-        override fun observeAuthorize(owner: LifecycleOwner, observer: Observer<Boolean>) {
+        private fun Boolean.mapAuth() : AuthState {
+            return if (this) AuthState.Auth else AuthState.NotAuth
+        }
+
+        override fun observeAuthorize(owner: LifecycleOwner, observer: Observer<AuthState>) {
             authorizeCommunication.observe(owner, observer)
         }
 

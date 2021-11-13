@@ -28,7 +28,7 @@ class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        // region initview
+        // region init view
         val wordField = view.findViewById<SearchEditTextImpl>(R.id.word_field)
         val searchWordBtn = view.findViewById<Button>(R.id.search_word_btn)
         val wordTextView = view.findViewById<WordTextViewImpl>(R.id.word_tv)
@@ -77,8 +77,10 @@ class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
         viewModel.recentWords()
     }
 
-    override fun navigateToBack()
-        = navigation.navigateTo(WordsFragment())
+    override fun navigateToBack() {
+        navigation.navigateTo(WordsFragment())
+        navigation.selectItem(R.id.words_item)
+    }
 
     override fun onPause() {
         tempRecentWords.save(viewModel)

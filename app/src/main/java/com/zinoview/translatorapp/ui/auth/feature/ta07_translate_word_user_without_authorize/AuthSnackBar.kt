@@ -1,16 +1,16 @@
-package com.zinoview.translatorapp.ui.auth.feature.ta07_translate_user_without_authorize
+package com.zinoview.translatorapp.ui.auth.feature.ta07_translate_word_user_without_authorize
 
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import java.lang.ref.WeakReference
 
-interface AuthorizeSnackBar {
+interface AuthSnackBar {
 
     fun show(text: String)
 
     class Base(
         view: View
-    ) : AuthorizeSnackBar {
+    ) : AuthSnackBar {
 
         private var weakView = WeakReference(view)
 
