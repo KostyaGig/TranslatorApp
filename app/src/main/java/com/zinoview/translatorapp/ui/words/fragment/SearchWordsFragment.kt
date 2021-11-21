@@ -32,7 +32,6 @@ class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
         inject(this)
     }
 
-    //todo inject
     private val tempRecentWords = TempRecentWords.Base()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

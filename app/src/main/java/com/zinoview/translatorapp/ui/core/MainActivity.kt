@@ -27,7 +27,6 @@ fun Exception.info() : String {
 
 class MainActivity : AppCompatActivity(), Navigation, BottomNavigationActivity {
 
-    //todo inject
     private var navigator: Navigator = Navigator.Empty
 
     private lateinit var bottomNavigationView: BottomNavigationView
