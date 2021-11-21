@@ -3,14 +3,13 @@ package com.zinoview.translatorapp.ui.words.feature.ta04_recent_entered_words
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.zinoview.translatorapp.R
 import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.Show
 import com.zinoview.translatorapp.ui.core.view.WordTextViewImpl
 
-interface RecentWordsAdapter :
-    Show<List<String>> {
-
+interface RecentWordsAdapter : Show<List<String>> {
 
     class Base(
         private val itemClickListener: ItemClickListener<String>
@@ -18,11 +17,12 @@ interface RecentWordsAdapter :
 
         private val recentWords = ArrayList<String>()
 
-        //todo use diffutil
-        override fun show(arg: List<String>) {
-            this.recentWords.clear()
-            this.recentWords.addAll(arg)
-            notifyDataSetChanged()
+        override fun show(newList: List<String>) {
+            val diffUtilCallback = RecentWordsDiffUtilCallback(recentWords,newList)
+            val result = DiffUtil.calculateDiff(diffUtilCallback)
+            recentWords.clear()
+            recentWords.addAll(newList)
+            result.dispatchUpdatesTo(this)
         }
 
         class RecentWordsViewHolder(

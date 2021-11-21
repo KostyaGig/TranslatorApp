@@ -66,7 +66,7 @@ interface WordRepository<T> {
         }
 
         override suspend fun words(): DataWords {
-            val cachedWords = cacheDataSource.words()
+            val cachedWords = cacheDataSource.words().reversed()
             return DataWords.Cache(cachedWords)
         }
 

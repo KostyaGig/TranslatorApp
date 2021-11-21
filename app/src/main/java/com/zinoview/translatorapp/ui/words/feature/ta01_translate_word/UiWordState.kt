@@ -60,7 +60,7 @@ sealed class UiWordState
         }
 
         override fun changeRecentQuery(tempRecentWords: TempRecentWords)
-                = tempRecentWords.addNewWord(srcWord)
+            = tempRecentWords.addNewWord(srcWord)
 
         class Success(
             private val srcWord: String,

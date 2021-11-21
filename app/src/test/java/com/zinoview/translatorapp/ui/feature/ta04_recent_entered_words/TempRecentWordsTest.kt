@@ -7,7 +7,7 @@ import org.junit.Before
 import org.junit.Test
 
 /**
- * Test for [com.zinoview.translatorapp.ui.feature.ta04_recent_entered_words.TempRecentWords.Test]
+ * Test for [com.zinoview.translatorapp.ui.words.feature.ta04_recent_entered_words.TempRecentWords.Test]
  * */
 
 class TempRecentWordsTest {
