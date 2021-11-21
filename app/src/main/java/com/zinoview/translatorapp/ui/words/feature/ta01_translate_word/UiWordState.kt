@@ -2,9 +2,10 @@ package com.zinoview.translatorapp.ui.words.feature.ta01_translate_word
 
 import com.zinoview.translatorapp.core.words.Abstract
 import com.zinoview.translatorapp.core.words.Language
+import com.zinoview.translatorapp.ui.core.Same
 import com.zinoview.translatorapp.ui.core.log
-import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordProgressBar
-import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordTextView
+import com.zinoview.translatorapp.ui.core.view.WordProgressBar
+import com.zinoview.translatorapp.ui.core.view.WordTextView
 import com.zinoview.translatorapp.ui.words.feature.ta04_recent_entered_words.TempRecentWords
 import com.zinoview.translatorapp.ui.words.feature.ta05_favorite_words.view.ItemView
 
@@ -21,7 +22,7 @@ sealed class UiWordState
         =  throw IllegalStateException("UiWords state not use map()")
 
 
-    open fun show(wordTv: WordTextView, wordPb: WordProgressBar,view: ItemView) = Unit
+    open fun show(wordTv: WordTextView, wordPb: WordProgressBar, view: ItemView) = Unit
 
     open fun changeRecentQuery(tempRecentWords: TempRecentWords) = Unit
 
@@ -41,7 +42,7 @@ sealed class UiWordState
         private val language: Language,
     ) : UiWordState() {
 
-        override fun show(wordTv: WordTextView, wordPb: WordProgressBar,view: ItemView) {
+        override fun show(wordTv: WordTextView, wordPb: WordProgressBar, view: ItemView) {
             wordTv.text(translatedWord)
             wordTv.show()
             wordPb.hide()
@@ -93,7 +94,7 @@ sealed class UiWordState
 
     class Failure(private val message: String) : UiWordState() {
 
-        override fun show(wordTv: WordTextView, wordPb: WordProgressBar,view: ItemView) {
+        override fun show(wordTv: WordTextView, wordPb: WordProgressBar, view: ItemView) {
             wordTv.text(message)
             wordTv.show()
             wordPb.hide()

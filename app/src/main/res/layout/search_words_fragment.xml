@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.SearchEditTextImpl
+    <com.zinoview.translatorapp.ui.core.view.SearchEditTextImpl
         android:id="@+id/word_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/root_word_tv">
 
-        <com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordTextViewImpl
+        <com.zinoview.translatorapp.ui.core.view.WordTextViewImpl
             android:id="@+id/word_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
     </com.zinoview.translatorapp.ui.words.feature.ta05_favorite_words.view.ItemViewImpl>
 
 
-    <com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordProgressBarImpl
+    <com.zinoview.translatorapp.ui.core.view.WordProgressBarImpl
         android:id="@+id/word_pb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

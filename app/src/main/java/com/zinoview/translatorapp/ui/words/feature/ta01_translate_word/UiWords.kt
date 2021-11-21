@@ -3,7 +3,7 @@ package com.zinoview.translatorapp.ui.words.feature.ta01_translate_word
 import com.zinoview.translatorapp.core.words.Abstract
 import com.zinoview.translatorapp.data.words.cache.db.CacheWord
 
-import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordTextView
+import com.zinoview.translatorapp.ui.core.view.WordTextView
 import com.zinoview.translatorapp.ui.words.feature.ta02_show_translated_word.WordsAdapter
 import java.lang.IllegalStateException
 

@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordTextViewImpl
+        <com.zinoview.translatorapp.ui.core.view.WordTextViewImpl
             android:id="@+id/recent_word_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

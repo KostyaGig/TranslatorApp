@@ -8,9 +8,9 @@ import com.zinoview.translatorapp.R
 import com.zinoview.translatorapp.core.TAApplication
 import com.zinoview.translatorapp.ui.core.BaseFragment
 import com.zinoview.translatorapp.ui.core.MainActivity
-import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.SearchEditTextImpl
-import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordProgressBarImpl
-import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordTextViewImpl
+import com.zinoview.translatorapp.ui.core.view.SearchEditTextImpl
+import com.zinoview.translatorapp.ui.core.view.WordProgressBarImpl
+import com.zinoview.translatorapp.ui.core.view.WordTextViewImpl
 import com.zinoview.translatorapp.ui.words.feature.ta04_recent_entered_words.RecentWordTextViewImpl
 import com.zinoview.translatorapp.ui.words.feature.ta04_recent_entered_words.RecentWordsAdapter
 import com.zinoview.translatorapp.ui.words.feature.ta04_recent_entered_words.TempRecentWords

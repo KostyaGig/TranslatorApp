@@ -4,20 +4,26 @@ import com.zinoview.translatorapp.core.words.Abstract
 import com.zinoview.translatorapp.core.words.Language
 import com.zinoview.translatorapp.data.words.cache.db.CacheWord
 import com.zinoview.translatorapp.data.words.cache.db.CacheWordMapper
-import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordTextView
+import com.zinoview.translatorapp.ui.core.view.WordTextView
+import com.zinoview.translatorapp.ui.words.feature.ta02_show_translated_word.UiWordsSame
 import com.zinoview.translatorapp.ui.words.feature.ta02_show_translated_word.WordsAdapter
 import com.zinoview.translatorapp.ui.words.feature.ta05_favorite_words.view.ItemView
 
-
 sealed class UiWordsStateRecyclerView
-    : Abstract.Words,
+    : Abstract.Words, UiWordsSame,
     com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.UiShow<Triple<WordTextView, WordTextView, ItemView>, WordsAdapter> {
 
     override fun show(arg: Triple<WordTextView, WordTextView,ItemView>) = Unit
 
     override fun uiShow(arg: WordsAdapter) = Unit
 
-    open fun itemClick(position: Int,wordsAdapterItemClickListener: WordsAdapter.WordsAdapterItemClickListener)
+    override fun same(item: UiWordsStateRecyclerView): Boolean
+        = false
+
+    override fun same(srcWord: String,isFavorite: Boolean): Boolean
+        = false
+
+    open fun itemClick(wordsAdapterItemClickListener: WordsAdapter.WordsAdapterItemClickListener)
         = Unit
 
     object Empty : UiWordsStateRecyclerView()
@@ -29,7 +35,7 @@ sealed class UiWordsStateRecyclerView
     object Progress : UiWordsStateRecyclerView() {
 
         override fun uiShow(arg: WordsAdapter)
-            = arg.show(listOf(this), -1)
+            = arg.show(listOf(this))
     }
 
     class Success(
@@ -45,7 +51,7 @@ sealed class UiWordsStateRecyclerView
             val uiWordsStateRecyclerView = words.map { cachedWord ->
                 cachedWord.map(cacheWordMapper)
             }
-            arg.show(uiWordsStateRecyclerView,position)
+            arg.show(uiWordsStateRecyclerView)
         }
     }
 
@@ -57,13 +63,24 @@ sealed class UiWordsStateRecyclerView
     ) : UiWordsStateRecyclerView() {
 
         override fun show(arg: Triple<WordTextView, WordTextView,ItemView>) {
-            arg.first.text("Translated $translatedWord")
-            arg.second.text("Src: $srcWord")
+            arg.first.text(TRANSLATED + translatedWord)
+            arg.second.text(SRC + srcWord)
             arg.third.changeBackground(isFavorite)
         }
 
-        override fun itemClick(position: Int,wordsAdapterItemClickListener: WordsAdapter.WordsAdapterItemClickListener)
-            = wordsAdapterItemClickListener.itemClick(position,translatedWord)
+        override fun same(item: UiWordsStateRecyclerView): Boolean
+            = item.same(srcWord, isFavorite)
+
+        override fun same(srcWord: String,isFavorite: Boolean): Boolean
+            = this.srcWord == srcWord && this.isFavorite == isFavorite
+
+        override fun itemClick(wordsAdapterItemClickListener: WordsAdapter.WordsAdapterItemClickListener)
+            = wordsAdapterItemClickListener.itemClick(translatedWord)
+
+        private companion object {
+            private const val TRANSLATED = "Translated "
+            private const val SRC = "Src: "
+        }
     }
 
 }

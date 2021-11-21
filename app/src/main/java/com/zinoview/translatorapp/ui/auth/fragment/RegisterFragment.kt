@@ -10,7 +10,7 @@ import com.zinoview.translatorapp.ui.auth.feature.ta07_translate_word_user_witho
 import com.zinoview.translatorapp.ui.core.BaseFragment
 import com.zinoview.translatorapp.ui.core.MainActivity
 import com.zinoview.translatorapp.ui.core.log
-import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.SearchEditTextImpl
+import com.zinoview.translatorapp.ui.core.view.SearchEditTextImpl
 import com.zinoview.translatorapp.ui.words.fragment.WordsFragment
 
 class RegisterFragment : BaseFragment(R.layout.auth_fagment) {

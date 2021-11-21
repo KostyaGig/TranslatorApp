@@ -1,6 +1,7 @@
 package com.zinoview.translatorapp.data.words.cache.db
 
 import com.zinoview.translatorapp.data.words.cache.DataBaseOperationLanguage
+import com.zinoview.translatorapp.ui.core.log
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -42,7 +43,7 @@ interface Database<T,S> {
             private suspend fun updatedObject(translatedWord: String) : CacheWord {
                 return suspendCoroutine { continuation ->
                          val cacheWord = roomProvider.provide().word(translatedWord)
-                         val updatedCacheWord = cacheWord[0].update()
+                         val updatedCacheWord = cacheWord.first().update()
                          roomProvider.provide().update(updatedCacheWord)
                          continuation.resume(updatedCacheWord)
                      }
@@ -53,7 +54,7 @@ interface Database<T,S> {
             }
 
             override suspend fun isFavoriteObject(translatedWord: String): Boolean {
-                return roomProvider.provide().word(translatedWord)[0].favorite().isFavorite()
+                return roomProvider.provide().word(translatedWord).first().favorite().isFavorite()
             }
         }
 

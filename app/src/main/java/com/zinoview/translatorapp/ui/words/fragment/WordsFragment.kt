@@ -3,7 +3,6 @@ package com.zinoview.translatorapp.ui.words.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.zinoview.translatorapp.R
 import com.zinoview.translatorapp.core.TAApplication
 import com.zinoview.translatorapp.ui.core.BaseFragment
@@ -20,10 +19,11 @@ class WordsFragment : BaseFragment(R.layout.words_fragment) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         val adapter = WordsAdapter.Base(object : WordsAdapter.WordsAdapterItemClickListener {
 
-            override fun itemClick(position: Int, translatedWord: String) {
-                viewModel.updateWord(translatedWord, position)
+            override fun itemClick(translatedWord: String) {
+                viewModel.updateWord(translatedWord)
             }
         })
 

@@ -9,7 +9,6 @@ import com.zinoview.translatorapp.data.words.cache.CacheDataSource
 import com.zinoview.translatorapp.data.words.cache.TranslatedCacheDataWordsMapper
 import com.zinoview.translatorapp.data.words.cache.TranslatedCacheNotFavoriteDataWordsMapper
 import com.zinoview.translatorapp.data.words.cloud.CloudWord
-import com.zinoview.translatorapp.ui.core.log
 
 interface WordRepository<T> {
 
@@ -20,7 +19,7 @@ interface WordRepository<T> {
     suspend fun recentQuery() : DataRecentWords
 
     //param isFavorite needs for tests
-    suspend fun updateWord(srcWord: String,position: Int,isFavorite: Boolean = false) : DataWords
+    suspend fun updateWord(srcWord: String,isFavorite: Boolean = false) : DataWords
 
     //I forced usage hard implementation for serialize here to string and back
     suspend fun saveRecentQuery(recentQuery: ArrayList<String>)
@@ -39,12 +38,10 @@ interface WordRepository<T> {
         override suspend fun translatedWord(srcWord: String): DataWords {
             return try {
                 return if (authSharedPreferences.userIsAuthorized()) {
-                    log("repo fetch words by authorize")
                     val userUniqueKey = authSharedPreferences.read()
                     val cloudWord = cloudDataSource.translateWithAuthorized(srcWord,userUniqueKey)
                     translateWordByAuthorization(cloudWord)
                 } else {
-                    log("repo fetch words by not authorize")
                     val cloudWord = cloudDataSource.translatedWord(srcWord)
                     translateWordByAuthorization(cloudWord)
                 }
@@ -73,9 +70,9 @@ interface WordRepository<T> {
             return DataWords.Cache(cachedWords)
         }
 
-        override suspend fun updateWord(srcWord: String,position: Int,isFavorite: Boolean) : DataWords {
-            val updatedWord = cacheDataSource.updateWord(srcWord)
-            return DataWords.Cache(listOf(updatedWord), position)
+        override suspend fun updateWord(srcWord: String,isFavorite: Boolean) : DataWords {
+            cacheDataSource.updateWord(srcWord)
+            return words()
         }
 
         override suspend fun recentQuery(): DataRecentWords {
@@ -121,7 +118,7 @@ interface WordRepository<T> {
             override suspend fun saveRecentQuery(recentQuery: ArrayList<String>)
                     = throw IllegalStateException("WordRepository.TestRepository.Test not use saveRecentQuery()")
 
-            override suspend fun updateWord(srcWord: String,position: Int,isFavorite: Boolean) : DataWords {
+            override suspend fun updateWord(srcWord: String,isFavorite: Boolean) : DataWords {
                 return DataWords.Test(
                     cacheDataSource.updateWord(srcWord, isFavorite).second,
                     cacheDataSource.updateWord(srcWord, isFavorite).first,

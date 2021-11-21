@@ -9,7 +9,7 @@ import com.zinoview.translatorapp.core.TAApplication
 import com.zinoview.translatorapp.ui.auth.feature.ta07_translate_word_user_without_authorize.AuthSnackBar
 import com.zinoview.translatorapp.ui.core.BaseFragment
 import com.zinoview.translatorapp.ui.core.MainActivity
-import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.SearchEditTextImpl
+import com.zinoview.translatorapp.ui.core.view.SearchEditTextImpl
 
 class LoginFragment : BaseFragment(R.layout.auth_fagment) {
 

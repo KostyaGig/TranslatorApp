@@ -1,4 +1,4 @@
-package com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view
+package com.zinoview.translatorapp.ui.core.view
 
 import android.content.Context
 import android.util.AttributeSet
@@ -15,7 +15,7 @@ interface Hide {
     fun hide()
 }
 
-interface AbstractView : Show,Hide
+interface AbstractView : Show, Hide
 
 interface SearchEditText : Hide {
 
@@ -49,7 +49,7 @@ class SearchEditTextImpl : SearchEditText, androidx.appcompat.widget.AppCompatEd
 
 }
 
-interface WordTextView :  AbstractView {
+interface WordTextView : AbstractView {
 
     fun text(text: String)
 }

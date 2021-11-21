@@ -3,6 +3,7 @@ package com.zinoview.translatorapp.data.words.cache
 import com.zinoview.translatorapp.data.words.DataWords
 import com.zinoview.translatorapp.data.words.cache.db.CacheWord
 import com.zinoview.translatorapp.data.words.cache.db.Database
+import com.zinoview.translatorapp.ui.core.log
 import java.lang.IllegalStateException
 
 interface CacheDataSource<T> {

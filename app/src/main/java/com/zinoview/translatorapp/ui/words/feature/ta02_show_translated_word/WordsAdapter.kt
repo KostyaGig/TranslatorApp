@@ -4,16 +4,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.zinoview.translatorapp.R
 import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.Show
-
-import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.view.WordTextViewImpl
+import com.zinoview.translatorapp.ui.core.view.WordTextViewImpl
 import com.zinoview.translatorapp.ui.words.feature.ta03_cached_translated_words.UiWordsStateRecyclerView
 import com.zinoview.translatorapp.ui.words.feature.ta05_favorite_words.view.ItemViewImpl
 
-interface WordsAdapter : Show.WordsAdapterShow<List<UiWordsStateRecyclerView>> {
-
+interface WordsAdapter : Show<List<UiWordsStateRecyclerView>> {
 
     class Base(
         private val adapterItemClickListener: WordsAdapterItemClickListener
@@ -21,22 +20,14 @@ interface WordsAdapter : Show.WordsAdapterShow<List<UiWordsStateRecyclerView>> {
 
         private val words = ArrayList<UiWordsStateRecyclerView>()
 
-        //todo use diffutilcallback
-        override fun show(items: List<UiWordsStateRecyclerView>, position: Int) {
-                if (position < 0) {
-                    this@Base.words.clear()
-                    words.addAll(items)
-                    notifyDataSetChanged()
-                } else {
-                    val updatedItem = items[0]
-                    updateItemByPosition(updatedItem,position)
-                }
+        override fun show(newList: List<UiWordsStateRecyclerView>) {
+            val diffUtilCallback = WordsDiffUtilCallback(words,newList)
+            val result = DiffUtil.calculateDiff(diffUtilCallback)
+            words.clear()
+            words.addAll(newList)
+            result.dispatchUpdatesTo(this)
         }
 
-        private fun updateItemByPosition(item: UiWordsStateRecyclerView,position: Int) {
-            this.words[position] = item
-            notifyItemChanged(position)
-        }
 
         override fun getItemViewType(position: Int): Int {
             return when(words[position]) {
@@ -64,7 +55,7 @@ interface WordsAdapter : Show.WordsAdapterShow<List<UiWordsStateRecyclerView>> {
                     arg.show(views)
 
                     changeFavoriteBtn.setOnClickListener {
-                        arg.itemClick(adapterPosition,itemClickListener)
+                        arg.itemClick(itemClickListener)
                     }
                 }
             }
@@ -92,8 +83,7 @@ interface WordsAdapter : Show.WordsAdapterShow<List<UiWordsStateRecyclerView>> {
     }
 
     interface WordsAdapterItemClickListener {
-
-        fun itemClick(position: Int,translatedWord: String)
+        fun itemClick(translatedWord: String)
     }
 }
 

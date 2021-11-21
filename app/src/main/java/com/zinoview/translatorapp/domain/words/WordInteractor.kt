@@ -2,6 +2,7 @@ package com.zinoview.translatorapp.domain.words
 
 import com.zinoview.translatorapp.data.words.DataWords
 import com.zinoview.translatorapp.data.words.WordRepository
+import kotlinx.coroutines.delay
 
 
 interface WordInteractor {
@@ -10,7 +11,7 @@ interface WordInteractor {
 
     suspend fun words() : DomainWords
 
-    suspend fun updateWord(srcWord: String,position: Int) : DomainWords
+    suspend fun updateWord(srcWord: String) : DomainWords
 
     suspend fun recentQuery() : DomainRecentWords
 
@@ -28,12 +29,17 @@ interface WordInteractor {
         }
 
         override suspend fun words(): DomainWords {
+            delay(DELAY.toLong())
             val dataWords = repository.words()
             return dataWords.map(domainWordMapper)
         }
 
-        override suspend fun updateWord(srcWord: String,position: Int) : DomainWords {
-            val dataWords = repository.updateWord(srcWord,position)
+        private companion object {
+            private const val DELAY = 1500
+        }
+
+        override suspend fun updateWord(srcWord: String) : DomainWords {
+            val dataWords = repository.updateWord(srcWord)
             return dataWords.map(domainWordMapper)
         }
 

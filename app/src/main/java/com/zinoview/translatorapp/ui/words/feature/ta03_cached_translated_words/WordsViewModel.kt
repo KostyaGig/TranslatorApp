@@ -4,6 +4,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.zinoview.translatorapp.domain.words.DomainWords
 import com.zinoview.translatorapp.domain.words.WordInteractor
 import com.zinoview.translatorapp.ui.core.BaseCommunication
 import com.zinoview.translatorapp.ui.core.Observe
@@ -15,7 +16,7 @@ interface WordsViewModel : Observe<UiWordsStateRecyclerView> {
 
     fun words()
 
-    fun updateWord(srcWord: String,position: Int)
+    fun updateWord(srcWord: String)
 
     class Base(
         private val wordInteractor: WordInteractor,
@@ -28,26 +29,24 @@ interface WordsViewModel : Observe<UiWordsStateRecyclerView> {
         override fun words() {
             communication.postValue(UiWordsStateRecyclerView.Progress)
             viewModelScope.launch(defaultDispatcher) {
-                delay(1500)
                 val domainWords = wordInteractor.words()
-                val uiWords = domainWords.map(uiWordMapper)
-                val uiStateWordsRecyclerView = uiWords.map(uiWordStateRecyclerViewMapper)
-
-                withContext(Dispatchers.Main) {
-                    communication.postValue(uiStateWordsRecyclerView)
-                }
+                makeAction(domainWords)
             }
         }
 
-        override fun updateWord(srcWord: String,position: Int) {
+        override fun updateWord(srcWord: String) {
             viewModelScope.launch(defaultDispatcher) {
-                val domainUpdatedWord = wordInteractor.updateWord(srcWord, position)
-                val uiUpdatedWord = domainUpdatedWord.map(uiWordMapper)
-                val uiStateWordsRecyclerView = uiUpdatedWord.map(uiWordStateRecyclerViewMapper)
+                val domainWords = wordInteractor.updateWord(srcWord)
+                makeAction(domainWords)
+            }
+        }
 
-                withContext(Dispatchers.Main) {
-                    communication.postValue(uiStateWordsRecyclerView)
-                }
+        private suspend fun makeAction(domainWords: DomainWords) {
+            val uiUpdatedWord = domainWords.map(uiWordMapper)
+            val uiStateWordsRecyclerView = uiUpdatedWord.map(uiWordStateRecyclerViewMapper)
+
+            withContext(Dispatchers.Main) {
+                communication.postValue(uiStateWordsRecyclerView)
             }
         }
 
