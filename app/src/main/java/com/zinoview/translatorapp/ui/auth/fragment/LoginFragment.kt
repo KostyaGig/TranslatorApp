@@ -4,19 +4,28 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
+import androidx.fragment.app.viewModels
 import com.zinoview.translatorapp.R
-import com.zinoview.translatorapp.core.TAApplication
+import com.zinoview.translatorapp.ui.auth.feature.ta06_auth_user.login.LoginViewModel
+import com.zinoview.translatorapp.ui.auth.feature.ta06_auth_user.login.LoginViewModelFactory
 import com.zinoview.translatorapp.ui.auth.feature.ta07_translate_word_user_without_authorize.AuthSnackBar
 import com.zinoview.translatorapp.ui.core.BaseFragment
-import com.zinoview.translatorapp.ui.core.MainActivity
 import com.zinoview.translatorapp.ui.core.view.SearchEditTextImpl
+import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.TranslateWordViewModelFactory
+import javax.inject.Inject
 
 class LoginFragment : BaseFragment(R.layout.auth_fagment) {
 
-    private val loginViewModel by lazy {
-        val activity = (requireActivity() as MainActivity)
-        val application = activity.application as TAApplication
-        application.loginViewModel
+    @Inject
+    lateinit var loginViewModelFactory: LoginViewModelFactory
+
+    private val loginViewModel: LoginViewModel by viewModels {
+        loginViewModelFactory
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,8 +56,4 @@ class LoginFragment : BaseFragment(R.layout.auth_fagment) {
     override fun navigateToBack()
         = navigation.navigateTo(RegisterFragment())
 
-    override fun onDestroy() {
-        loginViewModel.clean()
-        super.onDestroy()
-    }
 }

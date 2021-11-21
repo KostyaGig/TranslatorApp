@@ -3,27 +3,36 @@ package com.zinoview.translatorapp.ui.words.fragment
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.zinoview.translatorapp.R
-import com.zinoview.translatorapp.core.TAApplication
 import com.zinoview.translatorapp.ui.core.BaseFragment
-import com.zinoview.translatorapp.ui.core.MainActivity
 import com.zinoview.translatorapp.ui.core.view.SearchEditTextImpl
 import com.zinoview.translatorapp.ui.core.view.WordProgressBarImpl
 import com.zinoview.translatorapp.ui.core.view.WordTextViewImpl
+import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.TranslateWordViewModel
+import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.TranslateWordViewModelFactory
 import com.zinoview.translatorapp.ui.words.feature.ta04_recent_entered_words.RecentWordTextViewImpl
 import com.zinoview.translatorapp.ui.words.feature.ta04_recent_entered_words.RecentWordsAdapter
 import com.zinoview.translatorapp.ui.words.feature.ta04_recent_entered_words.TempRecentWords
 import com.zinoview.translatorapp.ui.words.feature.ta05_favorite_words.view.ItemViewImpl
+import javax.inject.Inject
 
 class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
 
-    private val viewModel by lazy {
-        val activity = (requireActivity() as MainActivity)
-        val application = activity.application as TAApplication
-        application.translatedWordViewModel
+    @Inject
+    lateinit var translateWordViewModelFactory: TranslateWordViewModelFactory
+
+    private val translateWordViewModel: TranslateWordViewModel by viewModels {
+        translateWordViewModelFactory
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        inject(this)
+    }
+
+    //todo inject
     private val tempRecentWords = TempRecentWords.Base()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,14 +58,14 @@ class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
 
         recentQueryRecyclerView.adapter = adapter
 
-        viewModel.observe(this) { state ->
+        translateWordViewModel.observe(this) { state ->
             state.show(wordTextView, wordProgressBar, rootWordTextViewView)
             state.changeRecentQuery(tempRecentWords)
         }
 
         searchWordBtn.setOnClickListener {
             val enteredWord = wordField.enteredText()
-            viewModel.translateWord(enteredWord)
+            translateWordViewModel.translateWord(enteredWord)
             recentQueryTextView.defaultState(recentQueryRecyclerView)
         }
 
@@ -70,11 +79,11 @@ class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
             )
         }
 
-        viewModel.observeRecentWords(this) { uiRecentWords ->
+        translateWordViewModel.observeRecentWords(this) { uiRecentWords ->
             uiRecentWords.map(tempRecentWords)
         }
 
-        viewModel.recentWords()
+        translateWordViewModel.recentWords()
     }
 
     override fun navigateToBack() {
@@ -83,13 +92,8 @@ class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
     }
 
     override fun onPause() {
-        tempRecentWords.save(viewModel)
+        tempRecentWords.save(translateWordViewModel)
         super.onPause()
-    }
-
-    override fun onDestroy() {
-        viewModel.clean()
-        super.onDestroy()
     }
 
 }

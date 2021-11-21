@@ -1,6 +1,5 @@
 package com.zinoview.translatorapp.data.cache
 
-import com.zinoview.translatorapp.data.words.cache.db.RoomProvider
 import com.zinoview.translatorapp.data.words.cache.DataBaseOperationLanguage
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*

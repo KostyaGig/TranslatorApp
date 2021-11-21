@@ -1,18 +1,18 @@
 package com.zinoview.translatorapp.data.words.cache
 
 import com.zinoview.translatorapp.core.words.Language
-import com.zinoview.translatorapp.data.words.cache.db.RoomProvider
+import com.zinoview.translatorapp.data.words.cache.db.WordDao
 
 interface DataBaseOperationLanguage : Language {
 
-    suspend fun saveToDb(roomProvider: RoomProvider, translatedWord: String, srcWord: String)
+    suspend fun saveToDb(dao: WordDao, translatedWord: String, srcWord: String)
 
     object Test : DataBaseOperationLanguage {
 
         private val list = ArrayList< Pair<String,String> >()
 
         override suspend fun saveToDb(
-            roomProvider: RoomProvider,
+            dao: WordDao,
             translatedWord: String,
             srcWord: String
         ) {

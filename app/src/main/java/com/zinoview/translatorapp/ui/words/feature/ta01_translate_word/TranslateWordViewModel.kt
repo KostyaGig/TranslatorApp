@@ -25,9 +25,6 @@ interface TranslateWordViewModel : Observe<UiWordState> {
 
     fun saveRecentQuery(recentQuery: ArrayList<String>)
 
-    //todo remove after invoked view model to lifecycle
-    fun clean()
-
     class Base(
         private val wordInteractor: WordInteractor,
         private val uiWordMapper: UiWordMapper,
@@ -75,8 +72,5 @@ interface TranslateWordViewModel : Observe<UiWordState> {
             }
         }
 
-        override fun clean() {
-            communication.postValue(UiWordState.Empty)
-        }
     }
 }

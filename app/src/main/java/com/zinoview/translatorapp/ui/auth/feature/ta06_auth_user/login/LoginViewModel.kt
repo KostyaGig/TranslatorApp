@@ -17,8 +17,6 @@ interface LoginViewModel : Observe<UiAuthLoginState> {
 
     fun login(userName: String, userPhone: String)
 
-    fun clean()
-
     class Base(
         private val authInteractor: AuthInteractor,
         private val uiAuthMapper: UiAuthMapper,
@@ -26,7 +24,6 @@ interface LoginViewModel : Observe<UiAuthLoginState> {
         private val loginCommunication: BaseCommunication<UiAuthLoginState>,
         private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
     ) : LoginViewModel, ViewModel() {
-
 
         override fun login(userName: String, userPhone: String) {
             loginCommunication.postValue(UiAuthLoginState.Progress)
@@ -45,8 +42,5 @@ interface LoginViewModel : Observe<UiAuthLoginState> {
             loginCommunication.observe(owner, observer)
         }
 
-        override fun clean() {
-            loginCommunication.postValue(UiAuthLoginState.Empty)
-        }
     }
 }

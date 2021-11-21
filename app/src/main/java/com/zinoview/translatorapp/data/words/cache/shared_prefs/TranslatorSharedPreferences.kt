@@ -9,7 +9,7 @@ interface TranslatorSharedPreferences : Save<ArrayList<String>>, Read<List<Strin
 
     class Base(
         context: Context,
-        private val sharedPreferencesReader: RecentWords
+        private val sharedPreferencesReader: RecentWordsReader
     ) : TranslatorSharedPreferences {
 
         private val sharedPreferences = context.getSharedPreferences(RECENT_WORDS_PREFERENCES,Context.MODE_PRIVATE)
