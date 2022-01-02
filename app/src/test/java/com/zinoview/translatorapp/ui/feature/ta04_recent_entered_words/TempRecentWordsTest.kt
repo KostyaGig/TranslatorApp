@@ -19,7 +19,6 @@ class TempRecentWordsTest {
         tempRecentWords = TempRecentWords.Test()
     }
 
-
     @Test
     fun test_unique_words() {
         val expected = listOf<String>("Дом","Ноутбук","Квартира")

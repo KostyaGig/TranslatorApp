@@ -72,7 +72,6 @@ sealed class UiWordState
                 super.show(wordTv, wordPb, view)
                 log("Show Success,src $srcWord")
                 view.changeBackground(false)
-
             }
         }
 

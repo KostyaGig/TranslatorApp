@@ -1,10 +1,12 @@
 package com.zinoview.translatorapp.ui.di.module
 
+import com.google.gson.Gson
 import com.zinoview.translatorapp.data.auth.AuthCloudDataSource
 import com.zinoview.translatorapp.data.auth.AuthService
 import com.zinoview.translatorapp.data.words.cloud.CloudDataSource
 import com.zinoview.translatorapp.data.words.cloud.CloudWord
 import com.zinoview.translatorapp.data.words.cloud.WordService
+import com.zinoview.translatorapp.data.words.sync.cloud.SyncWordsCloudDataSource
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -26,7 +28,10 @@ class NetworkModule {
     }
 
     @Provides
-    fun provideGson() = GsonConverterFactory.create()
+    fun provideGsonFactory() = GsonConverterFactory.create()
+
+    @Provides
+    fun provideGson() = Gson()
 
     @Provides
     fun provideRetrofit(client: OkHttpClient,gsonConverterFactory: GsonConverterFactory) : Retrofit {
@@ -58,6 +63,13 @@ class NetworkModule {
     fun provideAuthCloudDataSource(authService: AuthService) : AuthCloudDataSource {
         return AuthCloudDataSource.Base(
             authService
+        )
+    }
+
+    @Provides
+    fun provideSyncWordsCloudDataSource(wordService: WordService) : SyncWordsCloudDataSource {
+        return SyncWordsCloudDataSource.Base(
+            wordService
         )
     }
 
