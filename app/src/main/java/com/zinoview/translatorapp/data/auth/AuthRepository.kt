@@ -37,7 +37,7 @@ interface AuthRepository {
             }
         }
 
-        private suspend fun authorize(cloudAuth: CloudAuth) : DataAuth {
+        private fun authorize(cloudAuth: CloudAuth) : DataAuth {
             val dataAuth = cloudAuth.map(cloudAuthMapper)
             dataAuth.saveUniqueKey(authSharedPreferences)
             return dataAuth
@@ -67,9 +67,6 @@ interface AuthRepository {
             return dataAuth
         }
 
-        override suspend fun requestAuthorize(): Boolean {
-            return isAuthorized
-        }
-
+        override suspend fun requestAuthorize(): Boolean = isAuthorized
     }
 }

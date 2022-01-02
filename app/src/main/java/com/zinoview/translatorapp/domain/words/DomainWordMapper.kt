@@ -6,6 +6,7 @@ import com.zinoview.translatorapp.data.words.cache.db.CacheWord
 
 interface DomainWordMapper : Abstract.WordsMapper<DomainWords> {
 
+
     class Base(
         private val domainLanguageMapper: DomainLanguageMapper
     ) : DomainWordMapper {

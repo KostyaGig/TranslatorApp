@@ -125,4 +125,5 @@ class AuthRepositoryTest {
 
         assertEquals(expected, actual)
     }
+
 }

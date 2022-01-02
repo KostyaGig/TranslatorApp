@@ -1,5 +1,6 @@
 package com.zinoview.translatorapp.ui.di.module
 
+import com.google.gson.Gson
 import com.zinoview.translatorapp.core.ResourceProvider
 import com.zinoview.translatorapp.data.auth.AuthCloudDataSource
 import com.zinoview.translatorapp.data.auth.AuthRepository
@@ -17,6 +18,9 @@ import com.zinoview.translatorapp.data.words.cache.shared_prefs.TranslatorShared
 import com.zinoview.translatorapp.data.words.cloud.CloudDataSource
 import com.zinoview.translatorapp.data.words.cloud.CloudResultMapper
 import com.zinoview.translatorapp.data.words.cloud.CloudWord
+import com.zinoview.translatorapp.data.words.sync.Json
+import com.zinoview.translatorapp.data.words.sync.SyncWordsRepository
+import com.zinoview.translatorapp.data.words.sync.cloud.SyncWordsCloudDataSource
 import dagger.Module
 import dagger.Provides
 
@@ -67,6 +71,21 @@ class DataModule {
                 resourceProvider
             ),
             authSharedPreferences
+        )
+    }
+
+    @Provides
+    fun provideSyncWordsRepository(
+        cloudDataSource: SyncWordsCloudDataSource,
+        gson: Gson,
+        cacheDataSource: CacheDataSource<CacheWord>
+    ) : SyncWordsRepository {
+        return SyncWordsRepository.Base(
+            cloudDataSource,
+            Json.Base(
+                gson
+            ),
+            cacheDataSource
         )
     }
 }

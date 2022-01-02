@@ -6,6 +6,8 @@ import com.zinoview.translatorapp.data.words.cache.db.CacheWord
 
 sealed class DomainWords : Abstract.Words {
 
+
+
     open class Base(
         private val srcWord: String,
         private val translatedWord: String,

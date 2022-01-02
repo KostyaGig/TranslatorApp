@@ -7,21 +7,23 @@ interface DataBaseOperationLanguage : Language {
 
     suspend fun saveToDb(dao: WordDao, translatedWord: String, srcWord: String)
 
-    object Test : DataBaseOperationLanguage {
+    interface Test {
+        suspend fun saveToDb(translatedWord: String, srcWord: String)
 
-        private val list = ArrayList< Pair<String,String> >()
+        object Base : Test {
 
-        override suspend fun saveToDb(
-            dao: WordDao,
-            translatedWord: String,
-            srcWord: String
-        ) {
-            list.add(Pair(translatedWord,srcWord))
+            private val list = ArrayList<Pair<String,String> >()
+
+            override suspend fun saveToDb(
+                translatedWord: String,
+                srcWord: String
+            ) {
+                list.add(Pair(translatedWord,srcWord))
+            }
+
+            fun read() : List< Pair<String,String> >
+                    = list
         }
-
-        fun read() : List< Pair<String,String> >
-            = list
-
-        override fun <T> map(mapper: Language.LanguageMapper<T>): T = mapper.map("","")
     }
+
 }
