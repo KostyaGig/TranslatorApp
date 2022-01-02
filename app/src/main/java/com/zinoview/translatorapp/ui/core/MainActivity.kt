@@ -12,6 +12,7 @@ import com.zinoview.translatorapp.ui.auth.feature.ta06_auth_user.register.Regist
 import com.zinoview.translatorapp.ui.auth.fragment.RegisterFragment
 import com.zinoview.translatorapp.ui.core.nav.Navigation
 import com.zinoview.translatorapp.ui.core.nav.Navigator
+import com.zinoview.translatorapp.ui.core.nav.SingleNavigation
 import com.zinoview.translatorapp.ui.words.fragment.SearchWordsFragment
 import com.zinoview.translatorapp.ui.words.fragment.WordsFragment
 import javax.inject.Inject
@@ -25,7 +26,8 @@ fun Exception.info() : String {
     return "class ${this::class.java}, message ${this.message}"
 }
 
-class MainActivity : AppCompatActivity(), Navigation, BottomNavigationActivity {
+class MainActivity : AppCompatActivity(),
+    Navigation, BottomNavigationActivity, SingleNavigation {
 
     private var navigator: Navigator = Navigator.Empty
 
@@ -58,9 +60,9 @@ class MainActivity : AppCompatActivity(), Navigation, BottomNavigationActivity {
 
         bottomNavigationView.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.words_item -> navigateTo(WordsFragment())
-                R.id.translate_item -> navigateTo(SearchWordsFragment())
-                R.id.authorize_item -> navigateTo(RegisterFragment())
+                R.id.words_item -> singleNavigateTo(WordsFragment())
+                R.id.translate_item -> singleNavigateTo(SearchWordsFragment())
+                R.id.authorize_item -> singleNavigateTo(RegisterFragment())
             }
             return@setOnItemSelectedListener true
         }
@@ -82,8 +84,15 @@ class MainActivity : AppCompatActivity(), Navigation, BottomNavigationActivity {
         navigator.openFragment(fragment)
     }
 
+    override fun singleNavigateTo(fragment: BaseFragment) {
+        val currentFragment = supportFragmentManager.fragments.first() as BaseFragment
+        if (currentFragment.javaClass != fragment.javaClass) {
+            navigateTo(fragment)
+        }
+    }
+
     override fun onBackPressed() {
-        val fragment = supportFragmentManager.fragments[0] as BaseFragment
+        val fragment = supportFragmentManager.fragments.first() as BaseFragment
         fragment.navigateToBack()
     }
 

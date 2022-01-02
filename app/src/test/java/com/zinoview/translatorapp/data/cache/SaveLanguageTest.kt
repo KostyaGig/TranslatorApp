@@ -5,17 +5,20 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Test
 
+/**
+ * Test for [com.zinoview.translatorapp.data.words.cache.DataBaseOperationLanguage.Test.Base]
+ * */
+
 class SaveLanguageTest {
 
     @Test
     fun test_save_words() = runBlocking {
-        val realmProvider = RoomProvider.Test()
-        val saveLanguage = DataBaseOperationLanguage.Test
+        val saveLanguage = DataBaseOperationLanguage.Test.Base
 
         var srcWord = "Дом"
         var translatedWord = "House"
 
-        saveLanguage.saveToDb(realmProvider, translatedWord, srcWord)
+        saveLanguage.saveToDb(translatedWord, srcWord)
 
         var expected = listOf(
             Pair("House","Дом")
@@ -27,12 +30,12 @@ class SaveLanguageTest {
         srcWord = "Телефон"
         translatedWord = "Phone"
 
-        saveLanguage.saveToDb(realmProvider, translatedWord, srcWord)
+        saveLanguage.saveToDb(translatedWord, srcWord)
 
         srcWord = "Ноутбук"
         translatedWord = "Laptop"
 
-        saveLanguage.saveToDb(realmProvider, translatedWord, srcWord)
+        saveLanguage.saveToDb(translatedWord, srcWord)
 
         expected = listOf(
             Pair("House","Дом"),

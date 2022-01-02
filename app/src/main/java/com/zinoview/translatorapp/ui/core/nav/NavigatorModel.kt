@@ -16,7 +16,9 @@ interface NavigatorModel {
     ) : NavigatorModel {
 
         override fun navigate(activity: AppCompatActivity) {
-            activity.supportFragmentManager.beginTransaction()
+            activity
+                .supportFragmentManager
+                .beginTransaction()
                 .replace(R.id.main_fragment_container,fragment)
                 .commit()
         }

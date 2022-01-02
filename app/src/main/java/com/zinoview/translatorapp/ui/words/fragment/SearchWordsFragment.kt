@@ -85,10 +85,8 @@ class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
         translateWordViewModel.recentWords()
     }
 
-    override fun navigateToBack() {
-        navigation.navigateTo(WordsFragment())
-        navigation.selectItem(R.id.words_item)
-    }
+    override fun navigateToBack() = navigation.selectItem(R.id.words_item)
+
 
     override fun onPause() {
         tempRecentWords.save(translateWordViewModel)
