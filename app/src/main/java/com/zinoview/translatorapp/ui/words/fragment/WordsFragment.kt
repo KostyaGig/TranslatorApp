@@ -46,6 +46,4 @@ class WordsFragment : BaseFragment(R.layout.words_fragment) {
     }
 
     override fun navigateToBack() = navigation.exit()
-
-
 }

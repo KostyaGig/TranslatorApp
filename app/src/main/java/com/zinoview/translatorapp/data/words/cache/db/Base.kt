@@ -6,7 +6,7 @@ import com.zinoview.translatorapp.core.words.Abstract
 import com.zinoview.translatorapp.data.words.DataLanguage
 import com.zinoview.translatorapp.ui.words.feature.ta03_cached_translated_words.UiWordsStateRecyclerView
 
-interface CacheWord {
+interface CacheWord : Abstract.Words {
 
     fun map(mapper: CacheWordMapper) : UiWordsStateRecyclerView
 
@@ -27,7 +27,7 @@ interface CacheWord {
         val toLanguage: String,
         @ColumnInfo(name = "isFavorite")
         var isFavorite: Boolean = false
-    ) : CacheWord, Abstract.Words {
+    ) : CacheWord {
 
         override fun <T> map(mapper: Abstract.WordsMapper<T>): T
             = mapper.map(translated, src, DataLanguage(fromLanguage,toLanguage))

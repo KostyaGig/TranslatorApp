@@ -6,6 +6,7 @@ import com.zinoview.translatorapp.data.auth.AuthService
 import com.zinoview.translatorapp.data.words.cloud.CloudDataSource
 import com.zinoview.translatorapp.data.words.cloud.CloudWord
 import com.zinoview.translatorapp.data.words.cloud.WordService
+import com.zinoview.translatorapp.data.words.sync.cloud.CloudAbstractResponseToCloudSyncWordsMapper
 import com.zinoview.translatorapp.data.words.sync.cloud.SyncWordsCloudDataSource
 import dagger.Module
 import dagger.Provides
@@ -69,12 +70,13 @@ class NetworkModule {
     @Provides
     fun provideSyncWordsCloudDataSource(wordService: WordService) : SyncWordsCloudDataSource {
         return SyncWordsCloudDataSource.Base(
-            wordService
+            wordService,
+            CloudAbstractResponseToCloudSyncWordsMapper.Base()
         )
     }
 
     private companion object {
-        private const val BASE_URL = "http://translatorappserver.pythonanywhere.com"
+        private const val BASE_URL = "https://uehuf.pythonanywhere.com"
     }
 
 }

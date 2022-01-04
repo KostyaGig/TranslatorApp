@@ -18,6 +18,7 @@ import com.zinoview.translatorapp.data.words.cache.shared_prefs.TranslatorShared
 import com.zinoview.translatorapp.data.words.cloud.CloudDataSource
 import com.zinoview.translatorapp.data.words.cloud.CloudResultMapper
 import com.zinoview.translatorapp.data.words.cloud.CloudWord
+import com.zinoview.translatorapp.data.words.sync.CacheWordToSyncWordMapper
 import com.zinoview.translatorapp.data.words.sync.Json
 import com.zinoview.translatorapp.data.words.sync.SyncWordsRepository
 import com.zinoview.translatorapp.data.words.sync.cloud.SyncWordsCloudDataSource
@@ -78,13 +79,16 @@ class DataModule {
     fun provideSyncWordsRepository(
         cloudDataSource: SyncWordsCloudDataSource,
         gson: Gson,
-        cacheDataSource: CacheDataSource<CacheWord>
+        cacheDataSource: CacheDataSource<CacheWord>,
+        authSharedPreferences: AuthSharedPreferences
     ) : SyncWordsRepository {
         return SyncWordsRepository.Base(
             cloudDataSource,
             Json.Base(
                 gson
             ),
+            CacheWordToSyncWordMapper.Base(),
+            authSharedPreferences,
             cacheDataSource
         )
     }
