@@ -1,18 +1,22 @@
 package com.zinoview.translatorapp.data.words.sync.cloud
 
-import com.google.gson.annotations.SerializedName
+import com.zinoview.translatorapp.core.words.Abstract
 
-interface CloudSyncWords {
+interface CloudSyncWords : Abstract.Response {
 
-    class Base(
-        @SerializedName("mark")
-        private val mark: String = FAILURE_MARK
+
+    object Success : CloudSyncWords {
+
+        override fun <T> map(mapper: Abstract.ResponseMapper<T>): T
+            = mapper.map()
+    }
+
+    class Failure(
+        private val message: String
     ) : CloudSyncWords {
 
-
-        private companion object {
-            private const val FAILURE_MARK = "Failure"
-        }
+        override fun <T> map(mapper: Abstract.ResponseMapper<T>): T
+            = mapper.map(message)
     }
 
 }
