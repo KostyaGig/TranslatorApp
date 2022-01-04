@@ -1,0 +1,18 @@
+When our user auth in app without translate word then we show him empty screen.
+Task: after auth user in system we must make request on server by baseUrl/user/unique_key/words
+WARNING: make above lines if our user has network connection otherwise we show him empty screen
+because user hasn't data in local storage(room)
+
+Resolve:
+fun words() {
+
+    if (networkConnection.isAvailable) {
+        fetch all words from cloud db and save here to local storage
+    } else {
+       if (localStorage.isEmpty) {
+            DataWords.Empty
+       } else {
+            DataWords.Cache(cacheWords)
+       }
+    }
+}
