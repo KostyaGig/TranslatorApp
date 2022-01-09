@@ -17,4 +17,5 @@
     <string name="already_authorized_text">You already authorized</string>
     <string name="login_text">Login</string>
     <string name="words">Words</string>
+    <string name="users_item_string">User</string>
 </resources>
