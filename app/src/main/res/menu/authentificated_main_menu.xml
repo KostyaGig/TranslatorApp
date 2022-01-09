@@ -13,6 +13,11 @@
             android:title="@string/translate_text"
             android:icon="@drawable/ic_search"
             />
+        <item
+            android:id="@+id/users_item"
+            android:title="@string/users_item_string"
+            android:icon="@drawable/ic_users"/>
+
     </group>
 
 

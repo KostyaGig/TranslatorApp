@@ -13,6 +13,7 @@ import com.zinoview.translatorapp.ui.auth.fragment.RegisterFragment
 import com.zinoview.translatorapp.ui.core.nav.Navigation
 import com.zinoview.translatorapp.ui.core.nav.Navigator
 import com.zinoview.translatorapp.ui.core.nav.SingleNavigation
+import com.zinoview.translatorapp.ui.users.feature.ta09_show_users.UsersFragment
 import com.zinoview.translatorapp.ui.words.fragment.SearchWordsFragment
 import com.zinoview.translatorapp.ui.words.fragment.WordsFragment
 import javax.inject.Inject
@@ -63,6 +64,7 @@ class MainActivity : AppCompatActivity(),
                 R.id.words_item -> singleNavigateTo(WordsFragment())
                 R.id.translate_item -> singleNavigateTo(SearchWordsFragment())
                 R.id.authorize_item -> singleNavigateTo(RegisterFragment())
+                R.id.users_item -> singleNavigateTo(UsersFragment())
             }
             return@setOnItemSelectedListener true
         }
