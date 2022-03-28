@@ -3,10 +3,12 @@ package com.zinoview.translatorapp.ui.words.fragment
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.zinoview.translatorapp.R
 import com.zinoview.translatorapp.ui.core.BaseFragment
+import com.zinoview.translatorapp.ui.core.Toolbar
 import com.zinoview.translatorapp.ui.core.view.SearchEditTextImpl
 import com.zinoview.translatorapp.ui.core.view.WordProgressBarImpl
 import com.zinoview.translatorapp.ui.core.view.WordTextViewImpl
@@ -30,6 +32,10 @@ class SearchWordsFragment : BaseFragment(R.layout.search_words_fragment){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         inject(this)
+
+        Toolbar.Base(
+            (activity as AppCompatActivity).supportActionBar!!
+        ).changeTitle(resourceProvider.string(R.string.translate_text))
     }
 
     private val tempRecentWords = TempRecentWords.Base()

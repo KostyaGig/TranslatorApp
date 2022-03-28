@@ -2,11 +2,12 @@ package com.zinoview.translatorapp.ui.words.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.zinoview.translatorapp.R
 import com.zinoview.translatorapp.ui.core.BaseFragment
-import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.TranslateWordViewModelFactory
+import com.zinoview.translatorapp.ui.core.Toolbar
 import com.zinoview.translatorapp.ui.words.feature.ta02_show_translated_word.WordsAdapter
 import com.zinoview.translatorapp.ui.words.feature.ta03_cached_translated_words.WordsViewModel
 import com.zinoview.translatorapp.ui.words.feature.ta03_cached_translated_words.WordsViewModelFactory
@@ -24,6 +25,9 @@ class WordsFragment : BaseFragment(R.layout.words_fragment) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         inject(this)
+        Toolbar.Base(
+            (activity as AppCompatActivity).supportActionBar!!
+        ).changeTitle(resourceProvider.string(R.string.words))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

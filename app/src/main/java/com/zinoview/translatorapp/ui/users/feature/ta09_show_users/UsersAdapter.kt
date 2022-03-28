@@ -32,7 +32,7 @@ interface UsersAdapter {
             return when(users[position]) {
                 is UiStateUsers.Progress -> PROGRESS
                 is UiStateUsers.Success.Cloud -> CLOUD
-                is UiStateUsers.Success.Cache -> 3
+                is UiStateUsers.Success.Cache -> CACHE
                 else -> FAILURE
             }
         }

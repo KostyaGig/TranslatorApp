@@ -14,10 +14,11 @@ sealed class DomainUsers : Abstract.Users {
                 = mapper.map(users)
         }
 
-        class Cache() : Success() {
+        class Cache(
+            private val users: List<String>
+        ) : Success() {
             override fun <T> map(mapper: Abstract.UsersMapper<T>): T
-                = mapper.map("")
-
+                = mapper.mapCache(users)
         }
 
     }

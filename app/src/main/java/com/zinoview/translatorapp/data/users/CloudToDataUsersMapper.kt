@@ -11,6 +11,7 @@ interface CloudToDataUsersMapper : Abstract.UsersMapper<DataUsers> {
 
         override fun map(message: String): DataUsers = DataUsers.Failure(message)
 
-
+        override fun mapCache(users: List<String>): DataUsers
+            = DataUsers.Success.Cache(emptyList())
     }
 }
