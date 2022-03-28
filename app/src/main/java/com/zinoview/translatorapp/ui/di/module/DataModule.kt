@@ -6,6 +6,9 @@ import com.zinoview.translatorapp.data.auth.AuthCloudDataSource
 import com.zinoview.translatorapp.data.auth.AuthRepository
 import com.zinoview.translatorapp.data.auth.CloudAuthMapper
 import com.zinoview.translatorapp.data.auth.cache.AuthSharedPreferences
+import com.zinoview.translatorapp.data.core.cloud.NetworkConnection
+import com.zinoview.translatorapp.data.users.CloudToDataUsersMapper
+import com.zinoview.translatorapp.data.users.UsersRepository
 import com.zinoview.translatorapp.data.words.DataWords
 import com.zinoview.translatorapp.data.words.ExceptionMapper
 import com.zinoview.translatorapp.data.words.WordRepository
@@ -34,8 +37,13 @@ class DataModule {
     }
 
     @Provides
+    fun provideExceptionMapper(resourceProvider: ResourceProvider) : com.zinoview.translatorapp.data.words.ExceptionMapper {
+        return ExceptionMapper.Base(resourceProvider)
+    }
+
+    @Provides
     fun provideWordRepository(
-        resourceProvider: ResourceProvider,
+        exceptionMapper: ExceptionMapper,
         cacheDataSource: CacheDataSource<CacheWord>,
         cloudDataSource: CloudDataSource<CloudWord>,
         translatorSharedPreferences: TranslatorSharedPreferences,
@@ -46,12 +54,13 @@ class DataModule {
             cacheDataSource,
             cloudDataSource,
             CloudResultMapper.Base(),
-            ExceptionMapper.Base(resourceProvider),
+            exceptionMapper,
             translatorSharedPreferences,
             authSharedPreferences,
             TranslatedCacheDataWordsMapper.Base(
                 dataLanguageMapper
             ),
+
             TranslatedCacheNotFavoriteDataWordsMapper.Base(
                 dataLanguageMapper
             )
@@ -90,6 +99,20 @@ class DataModule {
             CacheWordToSyncWordMapper.Base(),
             authSharedPreferences,
             cacheDataSource
+        )
+    }
+
+    @Provides
+    fun provideUsersRepository(
+        networkConnection: NetworkConnection,
+        cloudDataSource: com.zinoview.translatorapp.data.users.cloud.UsersCloudDataSource,
+        exceptionMapper: ExceptionMapper
+    ) : UsersRepository {
+        return UsersRepository.Base(
+            networkConnection,
+            CloudToDataUsersMapper.Base(),
+            cloudDataSource,
+            exceptionMapper
         )
     }
 }

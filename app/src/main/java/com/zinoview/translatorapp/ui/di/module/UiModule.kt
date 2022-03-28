@@ -1,10 +1,12 @@
 package com.zinoview.translatorapp.ui.di.module
 
 import com.zinoview.translatorapp.domain.auth.AuthInteractor
+import com.zinoview.translatorapp.domain.users.UsersInteractor
 import com.zinoview.translatorapp.domain.words.WordInteractor
 import com.zinoview.translatorapp.ui.auth.feature.ta06_auth_user.UiAuthMapper
 import com.zinoview.translatorapp.ui.auth.feature.ta06_auth_user.login.LoginViewModelFactory
 import com.zinoview.translatorapp.ui.auth.feature.ta06_auth_user.register.RegisterViewModelFactory
+import com.zinoview.translatorapp.ui.users.feature.ta09_show_users.UserViewModelFactory
 import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.TranslateWordViewModelFactory
 import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.UiLanguageMapper
 import com.zinoview.translatorapp.ui.words.feature.ta01_translate_word.UiWordMapper
@@ -68,6 +70,15 @@ class UiModule {
         return LoginViewModelFactory.Base(
             authInteractor,
             uiAuthMapper
+        )
+    }
+
+    @Provides
+    fun provideUsersViewModelFactory(
+        interractor: UsersInteractor
+    ) : UserViewModelFactory {
+        return UserViewModelFactory.Base(
+            interractor
         )
     }
 }

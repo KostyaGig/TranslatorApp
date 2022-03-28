@@ -11,6 +11,8 @@ interface DataToDomainUsersMapper : Abstract.UsersMapper<DomainUsers> {
 
         override fun map(message: String): DomainUsers = DomainUsers.Failure(message)
 
+        override fun mapCache(users: List<String>): DomainUsers
+            = DomainUsers.Success.Cache(users)
 
     }
 }

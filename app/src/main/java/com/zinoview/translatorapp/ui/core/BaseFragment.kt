@@ -40,6 +40,4 @@ abstract class BaseFragment(@LayoutRes id: Int) : Fragment(id) {
     }
 
     abstract fun navigateToBack()
-
-
 }

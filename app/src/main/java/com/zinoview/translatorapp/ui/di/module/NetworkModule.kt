@@ -1,8 +1,12 @@
 package com.zinoview.translatorapp.ui.di.module
 
+import android.content.Context
 import com.google.gson.Gson
 import com.zinoview.translatorapp.data.auth.AuthCloudDataSource
 import com.zinoview.translatorapp.data.auth.AuthService
+import com.zinoview.translatorapp.data.core.cloud.NetworkConnection
+import com.zinoview.translatorapp.data.users.cloud.UserService
+import com.zinoview.translatorapp.data.users.cloud.UsersCloudDataSource
 import com.zinoview.translatorapp.data.words.cloud.CloudDataSource
 import com.zinoview.translatorapp.data.words.cloud.CloudWord
 import com.zinoview.translatorapp.data.words.cloud.WordService
@@ -17,6 +21,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
 class NetworkModule {
+
+    @Provides
+    fun provideNetworkConnection(context: Context) : NetworkConnection {
+        return NetworkConnection.Base(context)
+    }
 
     @Provides
     fun provideClient() : OkHttpClient {
@@ -72,6 +81,18 @@ class NetworkModule {
         return SyncWordsCloudDataSource.Base(
             wordService,
             CloudAbstractResponseToCloudSyncWordsMapper.Base()
+        )
+    }
+
+    @Provides
+    fun provideUsersService(retrofit: Retrofit) : UserService {
+        return retrofit.create(UserService::class.java)
+    }
+
+    @Provides
+    fun provideUsersCloudDataSource(usersService: UserService) : UsersCloudDataSource {
+        return UsersCloudDataSource.Base(
+            usersService,
         )
     }
 

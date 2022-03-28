@@ -46,6 +46,8 @@ class MainActivity : AppCompatActivity(),
         inject()
         setContentView(R.layout.activity_main)
 
+        setSupportActionBar(findViewById(R.id.toolbar))
+
         bottomNavigationView = findViewById(R.id.main_nav)
 
         navigator = Navigator.Base()

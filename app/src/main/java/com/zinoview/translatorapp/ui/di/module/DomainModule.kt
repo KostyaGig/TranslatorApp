@@ -1,11 +1,14 @@
 package com.zinoview.translatorapp.ui.di.module
 
 import com.zinoview.translatorapp.data.auth.AuthRepository
+import com.zinoview.translatorapp.data.users.UsersRepository
 import com.zinoview.translatorapp.data.words.DataWords
 import com.zinoview.translatorapp.data.words.WordRepository
 import com.zinoview.translatorapp.data.words.sync.SyncWordsRepository
 import com.zinoview.translatorapp.domain.auth.AuthInteractor
 import com.zinoview.translatorapp.domain.auth.DomainAuthMapper
+import com.zinoview.translatorapp.domain.users.DataToDomainUsersMapper
+import com.zinoview.translatorapp.domain.users.UsersInteractor
 import com.zinoview.translatorapp.domain.words.DomainLanguageMapper
 import com.zinoview.translatorapp.domain.words.DomainRecentMapper
 import com.zinoview.translatorapp.domain.words.DomainWordMapper
@@ -41,6 +44,16 @@ class DomainModule {
                 syncWordsRepository
             ),
             DomainAuthMapper.Base()
+        )
+    }
+
+    @Provides
+    fun provideUsersInteractor(
+        repository: UsersRepository
+    ) : UsersInteractor{
+        return UsersInteractor.Base(
+            DataToDomainUsersMapper.Base(),
+            repository
         )
     }
 }

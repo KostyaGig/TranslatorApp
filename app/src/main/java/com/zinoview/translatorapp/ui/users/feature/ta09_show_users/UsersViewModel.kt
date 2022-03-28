@@ -3,11 +3,12 @@ package com.zinoview.translatorapp.ui.users.feature.ta09_show_users
 import androidx.lifecycle.viewModelScope
 import com.zinoview.translatorapp.domain.users.UsersInteractor
 import com.zinoview.translatorapp.ui.core.BaseViewModel
+import com.zinoview.translatorapp.ui.core.Observe
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-interface UsersViewModel {
+interface UsersViewModel : Observe<List<UiStateUsers>> {
 
     fun users()
 

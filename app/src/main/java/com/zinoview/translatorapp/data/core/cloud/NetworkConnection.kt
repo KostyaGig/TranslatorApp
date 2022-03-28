@@ -5,16 +5,16 @@ import android.net.ConnectivityManager
 
 interface NetworkConnection {
 
-    fun isNotAvailable() : Boolean
+    fun isAvailable() : Boolean
 
     class Base(
         private val context: Context
     ) : NetworkConnection {
 
-        override fun isNotAvailable(): Boolean {
+        override fun isAvailable(): Boolean {
             val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val networkInfo = connectivityManager.activeNetworkInfo
-            return (networkInfo != null && networkInfo.isConnected).not()
+            return (networkInfo != null && networkInfo.isConnected)
         }
 
     }
